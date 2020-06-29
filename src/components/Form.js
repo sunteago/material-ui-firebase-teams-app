@@ -28,15 +28,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Form = ({ mode }) => {
+function Form(props) {
   const classes = useStyles();
 
-  if (mode === "signup") return <p>Sign up</p>;
-  if (mode === "forgotpassword") return <p>forgotpassword</p>;
+  const {
+    mode,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    onActionHandler,
+  } = props;
+
+  const operationName =
+    mode === "login"
+      ? "Log in"
+      : mode === "signup"
+      ? "Sign up"
+      : "Recover Password";
 
   return (
     <FormContainer>
-      <Typography variant="h5">Log in</Typography>
+      <Typography variant="h5">{operationName}</Typography>
       <form>
         <Grid container direction="column">
           <Grid
@@ -49,7 +62,14 @@ const Form = ({ mode }) => {
               <PersonIcon />
             </Grid>
             <Grid item>
-              <TextField id="username" label="Username" required autoFocus />
+              <TextField
+                id="username"
+                label="Username"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoFocus
+              />
             </Grid>
           </Grid>
           <Grid
@@ -62,7 +82,14 @@ const Form = ({ mode }) => {
               <VpnKeyIcon />
             </Grid>
             <Grid item>
-              <TextField id="password" type="password" label="Password" required />
+              <TextField
+                id="password"
+                type="password"
+                label="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </Grid>
           </Grid>
 
@@ -71,8 +98,9 @@ const Form = ({ mode }) => {
             className={classes.loginBtn}
             variant="contained"
             color="primary"
+            onClick={onActionHandler}
           >
-            Log in
+            {operationName}
           </Button>
           <Typography className={classes.root}>
             <Link to="/forgotpassword" className={classes.link}>
@@ -86,6 +114,6 @@ const Form = ({ mode }) => {
       </form>
     </FormContainer>
   );
-};
+}
 
 export default Form;

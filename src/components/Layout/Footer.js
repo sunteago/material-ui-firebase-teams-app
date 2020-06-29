@@ -12,9 +12,9 @@ const Footer = () => {
   return (
     <>
       <Divider className={classes.dividerLine} />
-      <Typography>
-        <Box m={3} textAlign="center">This is the footer</Box>
-      </Typography>
+      <Box m={3} textAlign="center">        
+        <Typography>This is the footer </Typography>
+      </Box>
     </>
   );
 };
