@@ -1,40 +1,45 @@
-import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { useEffect, useCallback } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 import Header from "./components/Layout/Header";
 import Footer from "./components/Layout/Footer";
-import Dashboard from "./pages/Dashboard";
-import Login from "./pages/Login";
-import ForgotPassword from "./pages/ForgotPassword";
-import Signup from "./pages/Signup";
+import AppRouter from "./containers/AppRouter";
+import FullLoading from "./components/FullLoading";
 
-function App() {
-  return (
+import { connect } from "react-redux";
+import * as actions from "./store/actions";
+
+function App({ startAuthStateChecker, isAuth }) {
+  const initializeObserver = useCallback(() => {
+    startAuthStateChecker();
+  }, [startAuthStateChecker]);
+
+  useEffect(() => {
+    initializeObserver();
+  }, [initializeObserver]);
+
+  return isAuth === null ? (
+    <FullLoading />
+  ) : (
     <>
       <Router>
         <Header />
-
-          <Switch>
-            <Route exact path="/login">
-              <Login />
-            </Route>
-            <Route exact path="/signup">
-              <Signup />
-            </Route>
-            <Route exact path="/forgotpassword">
-              <ForgotPassword />
-            </Route>
-            <Route exact path="/dashboard">
-              <Dashboard />
-            </Route>
-            <Route path="*">
-              Not found
-            </Route>
-          </Switch>
-
+        <AppRouter isAuth={isAuth} />
         <Footer />
       </Router>
     </>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    isAuth: state.auth.isAuth,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    startAuthStateChecker: () => dispatch(actions.startAuthStateChecker()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

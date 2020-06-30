@@ -1,15 +1,34 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import { createStore, applyMiddleware, compose } from "redux";
+import { Provider } from "react-redux";
+import ReduxThunk from "redux-thunk";
 
-import './index.css';
-import App from './App';
-import * as serviceWorker from './utils/serviceWorker';
+
+import reducers from "./store/reducers";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import App from "./App";
+import * as serviceWorker from "./utils/serviceWorker";
+
+let store;
+if (process.env.NODE_ENV === "development") {
+  const composeEnhancers =
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  store = createStore(reducers, composeEnhancers(applyMiddleware(ReduxThunk)));
+} else {
+  store = createStore(reducers, applyMiddleware(ReduxThunk));
+}
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  <Provider store={store}>
+    <React.StrictMode>
+      <CssBaseline>
+        <App />
+
+      </CssBaseline>
+    </React.StrictMode>
+  </Provider>,
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

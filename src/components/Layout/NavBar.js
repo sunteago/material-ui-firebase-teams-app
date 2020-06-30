@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import * as actions from "../../store/actions";
 
+import Loading from "../Loading";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import { makeStyles } from "@material-ui/core/styles";
@@ -11,9 +14,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 import DrawerMenu from "./DrawerMenu";
 
 const useStyles = makeStyles((theme) => ({
-  grow: {
-    flexGrow: 1,
-  },
   menuButton: {
     marginRight: theme.spacing(2),
   },
@@ -30,12 +30,16 @@ function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
   const classes = useStyles();
 
+  const { isAuth, loading } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
   const handleDrawerOpen = () => setIsOpen(true);
   const handleDrawerClose = () => setIsOpen(false);
-
+  
   return (
-    <nav className={classes.grow}>
-      <AppBar className={classes.grow}>
+    <>
+     {loading ? <Loading color="secondary" style={{zIndex: 10000}} /> : null}
+       <AppBar className={classes.grow}>
         <Toolbar className={classes.grow}>
           <IconButton
             className={classes.menuButton}
@@ -50,19 +54,26 @@ function NavBar() {
             Another-App
           </Typography>
           <div className={classes.grow} />
-          <Button color="inherit">
-            <Link to="/login" className={classes.loginBtn}>
-              login
-            </Link>
-          </Button>
+
+          {isAuth ? (
+            <Button color="inherit" onClick={() => dispatch(actions.signOut())}>
+              Sign out
+            </Button>
+          ) : (
+            <Button color="inherit">
+              <Link to="/login" className={classes.loginBtn}>
+                Authenticate
+              </Link>
+            </Button>
+          )}
         </Toolbar>
-      </AppBar>
+      </AppBar> 
       <DrawerMenu
         handleDrawerOpen={handleDrawerOpen}
         handleDrawerClose={handleDrawerClose}
         isOpen={isOpen}
       />
-    </nav>
+    </>
   );
 }
 

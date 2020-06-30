@@ -1,7 +1,8 @@
 import React from "react";
+import { LinearProgress } from "@material-ui/core";
 
-const Loading = () => {
-  return <div>Loading</div>;
-};
-
-export default Loading;
+export default function Loading(props) {
+  return (
+      <LinearProgress {...props} />
+  );
+}

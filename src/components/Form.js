@@ -1,11 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
+
 import TextField from "@material-ui/core/TextField";
 import PersonIcon from "@material-ui/icons/Person";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { makeStyles, Typography } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import FormContainer from "./Layout/FormContainer";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,6 +33,8 @@ const useStyles = makeStyles((theme) => ({
 function Form(props) {
   const classes = useStyles();
 
+  const { isAuth } = useSelector((state) => state.auth);
+
   const {
     mode,
     email,
@@ -47,7 +51,9 @@ function Form(props) {
       ? "Sign up"
       : "Recover Password";
 
-  return (
+  return isAuth ? (
+    <Redirect to="/dashboard" />
+  ) : (
     <FormContainer>
       <Typography variant="h5">{operationName}</Typography>
       <form>
