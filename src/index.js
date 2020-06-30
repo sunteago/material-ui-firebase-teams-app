@@ -7,7 +7,7 @@ import ReduxThunk from "redux-thunk";
 
 import reducers from "./store/reducers";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import App from "./App";
+import App from "./containers/App";
 import * as serviceWorker from "./utils/serviceWorker";
 
 let store;

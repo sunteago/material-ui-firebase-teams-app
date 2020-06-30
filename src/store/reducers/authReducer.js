@@ -1,4 +1,4 @@
-import * as actionTypes from "../types";
+import * as actionTypes from "../../constants/types";
 
 const initialState = {
   token: "",
@@ -32,6 +32,7 @@ export default function authReducer(state = initialState, action) {
         error: action.payload,
         loading: false,
       };
+    case actionTypes.SEND_VERIFICATION_EMAIL_START:
     case actionTypes.STANDARD_SIGN_UP_START:
     case actionTypes.SIGN_OUT_START:
     case actionTypes.AUTH_CHECK_START:
@@ -39,6 +40,8 @@ export default function authReducer(state = initialState, action) {
         ...state,
         loading: true,
       };
+    case actionTypes.SEND_VERIFICATION_EMAIL_SUCCESS:
+    case actionTypes.SEND_VERIFICATION_EMAIL_FAILED:
     case actionTypes.STANDARD_SIGN_UP_SUCCESS:
     case actionTypes.LOG_IN_SUCCESS:
     case actionTypes.SIGN_OUT_SUCCESS:

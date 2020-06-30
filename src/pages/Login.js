@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Form from "../components/Form";
 import { useDispatch } from "react-redux";
 import * as actions from "../store/actions";
-//import { Redirect } from "react-router-dom";
 
 function Login({ isAuth }) {
   const [email, setEmail] = useState("");
@@ -16,7 +15,6 @@ function Login({ isAuth }) {
   };
   
   return (
-    /*isAuth ? <Redirect to="/dashboard" /> : */
     <Form
       mode="login"
       email={email}

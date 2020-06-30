@@ -1,4 +1,4 @@
-import * as actionTypes from "../types";
+import * as actionTypes from "../../constants/types";
 import { app } from "../../config/firebaseConfig";
 
 export const standardSignup = (email, password) => (dispatch) => {
@@ -11,6 +11,7 @@ export const standardSignup = (email, password) => (dispatch) => {
         type: actionTypes.STANDARD_SIGN_UP_SUCCESS,
         payload: result.user,
       });
+      dispatch(sendEmailVerification(result.user));
     })
     .catch((err) => {
       dispatch({
@@ -42,6 +43,21 @@ export const signOut = () => (dispatch) => {
     })
     .catch((err) => {
       dispatch({ type: actionTypes.SIGN_OUT_FAILED, payload: err });
+    });
+};
+
+export const sendEmailVerification = (user) => (dispatch) => {
+  dispatch({ type: actionTypes.SEND_VERIFICATION_EMAIL_START });
+  user
+    .sendEmailVerification()
+    .then(() => {
+      dispatch({ type: actionTypes.SEND_VERIFICATION_EMAIL_SUCCESS });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.SEND_VERIFICATION_EMAIL_FAILED,
+        payload: err,
+      });
     });
 };
 
