@@ -14,10 +14,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(10),
   },
   footerContainer: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
+    marginTop: 'auto',
     width: "100%",
+
   },
 }));
 

@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 function PageContainer({children}) {
     const classes = useStyles();
     return ( 
-        <Container maxWidth='lg' className={classes.container}>
+        <Container maxWidth='xl' className={classes.container}>
             <Paper className={classes.paper} elevation={3}>
             {children}
             </Paper>

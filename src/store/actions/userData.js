@@ -13,7 +13,7 @@ export const fetchUserData = (userId) => (dispatch) => {
             dashboardData = {...dashboardData, ...doc.data()};
         }
       });
-      dispatch({ type: actionTypes.FETCH_INITIAL_DATA_SUCCESS, payload: data });
+      dispatch({ type: actionTypes.FETCH_INITIAL_DATA_SUCCESS, payload: dashboardData });
       console.log(dashboardData);
     })
     .catch((err) => {

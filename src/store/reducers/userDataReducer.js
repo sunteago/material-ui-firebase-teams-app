@@ -1,21 +1,30 @@
-import * as actionTypes from '../../constants/types';
+import * as actionTypes from "../../constants/types";
 
 const initialState = {
   userGroups: [],
   userStatus: "",
   memberSince: new Date(),
-  isUserVisible: false,
+  isUserVisible: null,
   lastNews: [],
-  topActivePublicGroups: []
+  topActivePublicGroups: [],
 };
 
 export function userDataReducer(state = initialState, action) {
   switch (action.type) {
+    case actionTypes.FETCH_INITIAL_DATA_SUCCESS:
+      return {
+        ...state,
+        userGroups: action.payload.inGroups,
+        userStatus: action.payload.status,
+        memberSince: action.payload.memberSince,
+        isUserVisible: action.payload.isVisible,
+        lastNews: action.payload.lastNews,
+        topActivePublicGroups: action.payload.topActivePublicGroups,
+      };
     case actionTypes.POST_USER_DATA_START:
     case actionTypes.POST_USER_DATA_SUCCESS:
     case actionTypes.POST_USER_DATA_FAILED:
     case actionTypes.FETCH_INITIAL_DATA_START:
-    case actionTypes.FETCH_INITIAL_DATA_SUCCESS:
     case actionTypes.FETCH_INITIAL_DATA_FAILED:
     default:
       return state;
