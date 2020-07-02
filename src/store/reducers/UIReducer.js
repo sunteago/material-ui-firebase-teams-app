@@ -1,4 +1,4 @@
-import * as actionTypes from '../../constants/types'
+import * as actionTypes from "../../constants/types";
 
 const initialState = {
   loading: false,
@@ -8,7 +8,6 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case actionTypes.AUTH_CHECK_FAILED:
-    case actionTypes.AUTH_CHECK_SUCCESS:
     case actionTypes.LOG_IN_FAILED:
     case actionTypes.SIGN_OUT_FAILED:
     case actionTypes.STANDARD_SIGN_UP_FAILED:
@@ -20,9 +19,8 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: false,
-        isFullLoading: false
+        isFullLoading: false,
       };
-
     case actionTypes.SEND_VERIFICATION_EMAIL_START:
     case actionTypes.STANDARD_SIGN_UP_START:
     case actionTypes.SIGN_OUT_START:
@@ -31,6 +29,17 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: true,
+      };
+    case actionTypes.FETCH_INITIAL_DATA_START:
+      return {
+        ...state,
+        isFullLoading: true,
+      };
+    case actionTypes.FETCH_INITIAL_DATA_SUCCESS:
+      return {
+        ...state,
+        isFullLoading: false,
+        loading: false
       };
 
     default:

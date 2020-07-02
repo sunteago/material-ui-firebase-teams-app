@@ -67,7 +67,7 @@ export const standardSignup = (email, password) => (dispatch) => {
     app.auth().onAuthStateChanged(function (user) {
       if (user) {
         dispatch({ type: actionTypes.AUTH_CHECK_SUCCESS, payload: user });
-        //dispatch(fetchUserData(user.uid));
+        dispatch(fetchUserData(user.uid));
       } else {
         dispatch({ type: actionTypes.AUTH_CHECK_FAILED });
       }

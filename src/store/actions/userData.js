@@ -3,7 +3,7 @@ import { db } from "../../config/firebaseConfig";
 
 export const fetchUserData = (userId) => (dispatch) => {
   dispatch({ type: actionTypes.FETCH_INITIAL_DATA_START });
-  const userRef = db.collection("users").doc("L5vsrJCHJ2elzWSmNR4YuILbaHz2");
+  const userRef = db.collection("users").doc(userId);
   const generalRef = db.collection("general").doc("dashboard");
   Promise.all([userRef.get(), generalRef.get()])
     .then((data) => {

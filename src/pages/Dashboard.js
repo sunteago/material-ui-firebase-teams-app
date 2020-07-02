@@ -8,6 +8,7 @@ import Alert from "@material-ui/lab/Alert";
 import Box from '@material-ui/core/Box';
 import { makeStyles } from "@material-ui/core";
 import NewsCard from "../components/News/NewsCard";
+import FullLoading from "../components/FullLoading";
 
 const useStyles = makeStyles((theme) => ({
   userEmail: {
@@ -27,6 +28,7 @@ export default function Dashboard() {
   const classes = useStyles();
   const { user } = useSelector((state) => state.auth);
   const { lastNews } = useSelector((state) => state.userData);
+  const { isFullLoading } = useSelector((state) => state.UI);
   const dispatch = useDispatch();
 
   const onClickSendConfirmationLink = (e) => {
@@ -34,7 +36,9 @@ export default function Dashboard() {
     dispatch(actions.sendEmailVerification(user));
   };
 
-  return (
+  return isFullLoading ?
+    <FullLoading />
+  : (
     <PageContainer>
       <Typography variant="h3">Dashboard</Typography>
       <Typography className={classes.userEmail}>{user.email}</Typography>
@@ -54,8 +58,6 @@ export default function Dashboard() {
         </Typography>
         <NewsCard news={lastNews} />
       </Box>
-      <button onClick={() => dispatch(actions.fetchUserData())}>FETCH</button>
-      <button onClick={() => dispatch(actions.postUserData())}>POST</button>
     </PageContainer>
   );
 }

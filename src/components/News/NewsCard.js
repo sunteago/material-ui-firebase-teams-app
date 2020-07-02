@@ -5,7 +5,7 @@ export default function NewsCard({ news }) {
   return (
     <>
       {news.map((singleNews) => (
-        <SingleNews title={singleNews.title} />
+        <SingleNews key={singleNews.id} title={singleNews.title} />
       ))}
     </>
   );
