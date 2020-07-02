@@ -33,21 +33,13 @@ export default function authReducer(state = initialState, action) {
     case actionTypes.STANDARD_SIGN_UP_START:
     case actionTypes.SIGN_OUT_START:
     case actionTypes.AUTH_CHECK_START:
-      return {
-        ...state,
-      };
     case actionTypes.SEND_VERIFICATION_EMAIL_SUCCESS:
     case actionTypes.SEND_VERIFICATION_EMAIL_FAILED:
     case actionTypes.STANDARD_SIGN_UP_SUCCESS:
     case actionTypes.LOG_IN_SUCCESS:
     case actionTypes.SIGN_OUT_SUCCESS:
-      return {
-        ...state,
-      };
     case actionTypes.LOG_IN_START:
-      return {
-        ...state,
-      };
+      return state;
     default:
       return state;
   }
