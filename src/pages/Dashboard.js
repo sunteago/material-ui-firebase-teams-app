@@ -27,6 +27,8 @@ const Dashboard = () => {
           !
         </Alert>
       ) : null}
+      <button onClick={() => dispatch(actions.fetchUserData())}>FETCH</button>
+      <button onClick={() => dispatch(actions.postUserData())}>POST</button>
     </PageContainer>
   );
 };
