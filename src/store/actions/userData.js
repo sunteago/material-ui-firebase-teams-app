@@ -1,10 +1,24 @@
 import * as actionTypes from "../../constants/types";
 import { db } from "../../config/firebaseConfig";
 
-export const fetchUserData = () => (dispatch) => {
-  dispatch({ type: actionTypes.FETCH_USER_DATA_START});
-  dispatch({ type: actionTypes.FETCH_USER_DATA_SUCCESS });
-  dispatch({ type: actionTypes.FETCH_USER_DATA_FAILED});
+export const fetchUserData = (userId) => (dispatch) => {
+  dispatch({ type: actionTypes.FETCH_INITIAL_DATA_START });
+  const userRef = db.collection("users").doc("L5vsrJCHJ2elzWSmNR4YuILbaHz2");
+  const generalRef = db.collection("general").doc("dashboard");
+  Promise.all([userRef.get(), generalRef.get()])
+    .then((data) => {
+      let dashboardData = {};
+      data.forEach((doc) => {
+        if (doc.exists) {
+            dashboardData = {...dashboardData, ...doc.data()};
+        }
+      });
+      dispatch({ type: actionTypes.FETCH_INITIAL_DATA_SUCCESS, payload: data });
+      console.log(dashboardData);
+    })
+    .catch((err) => {
+      dispatch({ type: actionTypes.FETCH_INITIAL_DATA_FAILED, payload: err });
+    });
 };
 
 export const postUserData = () => (dispatch) => {

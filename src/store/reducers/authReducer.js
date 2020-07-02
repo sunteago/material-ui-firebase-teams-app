@@ -5,7 +5,6 @@ const initialState = {
   isAuth: null,
   isAccountVerified: false,
   newState: false,
-  loading: false,
   error: "",
   user: {}
 };
@@ -15,13 +14,11 @@ export default function authReducer(state = initialState, action) {
     case actionTypes.AUTH_CHECK_FAILED:
       return {
         ...state,
-        loading: false,
         isAuth: false,
       };
     case actionTypes.AUTH_CHECK_SUCCESS:
       return {
         ...state,
-        loading: false,
         user: action.payload,
         isAuth: true,
       };
@@ -31,7 +28,6 @@ export default function authReducer(state = initialState, action) {
       return {
         ...state,
         error: action.payload,
-        loading: false,
       };
     case actionTypes.SEND_VERIFICATION_EMAIL_START:
     case actionTypes.STANDARD_SIGN_UP_START:
@@ -39,7 +35,6 @@ export default function authReducer(state = initialState, action) {
     case actionTypes.AUTH_CHECK_START:
       return {
         ...state,
-        loading: true,
       };
     case actionTypes.SEND_VERIFICATION_EMAIL_SUCCESS:
     case actionTypes.SEND_VERIFICATION_EMAIL_FAILED:
@@ -48,12 +43,10 @@ export default function authReducer(state = initialState, action) {
     case actionTypes.SIGN_OUT_SUCCESS:
       return {
         ...state,
-        loading: false,
       };
     case actionTypes.LOG_IN_START:
       return {
         ...state,
-        loading: true,
       };
     default:
       return state;

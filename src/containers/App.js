@@ -9,15 +9,15 @@ import {  useDispatch, useSelector } from "react-redux";
 import * as actions from "../store/actions";
 
 export default function App() {
-
   const dispatch = useDispatch();
   const {isAuth} = useSelector(state => state.auth)
+  const {isFullLoading} = useSelector(state => state.UI)
 
   useEffect(() => {
     dispatch(actions.startAuthStateChecker());
   }, [dispatch]);
 
-  return isAuth === null ? (
+  return isFullLoading  ? (
     <FullLoading />
   ) : (
     <>

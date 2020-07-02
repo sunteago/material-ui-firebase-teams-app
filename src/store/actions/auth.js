@@ -1,5 +1,6 @@
 import * as actionTypes from "../../constants/types";
 import { app } from "../../config/firebaseConfig";
+import {fetchUserData} from './userData';
 
 export const standardSignup = (email, password) => (dispatch) => {
     dispatch({ type: actionTypes.STANDARD_SIGN_UP_START });
@@ -66,6 +67,7 @@ export const standardSignup = (email, password) => (dispatch) => {
     app.auth().onAuthStateChanged(function (user) {
       if (user) {
         dispatch({ type: actionTypes.AUTH_CHECK_SUCCESS, payload: user });
+        //dispatch(fetchUserData(user.uid));
       } else {
         dispatch({ type: actionTypes.AUTH_CHECK_FAILED });
       }

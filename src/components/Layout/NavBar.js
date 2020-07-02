@@ -30,7 +30,8 @@ function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
   const classes = useStyles();
 
-  const { isAuth, loading } = useSelector((state) => state.auth);
+  const { isAuth } = useSelector((state) => state.auth);
+  const { loading } = useSelector((state) => state.UI);
   const dispatch = useDispatch();
 
   const handleDrawerOpen = () => setIsOpen(true);
