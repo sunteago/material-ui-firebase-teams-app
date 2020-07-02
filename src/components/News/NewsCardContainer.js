@@ -1,7 +1,7 @@
 import React from "react";
 import SingleNews from "./SingleNews";
 
-export default function NewsCard({ news }) {
+export default function NewsCardContainer({ news }) {
   return (
     <>
       {news.map((singleNews) => (

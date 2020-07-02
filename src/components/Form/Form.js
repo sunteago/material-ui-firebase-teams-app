@@ -7,8 +7,8 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { makeStyles, Typography } from "@material-ui/core";
 import { Link, Redirect } from "react-router-dom";
-import FormContainer from "./Layout/FormContainer";
-import TextInput from "./TextInput";
+import FormContainer from "../Layout/FormContainer";
+import TextInput from "../TextInput";
 
 const useStyles = makeStyles((theme) => ({
   loginBtn: {

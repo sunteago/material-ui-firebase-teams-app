@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import Form from "../components/Form";
+import Form from "../components/Form/Form";
 import * as actions from "../store/actions";
 
 function SignUp({ history, standardSignup }) {

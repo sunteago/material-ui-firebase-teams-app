@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import Form from '../components/Form';
+import Form from "../components/Form/Form";
 
 function ForgotPassword(props) {
     const [email, setEmail] = useState('');

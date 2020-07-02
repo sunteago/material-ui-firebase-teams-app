@@ -3,7 +3,7 @@ import { BrowserRouter as Router} from "react-router-dom";
 import Header from "../components/Layout/Header";
 import Footer from "../components/Layout/Footer";
 import AppRouter from "./AppRouter";
-import FullLoading from "../components/FullLoading";
+import FullLoading from "../components/Layout/FullLoading";
 
 import {  useDispatch, useSelector } from "react-redux";
 import * as actions from "../store/actions";
