@@ -7,6 +7,7 @@ const initialState = {
   isUserVisible: null,
   lastNews: [],
   topActivePublicGroups: [],
+  userGroupsContent: []
 };
 
 export function userDataReducer(state = initialState, action) {
@@ -21,6 +22,11 @@ export function userDataReducer(state = initialState, action) {
         lastNews: action.payload.lastNews,
         topActivePublicGroups: action.payload.topActivePublicGroups,
       };
+    case actionTypes.FETCH_GROUP_DATA_SUCCESS:
+      return {
+        ...state,
+        userGroupsContent: action.payload
+      }
     case actionTypes.POST_USER_DATA_START:
     case actionTypes.POST_USER_DATA_SUCCESS:
     case actionTypes.POST_USER_DATA_FAILED:

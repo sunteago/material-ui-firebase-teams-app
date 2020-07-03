@@ -5,6 +5,7 @@ import * as actions from "../store/actions";
 
 import * as alertTypes from "../constants/alertTypes";
 import PageContainer from "../components/Layout/PageContainer";
+import RecActList from "../components/RecentActivity/RecentActivityList";
 import TopNewsList from "../components/News/NewsList";
 import GroupList from "../components/Group/GroupList";
 import UserInfo from "../components/UserInfo/UserInfo";
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard() {
   const classes = useStyles();
   const { user } = useSelector((state) => state.auth);
-  const { lastNews, topActivePublicGroups, inGroups } = useSelector(
+  const { lastNews, topActivePublicGroups, userGroupsContent } = useSelector(
     (state) => state.userData
   );
   const { isFullLoading } = useSelector((state) => state.UI);
@@ -67,24 +68,17 @@ export default function Dashboard() {
         />
       ) : null}
       <UserInfo classes={classes} user={user} />
-      {/* <Box className={classes.mainPanelContainer}> */}
       <Grid container spacing={3}>
+        <Grid item xs={12} md={9}>
+          <RecActList title="Recent Activity" groups={userGroupsContent} />
+        </Grid>
+
         <Grid item xs={12} md={3}>
           <TopNewsList title="Last News" news={lastNews} />
-        </Grid>
-        <Grid item container justify="center" xs={12} md={6}>
-          <Grid item lg={6} width={{width: '100%'}} className={classes.boxContainer}>
-            <GroupList title="Top Groups" groups={topActivePublicGroups} />
-          </Grid>
-          <Grid item lg={6} width={{width: '100%'}} className={classes.boxContainer}>
-            <GroupList title="My Groups" groups={topActivePublicGroups} />
-          </Grid>
-        </Grid>
-        <Grid item xs={12} md={3}>
-          <TopNewsList title="Last News" news={lastNews} />
+          <GroupList title="Top Groups" groups={topActivePublicGroups} />
+          <GroupList title="My Groups" groups={userGroupsContent} />
         </Grid>
       </Grid>
-      {/* </Box> */}
     </PageContainer>
   );
 }

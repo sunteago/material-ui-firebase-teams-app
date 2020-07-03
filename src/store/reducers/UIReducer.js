@@ -16,6 +16,9 @@ export default function (state = initialState, action) {
     case actionTypes.STANDARD_SIGN_UP_SUCCESS:
     case actionTypes.LOG_IN_SUCCESS:
     case actionTypes.SIGN_OUT_SUCCESS:
+    case actionTypes.FETCH_GROUP_DATA_SUCCESS:
+    case actionTypes.FETCH_GROUP_DATA_FAILED:
+    case actionTypes.FETCH_INITIAL_DATA_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -26,6 +29,7 @@ export default function (state = initialState, action) {
     case actionTypes.SIGN_OUT_START:
     case actionTypes.AUTH_CHECK_START:
     case actionTypes.LOG_IN_START:
+    case actionTypes.FETCH_GROUP_DATA_START:
       return {
         ...state,
         loading: true,
@@ -35,13 +39,6 @@ export default function (state = initialState, action) {
         ...state,
         isFullLoading: true,
       };
-    case actionTypes.FETCH_INITIAL_DATA_SUCCESS:
-      return {
-        ...state,
-        isFullLoading: false,
-        loading: false
-      };
-
     default:
       return state;
   }
