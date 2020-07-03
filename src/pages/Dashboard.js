@@ -45,7 +45,9 @@ export default function Dashboard() {
     dispatch(actions.sendEmailVerification(user));
   };
 
-  const handleClearComment = (e) => {};
+  const handleClearComment = (e) => {
+    dispatch(actions.clearActivityComment())
+  };
 
   return isFullLoading ? (
     <FullLoading />

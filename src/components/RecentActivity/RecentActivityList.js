@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RecentActivityList({ groups, title }) {
+export default function RecentActivityList({ handleClearComment,groups, title }) {
   const classes = useStyles();
   return (
     <>
@@ -25,6 +25,7 @@ export default function RecentActivityList({ groups, title }) {
             <RecentActivityItem
               key={activityItem.groupId}
               activityItem={activityItem}
+              handleClearComment={handleClearComment}
             />
           );
         })}

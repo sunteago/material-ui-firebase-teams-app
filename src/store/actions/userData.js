@@ -1,18 +1,16 @@
 import * as actionTypes from "../../constants/types";
 import { db } from "../../config/firebaseConfig";
+import { getLastMonth, extractDataFromDocuments } from "../../utils/helpers";
 
 export const fetchUserData = (userId) => (dispatch) => {
   dispatch({ type: actionTypes.FETCH_INITIAL_DATA_START });
   const userRef = db.collection("users").doc(userId);
   const generalRef = db.collection("general").doc("dashboard");
-  Promise.all([userRef.get(), generalRef.get()])
+  const newsRef = db.collection("news").where("published", ">", getLastMonth());
+
+  Promise.all([userRef.get(), generalRef.get(), newsRef.get()])
     .then((data) => {
-      let dashboardData = {};
-      data.forEach((doc) => {
-        if (doc.exists) {
-          dashboardData = { ...dashboardData, ...doc.data() };
-        }
-      });
+      const dashboardData = extractDataFromDocuments(data);
       dispatch({
         type: actionTypes.FETCH_INITIAL_DATA_SUCCESS,
         payload: dashboardData,
@@ -39,7 +37,7 @@ export const fetchGroupsData = (groupsArr) => (dispatch) => {
       groupsDocArr.forEach((groupDoc) => {
         if (groupDoc.exists) {
           const group = groupDoc.data();
-          group["groupId"] = groupDoc.id;
+          group.groupId = groupDoc.id;
           groups.push(group);
         }
       });
@@ -54,12 +52,11 @@ export const fetchGroupsData = (groupsArr) => (dispatch) => {
     });
 };
 
-export const clearActivityComment = id => dispatch => {
-  dispatch({type: actionTypes.CLEAR_DASHBOARD_DATA_START});
-  dispatch({type: actionTypes.CLEAR_DASHBOARD_DATA_SUCCESS});
-  dispatch({type: actionTypes.CLEAR_DASHBOARD_DATA_FAILED});
-}
-
+export const clearActivityComment = (id) => (dispatch) => {
+  dispatch({ type: actionTypes.CLEAR_DASHBOARD_DATA_START });
+  dispatch({ type: actionTypes.CLEAR_DASHBOARD_DATA_SUCCESS });
+  dispatch({ type: actionTypes.CLEAR_DASHBOARD_DATA_FAILED });
+};
 
 export const postUserData = () => (dispatch) => {
   dispatch({ type: actionTypes.POST_USER_DATA_START });

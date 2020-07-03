@@ -6,4 +6,4 @@ export {
   startAuthStateChecker,
 } from "./auth";
 
-export {fetchUserData, postUserData} from './userData';
+export {fetchUserData, postUserData, clearActivityComment} from './userData';

@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AlignItemsList({ title, news }) {
   const classes = useStyles();
-
   return (
     <>
       <SectionTitle style={{ textAlign: "center" }}>{title}</SectionTitle>

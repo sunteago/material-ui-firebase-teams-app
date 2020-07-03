@@ -1,15 +1,28 @@
 import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 
 import Dashboard from "../pages/Dashboard";
 import Login from "../pages/Login";
 import ForgotPassword from "../pages/ForgotPassword";
 import Signup from "../pages/Signup";
+import News from "../pages/News";
 
 function AppRouter({ isAuth }) {
+  const location = useLocation();
+
+  let redirectPath;
+
+  if (isAuth) {
+    if (location.pathname === "/") redirectPath = "/dashboard";
+    else redirectPath = location.pathname;
+  } else {
+    if (location.pathname === "/news") redirectPath = "/news"
+    else redirectPath = "/login";
+  }
+  
   return (
     <>
-      {isAuth ? <Redirect to="/dashboard" /> : <Redirect to="/login" />}
+      <Redirect to={redirectPath} />
       <Switch>
         <Route exact path="/login">
           <Login />
@@ -25,6 +38,9 @@ function AppRouter({ isAuth }) {
         </Route>
         <Route exact path="/about">
           <Dashboard />
+        </Route>
+        <Route exact path="/news">
+          <News />
         </Route>
         <Route path="*">Not found</Route>
       </Switch>
