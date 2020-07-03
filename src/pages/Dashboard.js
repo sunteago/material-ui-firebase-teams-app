@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../store/actions";
 
@@ -12,11 +12,9 @@ import UserInfo from "../components/UserInfo/UserInfo";
 import FullLoading from "../components/Layout/FullLoading";
 import AlertMessage from "../components/Layout/AlertMessage";
 import Grid from "@material-ui/core/Grid";
+import SectionTitle from "../components/Layout/SectionTitle";
 
 const useStyles = makeStyles((theme) => ({
-  pageTitle: {
-    margin: theme.spacing(2),
-  },
   userInfo: {
     alignSelf: "center",
     display: "flex",
@@ -26,21 +24,12 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     margin: theme.spacing(3),
     textAlign: "center",
-  },
-  mainPanelContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    textAlign: "center",
-  },
-  boxContainer: {
-    width: "100%",
-    textAlign: "center",
-  },
+  }
 }));
 
 export default function Dashboard() {
   const classes = useStyles();
+
   const { user } = useSelector((state) => state.auth);
   const { lastNews, topActivePublicGroups, userGroupsContent } = useSelector(
     (state) => state.userData
@@ -57,9 +46,7 @@ export default function Dashboard() {
     <FullLoading />
   ) : (
     <PageContainer>
-      <Typography className={classes.pageTitle} variant="h3">
-        Dashboard
-      </Typography>
+      <SectionTitle variant="h3">Dashboard</SectionTitle>
       {!user.emailVerified ? (
         <AlertMessage
           severity="error"
@@ -67,7 +54,8 @@ export default function Dashboard() {
           handler={onClickSendConfirmationLink}
         />
       ) : null}
-      <UserInfo classes={classes} user={user} />
+      <UserInfo style={classes.userInfo} user={user} />
+      
       <Grid container spacing={3}>
         <Grid item xs={12} md={9}>
           <RecActList title="Recent Activity" groups={userGroupsContent} />

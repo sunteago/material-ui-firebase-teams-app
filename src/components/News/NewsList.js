@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
-import NewsItem from "./NewsItem";
+import SmallTextBox from "../Layout/SmallTextBox";
 import SectionTitle from "../Layout/SectionTitle";
 
 const useStyles = makeStyles((theme) => ({
@@ -19,10 +19,16 @@ export default function AlignItemsList({ title, news }) {
 
   return (
     <>
-      <SectionTitle style={{textAlign: 'center'}}>{title}</SectionTitle>
+      <SectionTitle style={{ textAlign: "center" }}>{title}</SectionTitle>
       <List className={classes.root}>
         {news.map((newsItem) => {
-          return <NewsItem key={newsItem.id} newsItem={newsItem} />;
+          return (
+            <SmallTextBox
+              key={newsItem.id}
+              title={newsItem.title}
+              content={newsItem.shortContent}
+            />
+          );
         })}
       </List>
     </>
