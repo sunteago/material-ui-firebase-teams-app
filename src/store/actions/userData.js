@@ -32,13 +32,14 @@ export const fetchGroupsData = (groupsArr) => (dispatch) => {
     return groupsRef.doc(group).get();
   });
   dispatch({ type: actionTypes.FETCH_GROUP_DATA_START });
+
   Promise.all(groupNamesArr)
     .then((groupsDocArr) => {
       const groups = [];
       groupsDocArr.forEach((groupDoc) => {
         if (groupDoc.exists) {
           const group = groupDoc.data();
-          group["groupId"] = Math.random();
+          group["groupId"] = groupDoc.id;
           groups.push(group);
         }
       });
@@ -52,6 +53,13 @@ export const fetchGroupsData = (groupsArr) => (dispatch) => {
       console.log(err);
     });
 };
+
+export const clearActivityComment = id => dispatch => {
+  dispatch({type: actionTypes.CLEAR_DASHBOARD_DATA_START});
+  dispatch({type: actionTypes.CLEAR_DASHBOARD_DATA_SUCCESS});
+  dispatch({type: actionTypes.CLEAR_DASHBOARD_DATA_FAILED});
+}
+
 
 export const postUserData = () => (dispatch) => {
   dispatch({ type: actionTypes.POST_USER_DATA_START });

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router} from "react-router-dom";
-import Header from "../components/Layout/Header";
-import Footer from "../components/Layout/Footer";
+import NavBar from "../components/Layout/NavigationBar/NavBar";
+import Footer from "../components/Layout/Footer/Footer";
 import AppRouter from "./AppRouter";
 import FullLoading from "../components/Layout/FullLoading";
 
@@ -22,7 +22,7 @@ export default function App() {
   ) : (
     <>
       <Router>
-        <Header />
+        <NavBar />
         <AppRouter isAuth={isAuth} />
         <Footer />
       </Router>

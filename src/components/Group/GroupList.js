@@ -1,5 +1,5 @@
 import React from "react";
-import SectionTitle from "../Layout/SectionTitle";
+import SectionTitle from "../Layout/Dashboard/SectionTitle";
 import GroupItem from "./GroupItem";
 import { List, makeStyles } from "@material-ui/core";
 

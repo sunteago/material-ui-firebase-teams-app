@@ -1,8 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
-import SmallTextBox from "../Layout/SmallTextBox";
-import SectionTitle from "../Layout/SectionTitle";
+import SmallTextBox from "../Layout/Dashboard/SmallTextBox";
+import SectionTitle from "../Layout/Dashboard/SectionTitle";
 
 const useStyles = makeStyles((theme) => ({
   root: {

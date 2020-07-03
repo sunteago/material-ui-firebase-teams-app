@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import RecentActivityItem from "./RecentActivityItem";
-import SectionTitle from "../Layout/SectionTitle";
+import SectionTitle from "../Layout/Dashboard/SectionTitle";
 
 const useStyles = makeStyles((theme) => ({
   root: {

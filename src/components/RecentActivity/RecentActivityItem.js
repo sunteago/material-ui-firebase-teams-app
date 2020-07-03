@@ -4,10 +4,13 @@ import Divider from "@material-ui/core/Divider";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
-import SmallTextBox from "../Layout/SmallTextBox";
+import SmallTextBox from "../Layout/Dashboard/SmallTextBox";
 import { List, Grid } from "@material-ui/core";
 
-export default function RecentActivityItem({ activityItem }) {
+export default function RecentActivityItem({ activityItem,handleClearComment }) {
+
+
+
   return (
     <>
       <Grid container>
@@ -31,6 +34,7 @@ export default function RecentActivityItem({ activityItem }) {
                   title={message.title}
                   content={message.content}
                   author={message.author}
+                  handleClearComment={(msgId) => (handleClearComment(msgId))}
                 />
               );
             })}

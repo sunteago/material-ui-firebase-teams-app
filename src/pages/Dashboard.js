@@ -5,14 +5,14 @@ import * as actions from "../store/actions";
 
 import * as alertTypes from "../constants/alertTypes";
 import PageContainer from "../components/Layout/PageContainer";
-import RecActList from "../components/RecentActivity/RecentActivityList";
-import TopNewsList from "../components/News/NewsList";
-import GroupList from "../components/Group/GroupList";
 import UserInfo from "../components/UserInfo/UserInfo";
+import RecentActivity from "../components/RecentActivity/RecentActivityList";
+import RightPanel from "../components/Layout/Dashboard/RightPanel";
+
 import FullLoading from "../components/Layout/FullLoading";
 import AlertMessage from "../components/Layout/AlertMessage";
 import Grid from "@material-ui/core/Grid";
-import SectionTitle from "../components/Layout/SectionTitle";
+import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
 
 const useStyles = makeStyles((theme) => ({
   userInfo: {
@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     margin: theme.spacing(3),
     textAlign: "center",
+  },
+  alertMsg: {
+    marginTop: theme.spacing(2)
   }
 }));
 
@@ -42,6 +45,8 @@ export default function Dashboard() {
     dispatch(actions.sendEmailVerification(user));
   };
 
+  const handleClearComment = (e) => {};
+
   return isFullLoading ? (
     <FullLoading />
   ) : (
@@ -49,22 +54,29 @@ export default function Dashboard() {
       <SectionTitle variant="h3">Dashboard</SectionTitle>
       {!user.emailVerified ? (
         <AlertMessage
+          alertStyles={classes.alertMsg}
           severity="error"
           action={alertTypes.email_confirm}
           handler={onClickSendConfirmationLink}
         />
       ) : null}
-      <UserInfo style={classes.userInfo} user={user} />
-      
+      <UserInfo userInfoStyle={classes.userInfo} user={user} />
+
       <Grid container spacing={3}>
         <Grid item xs={12} md={9}>
-          <RecActList title="Recent Activity" groups={userGroupsContent} />
+          <RecentActivity
+            title="Recent Activity"
+            handleClearComment={handleClearComment}
+            groups={userGroupsContent}
+          />
         </Grid>
 
         <Grid item xs={12} md={3}>
-          <TopNewsList title="Last News" news={lastNews} />
-          <GroupList title="Top Groups" groups={topActivePublicGroups} />
-          <GroupList title="My Groups" groups={userGroupsContent} />
+          <RightPanel
+            lastNews={lastNews}
+            topActiveGroups={topActivePublicGroups}
+            myGroups={userGroupsContent}
+          />
         </Grid>
       </Grid>
     </PageContainer>

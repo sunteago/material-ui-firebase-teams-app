@@ -1,6 +1,6 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 
+import { makeStyles } from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -24,15 +24,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NewsItem({ title, content, author }) {
+export default function NewsItem({ title, content, author, handleClearComment }) {
   const classes = useStyles();
 
-  const handleClearComment = (e) => () => {
-    console.log("borrando", e);
-  };
-
   let secondaryInnerText = content;
-
   if (author) {
     secondaryInnerText = (
       <>
@@ -48,6 +43,7 @@ export default function NewsItem({ title, content, author }) {
       </>
     );
   }
+
   return (
     <>
       <ListItem alignItems="flex-start">
