@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, CircularProgress } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../store/actions";
 
@@ -50,7 +50,7 @@ export default function Dashboard() {
   };
 
   return isFullLoading ? (
-    <CircularProgress type="full" />
+    <CircularLoading type="full" />
   ) : (
     <PageContainer>
       <SectionTitle variant="h3">Dashboard</SectionTitle>
