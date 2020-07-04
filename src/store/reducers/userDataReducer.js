@@ -21,7 +21,6 @@ const removeSeenMessages = (action, group) => {
   return arr;
 };
 
-
 export function userDataReducer(state = initialState, action) {
   switch (action.type) {
     case actionTypes.FETCH_INITIAL_DATA_SUCCESS:

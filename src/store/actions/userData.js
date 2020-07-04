@@ -56,7 +56,6 @@ export const fetchGroupsData = (groupsArr) => (dispatch) => {
 
 export const clearActivityCommentLocal = (commTimestamp) => {
   const payload = !commTimestamp.length ? [commTimestamp] : commTimestamp;
-  console.log(payload)
   return {
     type: actionTypes.CLEAR_DASHBOARD_DATA_LOCAL,
     payload,

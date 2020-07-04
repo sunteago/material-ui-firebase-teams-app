@@ -9,8 +9,12 @@ import {
   ListItemAvatar,
   IconButton,
   Typography,
+  Button,
+  Box,
 } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
+import { Link } from "react-router-dom";
+import { hideExcessText } from "../../../utils/helpers";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,19 +26,33 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(4),
     height: theme.spacing(4),
   },
+  primaryLink: {
+    all: "inherit",
+    cursor: "pointer",
+  },
+  textBoxContainer: {
+    width: "100%",
+  },
 }));
 
-export default function NewsItem({
-  title,
-  content,
-  author,
-  handleClearComment,
-}) {
+export default function NewsItem(props) {
+  const { title, content, author, handleClearComment, linkTo } = props;
+
   const classes = useStyles();
 
-  let secondaryInnerText = content;
+  const textStyle = linkTo && {textAlign: "center"};
+
+  let primaryText = title;
+  if (linkTo)
+    primaryText = (
+      <Link className={classes.primaryLink} to={linkTo}>
+        {title}
+      </Link>
+    );
+
+  let secondaryText = hideExcessText(content, 100);
   if (author) {
-    secondaryInnerText = (
+    secondaryText = (
       <>
         <Typography
           component="span"
@@ -44,7 +62,7 @@ export default function NewsItem({
         >
           {author.name}
         </Typography>
-        {` - ${content}`}
+        {` - ${hideExcessText(content, 100)}`}
       </>
     );
   }
@@ -62,10 +80,16 @@ export default function NewsItem({
           </ListItemAvatar>
         )}
 
-        <ListItemText
-          primary={title}
-          secondary={secondaryInnerText}
-        />
+        <Box style={textStyle} className={classes.textBoxContainer}>
+          <ListItemText primary={primaryText} secondary={secondaryText} />
+          {!author && (
+            <Link style={{textDecoration: 'none' }} to={linkTo}>
+              <Button color="primary" style={{ padding: ".5rem 0" }}>
+                Read More
+              </Button>
+            </Link>
+          )}
+        </Box>
 
         {author && (
           <IconButton

@@ -6,6 +6,7 @@ import Login from "../pages/Login";
 import ForgotPassword from "../pages/ForgotPassword";
 import Signup from "../pages/Signup";
 import News from "../pages/News";
+import SingleNews from "../pages/SingleNews";
 
 function AppRouter({ isAuth }) {
   const location = useLocation();
@@ -16,10 +17,10 @@ function AppRouter({ isAuth }) {
     if (location.pathname === "/") redirectPath = "/dashboard";
     else redirectPath = location.pathname;
   } else {
-    if (location.pathname === "/news") redirectPath = "/news"
+    if (location.pathname === "/news") redirectPath = "/news";
     else redirectPath = "/login";
   }
-  
+
   return (
     <>
       <Redirect to={redirectPath} />
@@ -33,16 +34,19 @@ function AppRouter({ isAuth }) {
         <Route exact path="/forgotpassword">
           <ForgotPassword />
         </Route>
-        <Route exact path="/dashboard">
-          <Dashboard />
-        </Route>
-        <Route exact path="/about">
-          <Dashboard />
-        </Route>
-        <Route exact path="/news">
-          <News />
-        </Route>
-        <Route path="*">Not found</Route>
+          <Route exact path="/dashboard">
+            <Dashboard />
+          </Route>
+          <Route exact path="/about">
+            <Dashboard />
+          </Route>
+          <Route exact path="/news">
+            <News />
+          </Route>
+          <Route exact path="/news/:newsId">
+            <SingleNews />
+          </Route>
+          <Route path="*">Not found</Route>
       </Switch>
     </>
   );

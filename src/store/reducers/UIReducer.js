@@ -3,6 +3,7 @@ import * as actionTypes from "../../constants/types";
 const initialState = {
   loading: false,
   isFullLoading: true,
+  dashboardLoading: false
 };
 
 export default function (state = initialState, action) {

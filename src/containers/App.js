@@ -3,7 +3,7 @@ import { BrowserRouter as Router} from "react-router-dom";
 import NavBar from "../components/Layout/NavigationBar/NavBar";
 import Footer from "../components/Layout/Footer/Footer";
 import AppRouter from "./AppRouter";
-import FullLoading from "../components/Layout/FullLoading";
+import CircularLoading from "../components/Layout/CircularLoading";
 
 import {  useDispatch, useSelector } from "react-redux";
 import * as actions from "../store/actions";
@@ -18,7 +18,7 @@ export default function App() {
   }, [dispatch]);
 
   return isFullLoading  ? (
-    <FullLoading />
+    <CircularLoading type="full" />
   ) : (
     <>
       <Router>

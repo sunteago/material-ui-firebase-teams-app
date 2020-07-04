@@ -26,6 +26,7 @@ export default function AlignItemsList({ title, news }) {
               key={newsItem.published}
               title={newsItem.title}
               content={newsItem.shortContent}
+              linkTo={`/news/${newsItem.newsId}`}
             />
           );
         })}

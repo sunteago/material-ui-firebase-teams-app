@@ -11,12 +11,18 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function FullLoading(props) {
+export default function CircularLoading(props) {
   const classes = useStyles();
 
+  let size;
+  if (props.type === "full") {
+    size = 75;
+  } else if (props.type === "board" ) {
+    size = 40
+  }
   return (
     <Container className={classes.spinnerContainer}>
-      <CircularProgress size={75} {...props} />
+      <CircularProgress size={size} {...props} />
     </Container>
   );
 }

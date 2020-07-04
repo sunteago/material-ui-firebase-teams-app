@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, CircularProgress } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../store/actions";
 
@@ -9,7 +9,7 @@ import UserInfo from "../components/UserInfo/UserInfo";
 import RecentActivity from "../components/RecentActivity/RecentActivityList";
 import RightPanel from "../components/Layout/Dashboard/RightPanel";
 
-import FullLoading from "../components/Layout/FullLoading";
+import CircularLoading from "../components/Layout/CircularLoading";
 import AlertMessage from "../components/Layout/AlertMessage";
 import Grid from "@material-ui/core/Grid";
 import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
@@ -50,7 +50,7 @@ export default function Dashboard() {
   };
 
   return isFullLoading ? (
-    <FullLoading />
+    <CircularProgress type="full" />
   ) : (
     <PageContainer>
       <SectionTitle variant="h3">Dashboard</SectionTitle>
