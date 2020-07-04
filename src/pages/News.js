@@ -1,13 +1,17 @@
-import React from 'react'
-import PageContainer from '../components/Layout/PageContainer'
-import { useParams } from 'react-router-dom'
+import React from "react";
+import PageContainer from "../components/Layout/PageContainer";
+import { useSelector } from "react-redux";
 
 export default function News() {
-    const params = useParams();
-    console.log(params);
-    return (
-        <PageContainer>
-            News
-        </PageContainer>
-    )
+  const { lastNews } = useSelector((state) => state.userData);
+  return (
+    <PageContainer>
+      {lastNews.map((newsItem) => (
+        <div key={newsItem.published}>
+          <h2>{newsItem.title}</h2>
+          <p>{newsItem.shortContent}</p>
+        </div>
+      ))}
+    </PageContainer>
+  );
 }

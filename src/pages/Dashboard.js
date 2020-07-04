@@ -39,14 +39,13 @@ export default function Dashboard() {
   );
   const { isFullLoading } = useSelector((state) => state.UI);
   const dispatch = useDispatch();
-
   const onClickSendConfirmationLink = (e) => {
     e.preventDefault();
     dispatch(actions.sendEmailVerification(user));
   };
 
-  const handleClearComment = (e) => {
-    dispatch(actions.clearActivityComment())
+  const handleClearComment = (commentTimestamp) => {
+    dispatch(actions.clearActivityComment(commentTimestamp, user.uid));
   };
 
   return isFullLoading ? (

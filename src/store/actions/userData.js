@@ -1,5 +1,5 @@
 import * as actionTypes from "../../constants/types";
-import { db } from "../../config/firebaseConfig";
+import { db, firebase } from "../../config/firebaseConfig";
 import { getLastMonth, extractDataFromDocuments } from "../../utils/helpers";
 
 export const fetchUserData = (userId) => (dispatch) => {
@@ -26,12 +26,12 @@ export const fetchUserData = (userId) => (dispatch) => {
 
 export const fetchGroupsData = (groupsArr) => (dispatch) => {
   const groupsRef = db.collection("groups");
-  const groupNamesArr = groupsArr.map((group) => {
+  const groupsToFetchList = groupsArr.map((group) => {
     return groupsRef.doc(group).get();
   });
   dispatch({ type: actionTypes.FETCH_GROUP_DATA_START });
 
-  Promise.all(groupNamesArr)
+  Promise.all(groupsToFetchList)
     .then((groupsDocArr) => {
       const groups = [];
       groupsDocArr.forEach((groupDoc) => {
@@ -52,10 +52,23 @@ export const fetchGroupsData = (groupsArr) => (dispatch) => {
     });
 };
 
-export const clearActivityComment = (id) => (dispatch) => {
+export const clearActivityComment = (commTimestamp, userId) => (dispatch) => {
   dispatch({ type: actionTypes.CLEAR_DASHBOARD_DATA_START });
-  dispatch({ type: actionTypes.CLEAR_DASHBOARD_DATA_SUCCESS });
-  dispatch({ type: actionTypes.CLEAR_DASHBOARD_DATA_FAILED });
+  const userRef = db.collection("users").doc(userId);
+  userRef
+    .update({
+      seenMessages: firebase.firestore.FieldValue.arrayUnion(commTimestamp),
+    })
+    .then(() => {
+      dispatch({
+        type: actionTypes.CLEAR_DASHBOARD_DATA_SUCCESS,
+        payload: {id: commTimestamp},
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: actionTypes.CLEAR_DASHBOARD_DATA_FAILED });
+    });
 };
 
 export const postUserData = () => (dispatch) => {

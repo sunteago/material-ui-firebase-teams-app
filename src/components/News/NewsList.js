@@ -23,7 +23,7 @@ export default function AlignItemsList({ title, news }) {
         {news.map((newsItem) => {
           return (
             <SmallTextBox
-              key={newsItem.id}
+              key={newsItem.published}
               title={newsItem.title}
               content={newsItem.shortContent}
             />

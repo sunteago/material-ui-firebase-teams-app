@@ -7,7 +7,7 @@ const initialState = {
   isUserVisible: null,
   lastNews: [],
   topActivePublicGroups: [],
-  userGroupsContent: []
+  userGroupsContent: [],
 };
 
 export function userDataReducer(state = initialState, action) {
@@ -25,8 +25,21 @@ export function userDataReducer(state = initialState, action) {
     case actionTypes.FETCH_GROUP_DATA_SUCCESS:
       return {
         ...state,
-        userGroupsContent: action.payload
-      }
+        userGroupsContent: action.payload,
+      };
+    case actionTypes.CLEAR_DASHBOARD_DATA_SUCCESS:
+      return {
+        ...state,
+        userGroupsContent: state.userGroupsContent.map((group) => {
+          return {
+            ...group,
+            messages: group.messages.filter((message) => {
+              return action.payload.id !== message.timestamp;
+            }),
+          };
+        }),
+      };
+    case actionTypes.CLEAR_DASHBOARD_DATA_FAILED:
     case actionTypes.POST_USER_DATA_START:
     case actionTypes.POST_USER_DATA_SUCCESS:
     case actionTypes.POST_USER_DATA_FAILED:

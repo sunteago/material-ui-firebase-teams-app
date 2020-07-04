@@ -24,7 +24,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NewsItem({ title, content, author, handleClearComment }) {
+export default function NewsItem({
+  title,
+  content,
+  author,
+  handleClearComment,
+}) {
   const classes = useStyles();
 
   let secondaryInnerText = content;
@@ -57,7 +62,10 @@ export default function NewsItem({ title, content, author, handleClearComment })
           </ListItemAvatar>
         )}
 
-        <ListItemText primary={title} secondary={secondaryInnerText} />
+        <ListItemText
+          primary={title}
+          secondary={secondaryInnerText}
+        />
 
         {author && (
           <IconButton

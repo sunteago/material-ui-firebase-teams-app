@@ -9,8 +9,6 @@ import { List, Grid } from "@material-ui/core";
 
 export default function RecentActivityItem({ activityItem,handleClearComment }) {
 
-
-
   return (
     <>
       <Grid container>
@@ -27,14 +25,14 @@ export default function RecentActivityItem({ activityItem,handleClearComment }) 
         </Grid>
         <Grid container item xs={12} md={6}>
           <List style={{width: '100%'}}>
-            {activityItem.lastMessages.map((message) => {
+            {activityItem.messages.map((message) => {
               return (
                 <SmallTextBox
-                  key={Math.random()}
+                  key={message.timestamp}
                   title={message.title}
                   content={message.content}
                   author={message.author}
-                  handleClearComment={(msgId) => (handleClearComment(msgId))}
+                  handleClearComment={() => handleClearComment(message.timestamp)}
                 />
               );
             })}

@@ -14,8 +14,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RecentActivityList({ handleClearComment,groups, title }) {
+export default function RecentActivityList({ handleClearComment, groups, title }) {
   const classes = useStyles();
+  
   return (
     <>
       <SectionTitle style={{ textAlign: "center" }}>{title}</SectionTitle>
