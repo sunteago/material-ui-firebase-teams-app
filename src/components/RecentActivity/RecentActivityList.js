@@ -22,7 +22,7 @@ export default function RecentActivityList({ handleClearComment, groups, title }
       <SectionTitle style={{ textAlign: "center" }}>{title}</SectionTitle>
       <List className={classes.root}>
         {groups.map((activityItem) => {
-          return (
+          return activityItem.messages.length > 0 && (
             <RecentActivityItem
               key={activityItem.groupId}
               activityItem={activityItem}

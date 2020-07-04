@@ -34,18 +34,19 @@ export default function Dashboard() {
   const classes = useStyles();
 
   const { user } = useSelector((state) => state.auth);
-  const { lastNews, topActivePublicGroups, userGroupsContent } = useSelector(
+  const { lastNews, topActivePublicGroups, userGroupsContent,  } = useSelector(
     (state) => state.userData
   );
   const { isFullLoading } = useSelector((state) => state.UI);
   const dispatch = useDispatch();
+
   const onClickSendConfirmationLink = (e) => {
     e.preventDefault();
     dispatch(actions.sendEmailVerification(user));
   };
 
   const handleClearComment = (commentTimestamp) => {
-    dispatch(actions.clearActivityComment(commentTimestamp, user.uid));
+    dispatch(actions.clearActivityCommentDB(commentTimestamp, user.uid));
   };
 
   return isFullLoading ? (

@@ -8,7 +8,6 @@ import SmallTextBox from "../Layout/Dashboard/SmallTextBox";
 import { List, Grid } from "@material-ui/core";
 
 export default function RecentActivityItem({ activityItem,handleClearComment }) {
-
   return (
     <>
       <Grid container>

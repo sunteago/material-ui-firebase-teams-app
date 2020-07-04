@@ -28,8 +28,8 @@ export const getLastMonth = (newArr) => {
 
 export const extractDataFromDocuments = (docs) => {
   let documentsData = {};
-  docs.forEach((subDocs, idx) => {
-    //idx 2 is newsRef (that needs an extra step)
+  docs.forEach((subDocs, idx) => {//0: userRef, 1: generalRef, 2: newsRef
+    //idx 2 (newsRef) (that needs an extra step)
     if (idx === 2) {
       const newsArr = [];
       subDocs.forEach((newsItem) => newsArr.push(newsItem.data()));
