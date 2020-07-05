@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import PageContainer from "../components/Layout/PageContainer";
 import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
 import { useSelector } from "react-redux";
-import TodoList from '../components/TodoList/TodoList';
+import TaskListContainer from '../components/Tasks/TasksListContainer';
 
 export default function Group() {
   const { groupId } = useParams();
@@ -15,7 +15,7 @@ export default function Group() {
   return groupInLocal ? (
     <PageContainer>
       <SectionTitle>{groupInLocal.name}</SectionTitle>
-      <TodoList todoList={groupInLocal.todoList} groupId={groupId} />
+      <TaskListContainer todoList={groupInLocal.todoList} groupId={groupId} />
     </PageContainer>
   ) : null;
 }

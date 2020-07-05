@@ -52,7 +52,7 @@ function NavBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Another-App
+            Teams App
           </Typography>
           <div className={classes.grow} />
 

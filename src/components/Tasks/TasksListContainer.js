@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {useDispatch} from 'react-redux';
-import * as actions from '../../store/actions/';
+import * as actions from '../../store/actions';
 import { toggleDoneAndNotDone } from "../../utils/helpers";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import List from "./List";
+import TaskList from "./TaskList";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,9 +19,6 @@ const useStyles = makeStyles((theme) => ({
     width: 200,
     height: 230,
     overflow: "auto",
-  },
-  button: {
-    margin: theme.spacing(0.5, 0),
   },
   listTitle: {
     margin: theme.spacing(2),
@@ -77,7 +74,7 @@ export default function TodoList({ todoList, groupId }) {
       className={classes.root}
     >
       <Grid item>
-        <List
+        <TaskList
           items={notDone}
           listTitle="Things to do"
           onClickHandler={onTaskClickHandler}
@@ -86,7 +83,7 @@ export default function TodoList({ todoList, groupId }) {
       </Grid>
 
       <Grid item>
-        <List
+        <TaskList
           items={done}
           listTitle="Things Ready"
           onClickHandler={onTaskClickHandler}
