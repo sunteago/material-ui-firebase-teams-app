@@ -60,3 +60,13 @@ export const hideExcessText = (text, limit) => {
   }
   return text;
 };
+
+export const toggleDoneAndNotDone = (setListA, setListB, listItem) => {
+  listItem.done = !listItem.done;
+  setListA((prevState) => {
+    return prevState.filter(
+      (doneListItem) => doneListItem.taskId !== listItem.taskId
+    );
+  });
+  setListB((prevState) => prevState.concat(listItem));
+};

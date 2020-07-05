@@ -24,7 +24,7 @@ export default function News() {
   return (
     <PageContainer>
       {lastNews.map((newsItem) => (
-        <Link className={classes.boxLink} to={`/news/${newsItem.newsId}`}>
+        <Link key={newsItem.newsId} className={classes.boxLink} to={`/news/${newsItem.newsId}`}>
           <Paper
             elevation={10}
             className={classes.newsItemContainer}
