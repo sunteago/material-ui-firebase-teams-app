@@ -7,6 +7,7 @@ import ForgotPassword from "../pages/ForgotPassword";
 import Signup from "../pages/Signup";
 import News from "../pages/News";
 import SingleNews from "../pages/SingleNews";
+import Group from '../pages/Group';
 
 function AppRouter({ isAuth }) {
   const location = useLocation();
@@ -45,6 +46,9 @@ function AppRouter({ isAuth }) {
           </Route>
           <Route exact path="/news/:newsId">
             <SingleNews />
+          </Route>
+          <Route exact path="/groups/:groupId">
+            <Group />
           </Route>
           <Route path="*">Not found</Route>
       </Switch>
