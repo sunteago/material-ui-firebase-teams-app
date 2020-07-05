@@ -15,7 +15,7 @@ export default function Group() {
   return groupInLocal ? (
     <PageContainer>
       <SectionTitle>{groupInLocal.name}</SectionTitle>
-      <TodoList todoList={groupInLocal.todoList} />
+      <TodoList todoList={groupInLocal.todoList} groupId={groupId} />
     </PageContainer>
   ) : null;
 }

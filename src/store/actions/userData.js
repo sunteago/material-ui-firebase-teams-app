@@ -16,8 +16,7 @@ export const fetchUserData = (userId) => (dispatch) => {
         payload: dashboardData,
       });
       if (dashboardData.inGroups.length !== 0) {
-        dispatch(fetchGroupsData(dashboardData))
-        //clears the dashboard (unseen messages)
+        dispatch(fetchGroupsData(dashboardData));
       }
     })
     .catch((err) => {
@@ -77,6 +76,28 @@ export const clearActivityCommentDB = (commTimestamp, userId) => (dispatch) => {
     .catch((err) => {
       console.log(err);
       dispatch({ type: actionTypes.CLEAR_DASHBOARD_DATA_FAILED });
+    });
+};
+
+export const toggleTaskItem = (groupId, newTask, oldTask) => (dispatch) => {
+  const batch = db.batch();
+  const groupRef = db.collection("groups").doc(groupId);
+  dispatch({ type: actionTypes.TOGGLE_LIST_ITEM_START });
+  batch.update(groupRef, {
+    todoList: firebase.firestore.FieldValue.arrayRemove(oldTask),
+  });
+  batch.update(groupRef, {
+    todoList: firebase.firestore.FieldValue.arrayUnion(newTask),
+  });
+
+  batch
+    .commit()
+    .then(() => {
+      dispatch({ type: actionTypes.TOGGLE_LIST_ITEM_LOCAL });
+      dispatch({ type: actionTypes.TOGGLE_LIST_ITEM_SUCCESS });
+    })
+    .catch((err) => {
+      dispatch({ type: actionTypes.TOGGLE_LIST_ITEM_FAILED, payload: err });
     });
 };
 

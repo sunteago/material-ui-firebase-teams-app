@@ -9,8 +9,11 @@ import { Card, CardHeader, Divider } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import DataUsageIcon from "@material-ui/icons/DataUsage";
 
+
 export default function customList(props) {
-  const { items, listTitle, onClickHandler, classes, isInReadyList } = props;
+  const { items, listTitle, onClickHandler, isInReadyList, classes } = props;
+
+
   return (
     <Card>
       <CardHeader className={classes.cardHeader} title={listTitle} />
@@ -26,11 +29,11 @@ export default function customList(props) {
                 role="listitem"
                 button
                 style={{ textAlign: "center" }}
-                onClick={onClickHandler(value)}
+                onClick={() => onClickHandler(value)}
               >
                 <ListItemText id={labelId} primary={value.task} />
                 <ListItemIcon>
-                  {isInReadyList ? <CheckIcon /> : <DataUsageIcon />}
+                  {isInReadyList ? <CheckIcon /> : <DataUsageIcon className={classes.process} />}
                 </ListItemIcon>
               </ListItem>
             );
