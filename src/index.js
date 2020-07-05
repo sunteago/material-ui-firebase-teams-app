@@ -18,15 +18,15 @@ if (process.env.NODE_ENV === "development") {
 } else {
   store = createStore(reducers, applyMiddleware(ReduxThunk));
 }
+//material ui is having conflicts with strict mode
 
 ReactDOM.render(
   <Provider store={store}>
-    <React.StrictMode>
+    {/*<React.StrictMode>*/}
       <CssBaseline>
         <App />
-
       </CssBaseline>
-    </React.StrictMode>
+   {/* </React.StrictMode> */}
   </Provider>,
   document.getElementById("root")
 );

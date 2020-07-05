@@ -55,31 +55,31 @@ function Form(props) {
       <form>
         <Grid container direction="column">
           <TextInput
-            state={email}
-            setState={setEmail}
+            value={email}
+            setValue={setEmail}
             type="email"
             Icon={PersonIcon}
-            placeholder="Email"
+            label="Email"
             autoFocus
           />
 
           {mode !== "forgotpassword" && (
             <TextInput
-              state={password}
-              setState={setPassword}
+              value={password}
+              setValue={setPassword}
               type="password"
               Icon={VpnKeyIcon}
-              placeholder="Password"
+              label="Password"
             />
           )}
 
           {mode === "signup" && (
             <TextInput
-              state={confirmPassword}
-              setState={setConfirmPassword}
+              value={confirmPassword}
+              setValue={setConfirmPassword}
               type="password"
               Icon={VpnKeyIcon}
-              placeholder="Confirm Password"
+              label="Confirm Password"
             />
           )}
 

@@ -10,7 +10,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TextInput(props) {
-  const { state, setState, Icon, type, placeholder, autoFocus } = props;
+  const {
+    value,
+    setValue,
+    Icon,
+    type,
+    label,
+    autoFocus,
+    multiline,
+    rows,
+    variant,
+    fullWidth,
+  } = props;
   const classes = useStyles();
 
   return (
@@ -20,19 +31,23 @@ export default function TextInput(props) {
       spacing={1}
       alignItems="flex-end"
     >
-      <Grid item>
-        <Icon />
-      </Grid>
-      <Grid item>
-        <TextField
-          label={placeholder}
-          type={type}
-          value={state}
-          onChange={(e) => setState(e.target.value)}
-          required
-          autoFocus={autoFocus}
-        />
-      </Grid>
+      {Icon && (
+        <Grid item>
+          <Icon />
+        </Grid>
+      )}
+      <TextField
+        label={label}
+        type={type}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        required
+        autoFocus={autoFocus}
+        rows={rows}
+        multiline={multiline}
+        variant={variant}
+        fullWidth={fullWidth}
+      />
     </Grid>
   );
 }
