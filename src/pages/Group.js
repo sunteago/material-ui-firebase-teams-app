@@ -8,10 +8,15 @@ import NavigationTab from "../components/Layout/NavigationTabs";
 import { Divider } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Settings from "../components/Settings/Settings";
+import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles((theme) => ({
   dividerLine: {
     width: "100%",
+    margin: theme.spacing(3),
+  },
+  paper: {
+    flexGrow: 1,
     margin: theme.spacing(3),
   },
 }));
@@ -32,9 +37,9 @@ export default function Group() {
 
   return groupInLocal ? (
     <PageContainer>
-      <SectionTitle>{groupInLocal.name}</SectionTitle>
-      <Divider className={classes.dividerLine} />
-      <NavigationTab tab={tab} handleTabChange={handleTabChange} />
+        <SectionTitle>{groupInLocal.name}</SectionTitle>
+        <Divider className={classes.dividerLine} />
+        <NavigationTab tab={tab} handleTabChange={handleTabChange} />
       {tab === 0 && (
         <TaskListContainer todoList={groupInLocal.todoList} groupId={groupId} />
       )}

@@ -58,7 +58,7 @@ export default function Dashboard() {
         <AlertMessage
           alertStyles={classes.alertMsg}
           severity="error"
-          action={alertTypes.email_confirm}
+          action={alertTypes.EMAIL_CONFIRM}
           handler={onClickSendConfirmationLink}
         />
       ) : null}

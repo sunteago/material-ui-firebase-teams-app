@@ -1,1 +1,3 @@
-export const email_confirm = "email_confirm";
+export const EMAIL_CONFIRM = "EMAIL_CONFIRM";
+
+export const MAKE_GROUP_PUBLIC = "MAKE_GROUP_PUBLIC"

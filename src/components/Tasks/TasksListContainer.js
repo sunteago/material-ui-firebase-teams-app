@@ -9,7 +9,7 @@ import TaskList from "./TaskList";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: theme.spacing(3),
+    margin: "auto",
   },
   cardHeader: {
     padding: theme.spacing(1, 2),

@@ -1,12 +1,13 @@
 import React from "react";
 import * as alertTypes from "../constants/alertTypes";
 import { Link } from "@material-ui/core";
+import { AlertTitle } from "@material-ui/lab";
 import { firebase } from "../config/firebaseConfig";
 import { formatDistance } from "date-fns";
 
 export const getAlertMsgFromAction = (action, handler) => {
   switch (action) {
-    case alertTypes.email_confirm:
+    case alertTypes.EMAIL_CONFIRM:
       return (
         <>
           Your account is not verified, if you haven't received confirmation
@@ -14,6 +15,13 @@ export const getAlertMsgFromAction = (action, handler) => {
           <Link href="#" onClick={handler}>
             here
           </Link>
+        </>
+      );
+    case alertTypes.MAKE_GROUP_PUBLIC:
+      return (
+        <>
+          <AlertTitle>Warning</AlertTitle>
+          If you set your group to public — <strong>everyone will be able to find it!</strong>
         </>
       );
     default:
