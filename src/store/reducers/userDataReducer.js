@@ -30,9 +30,13 @@ export function userDataReducer(state = initialState, action) {
         userStatus: action.payload.status,
         memberSince: action.payload.memberSince,
         isUserVisible: action.payload.isVisible,
-        lastNews: action.payload.lastNews,
         topActivePublicGroups: action.payload.topActivePublicGroups,
       };
+    case actionTypes.FETCH_NEWS_SUCCESS:
+      return {
+        ...state,
+        lastNews: action.payload
+      }
     case actionTypes.FETCH_GROUP_DATA_SUCCESS:
       return {
         ...state,
@@ -48,9 +52,8 @@ export function userDataReducer(state = initialState, action) {
           };
         }),
       };
+    case actionTypes.FETCH_NEWS_FAILED:
     case actionTypes.CLEAR_DASHBOARD_DATA_FAILED:
-    case actionTypes.POST_USER_DATA_START:
-    case actionTypes.POST_USER_DATA_SUCCESS:
     case actionTypes.POST_USER_DATA_FAILED:
     case actionTypes.FETCH_INITIAL_DATA_START:
     case actionTypes.FETCH_INITIAL_DATA_FAILED:

@@ -2,7 +2,7 @@ import React from "react";
 import TopNewsList from "../../News/NewsList";
 import GroupList from "../../Group/GroupList";
 
-function RightPanel({ lastNews, topActiveGroups, myGroups }) {
+export default function RightPanel({ lastNews, topActiveGroups, myGroups }) {
   
   return (
     <>
@@ -12,10 +12,3 @@ function RightPanel({ lastNews, topActiveGroups, myGroups }) {
     </>
   );
 }
-
-export default React.memo(RightPanel, (prev) => {
-  if (prev.topActiveGroups.length === 0 || prev.myGroups.length === 0) {
-    return false;
-  }
-  return true
-})

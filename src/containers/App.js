@@ -15,6 +15,7 @@ export default function App() {
 
   useEffect(() => {
     dispatch(actions.startAuthStateChecker());
+    dispatch(actions.fetchNewsData());
   }, [dispatch]);
 
   return isFullLoading  ? (

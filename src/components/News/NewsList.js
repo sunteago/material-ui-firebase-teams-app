@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AlignItemsList({ title, news }) {
+export default function NewsList({ title, news }) {
   const classes = useStyles();
   return (
     <>

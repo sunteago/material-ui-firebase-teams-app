@@ -1,16 +1,20 @@
 import * as actionTypes from "../../constants/types";
 import { db, firebase } from "../../config/firebaseConfig";
-import { getLastMonth, extractDataFromDocuments } from "../../utils/helpers";
+import { getLastMonth } from "../../utils/helpers";
 
 export const fetchUserData = (userId) => (dispatch) => {
   dispatch({ type: actionTypes.FETCH_INITIAL_DATA_START });
   const userRef = db.collection("users").doc(userId);
   const generalRef = db.collection("general").doc("dashboard");
-  const newsRef = db.collection("news").where("published", ">", getLastMonth());
 
-  Promise.all([userRef.get(), generalRef.get(), newsRef.get()])
+  Promise.all([userRef.get(), generalRef.get()])
     .then((data) => {
-      const dashboardData = extractDataFromDocuments(data);
+      let dashboardData = {};
+      data.forEach((subDocs) => {
+        if (subDocs.exists) {
+          dashboardData = { ...dashboardData, ...subDocs.data() };
+        }
+      });
       dispatch({
         type: actionTypes.FETCH_INITIAL_DATA_SUCCESS,
         payload: dashboardData,
@@ -21,6 +25,24 @@ export const fetchUserData = (userId) => (dispatch) => {
     })
     .catch((err) => {
       dispatch({ type: actionTypes.FETCH_INITIAL_DATA_FAILED, payload: err });
+    });
+};
+
+export const fetchNewsData = () => (dispatch) => {
+  const newsRef = db.collection("news").where("published", ">", getLastMonth());
+  dispatch({type: actionTypes.FETCH_NEWS_START})
+  newsRef
+    .get()
+    .then((doc) => {
+      const newsArr = [];
+      doc.forEach((newsItem) => {
+        newsArr.push({ ...newsItem.data(), newsId: newsItem.id });
+      });
+      dispatch({type: actionTypes.FETCH_NEWS_SUCCESS, payload: newsArr})
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({type: actionTypes.FETCH_NEWS_FAILED, payload: err})
     });
 };
 

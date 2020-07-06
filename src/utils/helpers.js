@@ -30,24 +30,6 @@ export const getAlertMsgFromAction = (action, handler) => {
   }
 };
 
-export const extractDataFromDocuments = (docs) => {
-  let documentsData = {};
-  docs.forEach((subDocs, idx) => {
-    //0: userRef, 1: generalRef, 2: newsRef
-    //idx 2 (newsRef) (that needs an extra step)
-    if (idx === 2) {
-      const newsArr = [];
-      subDocs.forEach((newsItem) => {
-        newsArr.push({ ...newsItem.data(), newsId: newsItem.id });
-      });
-      documentsData.lastNews = newsArr;
-    }
-    if (subDocs.exists) {
-      documentsData = { ...documentsData, ...subDocs.data() };
-    }
-  });
-  return documentsData;
-};
 
 export const setFormatedDate = (date) => {
   return firebase.firestore.Timestamp.fromDate(date);
