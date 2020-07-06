@@ -22,7 +22,7 @@ export default function News() {
   const { lastNews } = useSelector((state) => state.userData);
 
   return (
-    <PageContainer>
+    <>
       {lastNews.map((newsItem) => (
         <Link key={newsItem.newsId} className={classes.boxLink} to={`/news/${newsItem.newsId}`}>
           <Paper
@@ -36,6 +36,6 @@ export default function News() {
           </Paper>
         </Link>
       ))}
-    </PageContainer>
+    </>
   );
 }

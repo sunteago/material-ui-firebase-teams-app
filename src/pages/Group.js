@@ -43,7 +43,7 @@ export default function Group() {
   };
 
   return groupInLocal ? (
-    <PageContainer paperStyles={{ position: "relative" }}>
+    <>
       <Chip
         className={classes.isPublicChip}
         icon={groupInLocal.isPublic ? <PublicIcon /> : <LockIcon />}
@@ -64,6 +64,6 @@ export default function Group() {
           description={groupInLocal.description}
         />
       )}
-    </PageContainer>
+    </>
   ) : null;
 }

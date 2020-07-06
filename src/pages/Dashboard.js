@@ -52,7 +52,7 @@ export default function Dashboard() {
   return isFullLoading ? (
     <CircularLoading type="full" />
   ) : (
-    <PageContainer>
+    <>
       <SectionTitle variant="h3">Dashboard</SectionTitle>
       {!user.emailVerified ? (
         <AlertMessage
@@ -81,6 +81,6 @@ export default function Dashboard() {
           />
         </Grid>
       </Grid>
-    </PageContainer>
+    </>
   );
 }
