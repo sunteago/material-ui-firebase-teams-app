@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../store/actions";
 
 import * as alertTypes from "../constants/alertTypes";
-import PageContainer from "../components/Layout/PageContainer";
 import UserInfo from "../components/UserInfo/UserInfo";
 import RecentActivity from "../components/RecentActivity/RecentActivityList";
 import RightPanel from "../components/Layout/Dashboard/RightPanel";
@@ -13,6 +12,7 @@ import CircularLoading from "../components/Layout/CircularLoading";
 import AlertMessage from "../components/Layout/AlertMessage";
 import Grid from "@material-ui/core/Grid";
 import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   userInfo: {
@@ -26,15 +26,15 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
   alertMsg: {
-    marginTop: theme.spacing(2)
-  }
+    marginTop: theme.spacing(2),
+  },
 }));
 
 export default function Dashboard() {
   const classes = useStyles();
 
-  const { user } = useSelector((state) => state.auth);
-  const { lastNews, topActivePublicGroups, userGroupsContent,  } = useSelector(
+  const user = useSelector((state) => state.auth.user);
+  const { lastNews, topActivePublicGroups, userGroupsContent } = useSelector(
     (state) => state.userData
   );
   const { isFullLoading } = useSelector((state) => state.UI);

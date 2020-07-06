@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 import { makeStyles, useTheme } from "@material-ui/core";
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
 const DrawerMenu = ({ isOpen, handleDrawerClose, handleDrawerOpen }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const user = useSelector((state) => state.auth.user);
+
+  const isLoggedIn = !!Object.keys(user).length;
 
   return (
     <Drawer
@@ -63,38 +66,43 @@ const DrawerMenu = ({ isOpen, handleDrawerClose, handleDrawerOpen }) => {
 
       <Divider />
       <List component="nav" aria-label="main menu options">
-        <ListItem button>
-          <ListItemIcon>
-            <AddIcon />
-          </ListItemIcon>
-          <ListItemText primary="Add a public event" />
-        </ListItem>
 
-        <Divider />
+        {isLoggedIn && (
+          <>
+            <ListItem button>
+              <ListItemIcon>
+                <AddIcon />
+              </ListItemIcon>
+              <ListItemText primary="Add a public event" />
+            </ListItem>
 
-        <Link to="/dashboard" style={{ all: "unset" }}>
-          <ListItem button onClick={handleDrawerClose}>
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItem>
-        </Link>
+            <Divider />
 
-        <ListItem button>
-          <ListItemIcon>
-            <GroupIcon />
-          </ListItemIcon>
-          <ListItemText primary="My groups" />
-        </ListItem>
+            <Link to="/dashboard" style={{ all: "unset" }}>
+              <ListItem button onClick={handleDrawerClose}>
+                <ListItemIcon>
+                  <DashboardIcon />
+                </ListItemIcon>
+                <ListItemText primary="Dashboard" />
+              </ListItem>
+            </Link>
 
-        <ListItem button>
-          <ListItemIcon>
-            <SettingsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Settings" />
-        </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <GroupIcon />
+              </ListItemIcon>
+              <ListItemText primary="My groups" />
+            </ListItem>
 
+            <ListItem button>
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Settings" />
+            </ListItem>
+          </>
+        )}
+        
         <Link to="/news" style={{ all: "unset" }}>
           <ListItem button onClick={handleDrawerClose}>
             <ListItemIcon>

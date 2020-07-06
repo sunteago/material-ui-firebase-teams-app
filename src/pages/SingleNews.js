@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 
 import { makeStyles, Divider, Box} from "@material-ui/core";
 import { Typography } from "@material-ui/core";
-import PageContainer from "../components/Layout/PageContainer";
 import { getHowManyDaysAgo } from "../utils/helpers";
 
 const useStyles = makeStyles((theme) => ({

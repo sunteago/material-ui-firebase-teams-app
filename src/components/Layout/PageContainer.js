@@ -30,13 +30,13 @@ const useStyles = makeStyles((theme) => ({
     padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(
       3
     )}px`,
+    position: 'relative'
   },
   container: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     marginTop: theme.spacing(5),
-    position: 'relative'
   },
 }));
 
@@ -50,9 +50,6 @@ function PageContainer({ children, paperStyles }) {
         <Grid className={classes.navigationButtons}>
           <IconButton onClick={() => history.goBack()}>
             <NavigateBeforeIcon />
-          </IconButton>
-          <IconButton onClick={() => history.goForward()}>
-            <NavigateNextIcon />
           </IconButton>
         </Grid>
         {children}

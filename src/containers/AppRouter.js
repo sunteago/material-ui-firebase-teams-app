@@ -5,7 +5,7 @@ import Login from "../pages/Login";
 import ForgotPassword from "../pages/ForgotPassword";
 import Signup from "../pages/Signup";
 
-import DashboardRoutes from './DashboardRoutes';
+import DashboardRoutes from "./DashboardRoutes";
 
 function AppRouter({ isAuth }) {
   const location = useLocation();
@@ -33,9 +33,9 @@ function AppRouter({ isAuth }) {
         <Route exact path="/forgotpassword">
           <ForgotPassword />
         </Route>
-          <Route path="*">
-            <DashboardRoutes />
-          </Route>
+        <Route path="*">
+          <DashboardRoutes />
+        </Route>
       </Switch>
     </>
   );

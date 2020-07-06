@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import PageContainer from "../components/Layout/PageContainer";
 import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
 import { useSelector } from "react-redux";
 import TaskListContainer from "../components/Tasks/TasksListContainer";
