@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import ConfigurationItem from "./ConfigurationItem";
 import TextInput from "../TextInput";
 import { Container, Paper, Button } from "@material-ui/core";
-import AlertMessage from "../Layout/AlertMessage";
-import * as alertTypes from "../../constants/alertTypes";
+// import AlertMessage from "../Layout/AlertMessage";
+// import * as alertTypes from "../../constants/alertTypes";
 import Modal from "../Layout/Modal/Modal";
 import { makeStyles } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
+
 const useStyles = makeStyles((theme) => ({
   alertMsg: {
     margin: theme.spacing(3),

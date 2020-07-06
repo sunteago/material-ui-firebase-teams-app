@@ -12,7 +12,6 @@ import CircularLoading from "../components/Layout/CircularLoading";
 import AlertMessage from "../components/Layout/AlertMessage";
 import Grid from "@material-ui/core/Grid";
 import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
-import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   userInfo: {
@@ -48,6 +47,8 @@ export default function Dashboard() {
   const handleClearComment = (commentTimestamp) => {
     dispatch(actions.clearActivityCommentDB(commentTimestamp, user.uid));
   };
+
+
 
   return isFullLoading ? (
     <CircularLoading type="full" />

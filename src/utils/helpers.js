@@ -21,7 +21,8 @@ export const getAlertMsgFromAction = (action, handler) => {
       return (
         <>
           <AlertTitle>Warning</AlertTitle>
-          If you set your group to public — <strong>everyone will be able to find it!</strong>
+          If you set your group to public —{" "}
+          <strong>everyone will be able to find it!</strong>
         </>
       );
     default:
@@ -77,4 +78,15 @@ export const toggleDoneAndNotDone = (setListA, setListB, listItem) => {
     );
   });
   setListB((prevState) => prevState.concat(listItem));
+};
+
+export const shareContent = (title, url, setOpen) => {
+  if (navigator.share) {
+    navigator
+      .share({ title, url })
+      .then(() => console.log)
+      .catch(console.log);
+  } /*else {
+    setOpen(true);
+  }*/
 };

@@ -6,7 +6,6 @@ import { Grid, IconButton } from "@material-ui/core";
 
 import { Paper } from "@material-ui/core";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 
 const useStyles = makeStyles((theme) => ({
   navigationButtons: {

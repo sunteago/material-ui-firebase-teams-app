@@ -56,9 +56,6 @@ const DialogActions = withStyles((theme) => ({
 export default function CustomizedDialogs(props) {
   const { open, setOpen, content, title, confirm } = props;
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
   const handleClose = () => {
     setOpen(false);
   };
