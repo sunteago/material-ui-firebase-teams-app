@@ -5,12 +5,19 @@ import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
 import { useSelector } from "react-redux";
 import TaskListContainer from "../components/Tasks/TasksListContainer";
 import NavigationTab from "../components/Layout/NavigationTabs";
-import { Divider } from "@material-ui/core";
+import { Divider, Chip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Settings from "../components/Settings/Settings";
-import Paper from "@material-ui/core/Paper";
+import PublicIcon from '@material-ui/icons/Public';
+import LockIcon from '@material-ui/icons/Lock';
 
 const useStyles = makeStyles((theme) => ({
+  isPublicChip: {
+    position: "absolute",
+    right: theme.spacing(2),
+    top: theme.spacing(2),
+    zIndex: 100000,
+  },
   dividerLine: {
     width: "100%",
     margin: theme.spacing(3),
@@ -36,10 +43,16 @@ export default function Group() {
   };
 
   return groupInLocal ? (
-    <PageContainer>
-        <SectionTitle>{groupInLocal.name}</SectionTitle>
-        <Divider className={classes.dividerLine} />
-        <NavigationTab tab={tab} handleTabChange={handleTabChange} />
+    <PageContainer paperStyles={{ position: "relative" }}>
+      <Chip
+        className={classes.isPublicChip}
+        icon={groupInLocal.isPublic ? <PublicIcon /> : <LockIcon />}
+        label={groupInLocal.isPublic ? "Public" : "Private"}
+        variant="outlined"
+      />
+      <SectionTitle>{groupInLocal.name}</SectionTitle>
+      <Divider className={classes.dividerLine} />
+      <NavigationTab tab={tab} handleTabChange={handleTabChange} />
       {tab === 0 && (
         <TaskListContainer todoList={groupInLocal.todoList} groupId={groupId} />
       )}

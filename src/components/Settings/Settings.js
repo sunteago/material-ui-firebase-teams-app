@@ -34,7 +34,7 @@ export default function Settings(props) {
 
   return (
     <Container>
-      <Paper style={{ padding: "2rem", textAlign: "right" }} elevation={3}>
+      <Paper style={{ padding: "2rem", textAlign: "center" }} elevation={3}>
         {isModalOpen && (
           <Modal
             open={isModalOpen}
