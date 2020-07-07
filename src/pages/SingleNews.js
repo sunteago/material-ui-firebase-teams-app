@@ -40,7 +40,7 @@ export default function SingleNews(props) {
   const onShareNewsHandler = () => {
     shareContent(currentNews.title, window.location.href, setOpen);
   };
-
+  
   return (
     <>
       {open && (
@@ -52,29 +52,31 @@ export default function SingleNews(props) {
           confirm="Share"
         />
       )}
-      <Box className={classes.newsItemContainer}>
-        <Typography className={classes.newsTitle} variant="h4" component="h1">
-          {currentNews.title}
-        </Typography>
-        <Typography className={classes.newsSubtitle} variant="subtitle2">
-          {currentNews.shortContent}
-        </Typography>
-        <Typography
-          variant="overline"
-          display="block"
-          gutterBottom
-          style={{ alignSelf: "flex-end" }}
-        >
-          {getHowManyDaysAgo(currentNews.published)}
-        </Typography>
-        <Divider variant="middle" className={classes.divider} />
-        <Typography className={classes.newsBody} variant="body1">
-          {currentNews.content}
-        </Typography>
-        <IconButton onClick={onShareNewsHandler}>
-          <ShareIcon />
-        </IconButton>
-      </Box>
+      {currentNews && (
+        <Box className={classes.newsItemContainer}>
+          <Typography className={classes.newsTitle} variant="h4" component="h1">
+            {currentNews.title}
+          </Typography>
+          <Typography className={classes.newsSubtitle} variant="subtitle2">
+            {currentNews.shortContent}
+          </Typography>
+          <Typography
+            variant="overline"
+            display="block"
+            gutterBottom
+            style={{ alignSelf: "flex-end" }}
+          >
+            {getHowManyDaysAgo(currentNews.published)}
+          </Typography>
+          <Divider variant="middle" className={classes.divider} />
+          <Typography className={classes.newsBody} variant="body1">
+            {currentNews.content}
+          </Typography>
+          <IconButton onClick={onShareNewsHandler}>
+            <ShareIcon />
+          </IconButton>
+        </Box>
+      )}
     </>
   );
 }

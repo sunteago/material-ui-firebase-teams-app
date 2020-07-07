@@ -36,7 +36,7 @@ export const getAlertMsgFromAction = (action, handler) => {
     default:
       return <>
       <AlertTitle>Something went Wrong</AlertTitle>
-      Something unexpected happened, please <strong>refresh!</strong>
+      Something unexpected happened, please <strong>try again later!</strong>
     </>
   }
 };
@@ -78,7 +78,7 @@ export const shareContent = (title, url, setOpen) => {
       .share({ title, url })
       .then(() => console.log)
       .catch(console.log);
-  } /*else {
+  } else {
     setOpen(true);
-  }*/
+  }
 };

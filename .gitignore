@@ -26,3 +26,4 @@ yarn-error.log*
 .firebaserc
 config/
 proposal
+.firebase/
