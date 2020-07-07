@@ -35,7 +35,7 @@ export default function Group() {
 
   const [activeGroup, setActiveGroup] = useState({});
 
-  const groups = useSelector((state) => state.userData.userGroupsContent);
+  const groups = useSelector((state) => state.userData.groupsInLocal);
   const isFullLoading = useSelector((state) => state.UI.isFullLoading);
   const dispatch = useDispatch();
   //check if user has permission to view this group
@@ -53,7 +53,6 @@ export default function Group() {
       } 
       if (groupInLocal) {
         setActiveGroup(groupInLocal);
-        console.log(groupInLocal);
       }
     }
   }, [dispatch, groupId, groups, isFullLoading]);

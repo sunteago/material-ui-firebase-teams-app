@@ -8,6 +8,7 @@ const initialState = {
   lastNews: [],
   topActivePublicGroups: [],
   userGroupsContent: [],
+  groupsInLocal: [],
 };
 
 const removeSeenMessages = (action, group) => {
@@ -35,18 +36,19 @@ export function userDataReducer(state = initialState, action) {
     case actionTypes.FETCH_NEWS_SUCCESS:
       return {
         ...state,
-        lastNews: action.payload
-      }
-    case actionTypes.FETCH_GROUP_DATA_SUCCESS://GROUPS change
+        lastNews: action.payload,
+      };
+    case actionTypes.FETCH_GROUP_DATA_SUCCESS: //GROUPS change
       return {
         ...state,
         userGroupsContent: [...state.userGroupsContent, ...action.payload],
+        groupsInLocal: [...state.userGroupsContent, ...action.payload],
       };
     case actionTypes.FETCH_SINGLE_GROUP_SUCCESS:
       return {
         ...state,
-        userGroupsContent: [...state.userGroupsContent, action.payload]
-      }
+        groupsInLocal: [...state.userGroupsContent, action.payload],
+      };
     case actionTypes.CLEAR_DASHBOARD_DATA_LOCAL:
       return {
         ...state,
