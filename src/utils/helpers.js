@@ -25,11 +25,21 @@ export const getAlertMsgFromAction = (action, handler) => {
           <strong>everyone will be able to find it!</strong>
         </>
       );
+    case alertTypes.FETCH_SINGLE_GROUP_ERROR:
+      return (
+        <>
+          <AlertTitle>Error</AlertTitle>
+          This group couldn't be found, either is private and you are not a member
+          or maybe you are experiencing network issues
+        </>
+      );
     default:
-      return "There was a problem";
+      return <>
+      <AlertTitle>Something went Wrong</AlertTitle>
+      Something unexpected happened, please <strong>refresh!</strong>
+    </>
   }
 };
-
 
 export const setFormatedDate = (date) => {
   return firebase.firestore.Timestamp.fromDate(date);

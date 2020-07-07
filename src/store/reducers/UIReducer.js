@@ -3,7 +3,8 @@ import * as actionTypes from "../../constants/types";
 const initialState = {
   loading: false,
   isFullLoading: true,
-  dashboardLoading: false
+  dashboardLoading: false,
+  groupPageError: {}
 };
 
 export default function (state = initialState, action) {
@@ -22,11 +23,18 @@ export default function (state = initialState, action) {
     case actionTypes.FINISH_FETCHING_INITIAL_DATA:
     case actionTypes.CLEAR_DASHBOARD_DATA_SUCCESS:
     case actionTypes.CLEAR_DASHBOARD_DATA_FAILED:
+    case actionTypes.FETCH_SINGLE_GROUP_SUCCESS:
       return {
         ...state,
         loading: false,
         isFullLoading: false,
       };
+    case actionTypes.FETCH_SINGLE_GROUP_FAILED:
+      return {
+        ...state,
+        groupPageError: action.payload,
+        loading: false
+      }
     case actionTypes.SEND_VERIFICATION_EMAIL_START:
     case actionTypes.STANDARD_SIGN_UP_START:
     case actionTypes.SIGN_OUT_START:
@@ -34,6 +42,7 @@ export default function (state = initialState, action) {
     case actionTypes.LOG_IN_START:
     case actionTypes.FETCH_GROUP_DATA_START:
     case actionTypes.CLEAR_DASHBOARD_DATA_START:
+    case actionTypes.FETCH_SINGLE_GROUP_START:
       return {
         ...state,
         loading: true,

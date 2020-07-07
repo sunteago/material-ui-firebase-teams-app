@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../store/actions";
 import { useParams } from "react-router-dom";
+
+import AlertMessage from "../components/Layout/AlertMessage";
+import * as alertTypes from "../constants/alertTypes";
 import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
 import TaskListContainer from "../components/Tasks/TasksListContainer";
 import NavigationTab from "../components/Layout/NavigationTabs";
@@ -26,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     margin: theme.spacing(3),
   },
+  alertMessage: {
+    margin: theme.spacing(3)
+  }
 }));
 
 export default function Group() {
@@ -36,13 +42,12 @@ export default function Group() {
   const [activeGroup, setActiveGroup] = useState({});
 
   const groups = useSelector((state) => state.userData.groupsInLocal);
-  const isFullLoading = useSelector((state) => state.UI.isFullLoading);
+  const { isFullLoading, groupPageError } = useSelector((state) => state.UI);
   const dispatch = useDispatch();
-  //check if user has permission to view this group
 
   const handleTabChange = (event, newValue) => setTab(newValue);
 
-  let shouldFetch = React.useRef(true);
+  let shouldFetch = useRef(true);
 
   useEffect(() => {
     if (!isFullLoading) {
@@ -50,35 +55,48 @@ export default function Group() {
       if (!groupInLocal && shouldFetch.current) {
         dispatch(actions.fetchSingleGroup(groupId));
         shouldFetch.current = false;
-      } 
+      }
       if (groupInLocal) {
         setActiveGroup(groupInLocal);
       }
     }
   }, [dispatch, groupId, groups, isFullLoading]);
 
-  return Object.keys(activeGroup).length ? (
-    <>
-      <Chip
-        className={classes.isPublicChip}
-        icon={activeGroup.isPublic ? <PublicIcon /> : <LockIcon />}
-        label={activeGroup.isPublic ? "Public" : "Private"}
-        variant="outlined"
-      />
-      <SectionTitle>{activeGroup.name}</SectionTitle>
-      <Divider className={classes.dividerLine} />
-      <NavigationTab tab={tab} handleTabChange={handleTabChange} />
-      {tab === 0 && (
-        <TaskListContainer todoList={activeGroup.todoList} groupId={groupId} />
-      )}
-      {tab === 1 && <div>TAB 2</div>}
-      {tab === 2 && <div>TAB 3</div>}
-      {tab === 3 && (
-        <Settings
-          isPublic={activeGroup.isPublic}
-          description={activeGroup.description}
+  if (Object.keys(activeGroup).length) {
+    return (
+      <>
+        <Chip
+          className={classes.isPublicChip}
+          icon={activeGroup.isPublic ? <PublicIcon /> : <LockIcon />}
+          label={activeGroup.isPublic ? "Public" : "Private"}
+          variant="outlined"
         />
-      )}
-    </>
-  ) : null;
+        <SectionTitle>{activeGroup.name}</SectionTitle>
+        <Divider className={classes.dividerLine} />
+        <NavigationTab tab={tab} handleTabChange={handleTabChange} />
+        {tab === 0 && (
+          <TaskListContainer
+            todoList={activeGroup.todoList}
+            groupId={groupId}
+          />
+        )}
+        {tab === 1 && <div>TAB 2</div>}
+        {tab === 2 && <div>TAB 3</div>}
+        {tab === 3 && (
+          <Settings
+            isPublic={activeGroup.isPublic}
+            description={activeGroup.description}
+          />
+        )}
+      </>
+    );
+  } else {
+    return Object.keys(groupPageError).length ? (
+      <AlertMessage
+        alertStyles={classes.alertMessage}
+        severity="error"
+        action={alertTypes.FETCH_SINGLE_GROUP_ERROR}
+      />
+    ) : null;
+  }
 }

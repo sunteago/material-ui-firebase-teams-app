@@ -89,7 +89,6 @@ export const fetchSingleGroup = (groupId) => (dispatch) => {
     })
     .catch((err) => {
       dispatch({ type: actionTypes.FETCH_SINGLE_GROUP_FAILED, payload: err });
-      console.log(err);
     });
 };
 
