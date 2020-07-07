@@ -8,9 +8,10 @@ export {
 
 export {
   fetchUserData,
-  postUserData,
   clearActivityCommentDB,
   toggleTaskItem,
   fetchNewsData,
-  fetchSingleGroup
+  fetchSingleGroup,
+  fetchGroupInvitationLinkData,
+  acceptOrDeclineInvitation
 } from "./userData";

@@ -4,7 +4,7 @@ const initialState = {
   loading: false,
   isFullLoading: true,
   dashboardLoading: false,
-  groupPageError: {}
+  groupPageError: {},
 };
 
 export default function (state = initialState, action) {
@@ -24,17 +24,19 @@ export default function (state = initialState, action) {
     case actionTypes.CLEAR_DASHBOARD_DATA_SUCCESS:
     case actionTypes.CLEAR_DASHBOARD_DATA_FAILED:
     case actionTypes.FETCH_SINGLE_GROUP_SUCCESS:
+    case actionTypes.FETCH_INVITATION_LINK_SUCCESS:
       return {
         ...state,
         loading: false,
         isFullLoading: false,
       };
     case actionTypes.FETCH_SINGLE_GROUP_FAILED:
+    case actionTypes.FETCH_INVITATION_LINK_FAILED:
       return {
         ...state,
         groupPageError: action.payload,
-        loading: false
-      }
+        loading: false,
+      };
     case actionTypes.SEND_VERIFICATION_EMAIL_START:
     case actionTypes.STANDARD_SIGN_UP_START:
     case actionTypes.SIGN_OUT_START:
@@ -43,6 +45,7 @@ export default function (state = initialState, action) {
     case actionTypes.FETCH_GROUP_DATA_START:
     case actionTypes.CLEAR_DASHBOARD_DATA_START:
     case actionTypes.FETCH_SINGLE_GROUP_START:
+    case actionTypes.FETCH_INVITATION_LINK_START:
       return {
         ...state,
         loading: true,

@@ -1,11 +1,12 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
+import PageContainer from "../components/Layout/PageContainer";
 import Dashboard from "../pages/Dashboard";
 import News from "../pages/News";
 import SingleNews from "../pages/SingleNews";
 import Group from "../pages/Group";
-import PageContainer from "../components/Layout/PageContainer";
+import InvitationLink from "../pages/InvitationLink";
 
 export default function DashboardRoutes() {
   return (
@@ -22,6 +23,9 @@ export default function DashboardRoutes() {
         </Route>
         <Route exact path="/news/:newsId">
           <SingleNews />
+        </Route>
+        <Route exact path="/groups/:groupId/invite">
+          <InvitationLink />
         </Route>
         <Route exact path="/groups/:groupId">
           <Group />

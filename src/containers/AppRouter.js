@@ -16,7 +16,7 @@ function AppRouter({ isAuth }) {
     if (location.pathname === "/") redirectPath = "/dashboard";
     else redirectPath = location.pathname;
   } else {
-    if (location.pathname.includes("/news")) redirectPath = location.pathname;
+    if (location.pathname === "/news") redirectPath = "/news";
     else redirectPath = "/login";
   }
 

@@ -29,15 +29,25 @@ export const getAlertMsgFromAction = (action, handler) => {
       return (
         <>
           <AlertTitle>Error</AlertTitle>
-          This group couldn't be found, either is private and you are not a member
-          or maybe you are experiencing network issues
+          This group couldn't be found, either is private and you are not a
+          member or maybe you are experiencing network issues
+        </>
+      );
+    case alertTypes.INVITATION_LINK_PROBLEM:
+      return (
+        <>
+          <AlertTitle>Error</AlertTitle>
+          This invitation link is not valid, maybe it has been already used !
         </>
       );
     default:
-      return <>
-      <AlertTitle>Something went Wrong</AlertTitle>
-      Something unexpected happened, please <strong>try again later!</strong>
-    </>
+      return (
+        <>
+          <AlertTitle>Something went Wrong</AlertTitle>
+          Something unexpected happened, please{" "}
+          <strong>try again later!</strong>
+        </>
+      );
   }
 };
 

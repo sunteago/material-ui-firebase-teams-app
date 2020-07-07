@@ -1,6 +1,8 @@
 import * as actionTypes from "../../constants/types";
 import { db, firebase } from "../../config/firebaseConfig";
 import { getLastMonth } from "../../utils/helpers";
+import InvitationLink from "../../pages/InvitationLink";
+import transitions from "@material-ui/core/styles/transitions";
 
 export const fetchUserData = (userId) => (dispatch) => {
   dispatch({ type: actionTypes.FETCH_INITIAL_DATA_START });
@@ -22,7 +24,7 @@ export const fetchUserData = (userId) => (dispatch) => {
       if (dashboardData.inGroups.length !== 0) {
         dispatch(fetchGroupsData(dashboardData));
       } else {
-        dispatch({type: actionTypes.FINISH_FETCHING_INITIAL_DATA})
+        dispatch({ type: actionTypes.FINISH_FETCHING_INITIAL_DATA });
       }
     })
     .catch((err) => {
@@ -50,6 +52,7 @@ export const fetchNewsData = () => (dispatch) => {
 
 export const fetchGroupsData = (groupsArr) => (dispatch) => {
   dispatch({ type: actionTypes.FETCH_GROUP_DATA_START });
+
   const groupsRef = db.collection("groups");
   const groupsToFetchList = groupsArr.inGroups.map((group) => {
     return groupsRef.doc(group).get();
@@ -72,19 +75,19 @@ export const fetchGroupsData = (groupsArr) => (dispatch) => {
     })
     .catch((err) => {
       dispatch({ type: actionTypes.FETCH_GROUP_DATA_FAILED });
-      console.log(err);
     });
 };
 
 export const fetchSingleGroup = (groupId) => (dispatch) => {
   dispatch({ type: actionTypes.FETCH_SINGLE_GROUP_START });
+
   const groupRef = db.collection("groups").doc(groupId);
   groupRef
     .get()
     .then((doc) => {
       dispatch({
         type: actionTypes.FETCH_SINGLE_GROUP_SUCCESS,
-        payload: {...doc.data(),groupId: doc.id },
+        payload: { ...doc.data(), groupId: doc.id },
       });
     })
     .catch((err) => {
@@ -113,13 +116,13 @@ export const clearActivityCommentDB = (commTimestamp, userId) => (dispatch) => {
       dispatch({ type: actionTypes.CLEAR_DASHBOARD_DATA_SUCCESS });
     })
     .catch((err) => {
-      console.log(err);
       dispatch({ type: actionTypes.CLEAR_DASHBOARD_DATA_FAILED });
     });
 };
 
 export const toggleTaskItem = (groupId, newTask, oldTask) => (dispatch) => {
   dispatch({ type: actionTypes.TOGGLE_LIST_ITEM_START });
+
   const batch = db.batch();
   const groupRef = db.collection("groups").doc(groupId);
   batch.update(groupRef, {
@@ -140,4 +143,65 @@ export const toggleTaskItem = (groupId, newTask, oldTask) => (dispatch) => {
     });
 };
 
-export const postUserData = () => (dispatch) => {};
+export const fetchGroupInvitationLinkData = (inviteLinkId) => (dispatch) => {
+  dispatch({ type: actionTypes.FETCH_INVITATION_LINK_START });
+  const linkRef = db.collection("invitationLinks").doc(inviteLinkId);
+  linkRef
+    .get()
+    .then((linkDoc) => {
+      if (!linkDoc.exists) {
+        throw new Error("Invalid Link");
+      }
+      dispatch({
+        type: actionTypes.FETCH_INVITATION_LINK_SUCCESS,
+        payload: linkDoc.data(),
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.FETCH_INVITATION_LINK_FAILED,
+        payload: { msg: err },
+      });
+    });
+};
+
+export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
+  const [userAccepted, linkId, groupId, userId] = args;
+
+  dispatch({ type: actionTypes.ACCEPT_OR_DECLINE_INVITATION_START });
+
+  const groupRef = db.collection("groups").doc(groupId);
+  const linkRef = db.collection("invitationLinks").doc(linkId);
+
+  db.runTransaction((transaction) => {
+    return linkRef.get().then((doc) => {
+      if (!doc.exists) {
+        throw new Error("This link has already been used");
+      }
+      transaction.update(groupRef, {
+        activeInvitationLinks: firebase.firestore.FieldValue.arrayRemove(
+          linkId
+        ),
+      });
+      transaction.delete(linkRef);
+
+      if (userAccepted) {
+        transaction.update(groupRef, {
+          [`roles.${userId}`]: "member",
+        });
+      }
+    });
+  })
+    .then(() => {
+      dispatch({
+        type: actionTypes.ACCEPT_OR_DECLINE_INVITATION_SUCCESS,
+        payload: userAccepted,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.ACCEPT_OR_DECLINE_INVITATION_FAILED,
+        payload: err,
+      });
+    });
+};
