@@ -17,7 +17,7 @@ export default function customList(props) {
           {items.map((item) => {
             return (
                 <TaskItem
-                  key={item.taskId}
+                  key={item.taskId || Math.random()}
                   item={item}
                   onClickHandler={onClickHandler}
                   classes={classes}

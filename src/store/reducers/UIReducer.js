@@ -19,7 +19,7 @@ export default function (state = initialState, action) {
     case actionTypes.SIGN_OUT_SUCCESS:
     case actionTypes.FETCH_GROUP_DATA_SUCCESS:
     case actionTypes.FETCH_GROUP_DATA_FAILED:
-    case actionTypes.FETCH_INITIAL_DATA_SUCCESS:
+    case actionTypes.FINISH_FETCHING_INITIAL_DATA:
     case actionTypes.CLEAR_DASHBOARD_DATA_SUCCESS:
     case actionTypes.CLEAR_DASHBOARD_DATA_FAILED:
       return {

@@ -14,7 +14,7 @@ export default function GroupsContainer({ title, groups }) {
   const classes = useStyles();
   return (
     <>
-      <SectionTitle>{title}</SectionTitle>
+      <SectionTitle style={{textAlign: 'center'}}>{title}</SectionTitle>
       <List className={classes.root}>
         {groups.map((group) => {
           return <GroupItem key={group.groupId} group={group} />;

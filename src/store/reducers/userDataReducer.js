@@ -37,11 +37,16 @@ export function userDataReducer(state = initialState, action) {
         ...state,
         lastNews: action.payload
       }
-    case actionTypes.FETCH_GROUP_DATA_SUCCESS:
+    case actionTypes.FETCH_GROUP_DATA_SUCCESS://GROUPS change
       return {
         ...state,
-        userGroupsContent: action.payload,
+        userGroupsContent: [...state.userGroupsContent, ...action.payload],
       };
+    case actionTypes.FETCH_SINGLE_GROUP_SUCCESS:
+      return {
+        ...state,
+        userGroupsContent: [...state.userGroupsContent, action.payload]
+      }
     case actionTypes.CLEAR_DASHBOARD_DATA_LOCAL:
       return {
         ...state,
@@ -52,9 +57,9 @@ export function userDataReducer(state = initialState, action) {
           };
         }),
       };
+    case actionTypes.FETCH_SINGLE_GROUP_FAILED:
     case actionTypes.FETCH_NEWS_FAILED:
     case actionTypes.CLEAR_DASHBOARD_DATA_FAILED:
-    case actionTypes.POST_USER_DATA_FAILED:
     case actionTypes.FETCH_INITIAL_DATA_START:
     case actionTypes.FETCH_INITIAL_DATA_FAILED:
     default:

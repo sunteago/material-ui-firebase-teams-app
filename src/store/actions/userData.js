@@ -21,6 +21,8 @@ export const fetchUserData = (userId) => (dispatch) => {
       });
       if (dashboardData.inGroups.length !== 0) {
         dispatch(fetchGroupsData(dashboardData));
+      } else {
+        dispatch({type: actionTypes.FINISH_FETCHING_INITIAL_DATA})
       }
     })
     .catch((err) => {
@@ -29,8 +31,8 @@ export const fetchUserData = (userId) => (dispatch) => {
 };
 
 export const fetchNewsData = () => (dispatch) => {
+  dispatch({ type: actionTypes.FETCH_NEWS_START });
   const newsRef = db.collection("news").where("published", ">", getLastMonth());
-  dispatch({type: actionTypes.FETCH_NEWS_START})
   newsRef
     .get()
     .then((doc) => {
@@ -38,21 +40,20 @@ export const fetchNewsData = () => (dispatch) => {
       doc.forEach((newsItem) => {
         newsArr.push({ ...newsItem.data(), newsId: newsItem.id });
       });
-      dispatch({type: actionTypes.FETCH_NEWS_SUCCESS, payload: newsArr})
+      dispatch({ type: actionTypes.FETCH_NEWS_SUCCESS, payload: newsArr });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
-      dispatch({type: actionTypes.FETCH_NEWS_FAILED, payload: err})
+      dispatch({ type: actionTypes.FETCH_NEWS_FAILED, payload: err });
     });
 };
 
 export const fetchGroupsData = (groupsArr) => (dispatch) => {
+  dispatch({ type: actionTypes.FETCH_GROUP_DATA_START });
   const groupsRef = db.collection("groups");
   const groupsToFetchList = groupsArr.inGroups.map((group) => {
     return groupsRef.doc(group).get();
   });
-  dispatch({ type: actionTypes.FETCH_GROUP_DATA_START });
-
   Promise.all(groupsToFetchList)
     .then((groupsDocArr) => {
       const groups = [];
@@ -71,6 +72,23 @@ export const fetchGroupsData = (groupsArr) => (dispatch) => {
     })
     .catch((err) => {
       dispatch({ type: actionTypes.FETCH_GROUP_DATA_FAILED });
+      console.log(err);
+    });
+};
+
+export const fetchSingleGroup = (groupId) => (dispatch) => {
+  dispatch({ type: actionTypes.FETCH_SINGLE_GROUP_START });
+  const groupRef = db.collection("groups").doc(groupId);
+  groupRef
+    .get()
+    .then((doc) => {
+      dispatch({
+        type: actionTypes.FETCH_SINGLE_GROUP_SUCCESS,
+        payload: {...doc.data(),groupId: doc.id },
+      });
+    })
+    .catch((err) => {
+      dispatch({ type: actionTypes.FETCH_SINGLE_GROUP_FAILED, payload: err });
       console.log(err);
     });
 };
@@ -102,9 +120,9 @@ export const clearActivityCommentDB = (commTimestamp, userId) => (dispatch) => {
 };
 
 export const toggleTaskItem = (groupId, newTask, oldTask) => (dispatch) => {
+  dispatch({ type: actionTypes.TOGGLE_LIST_ITEM_START });
   const batch = db.batch();
   const groupRef = db.collection("groups").doc(groupId);
-  dispatch({ type: actionTypes.TOGGLE_LIST_ITEM_START });
   batch.update(groupRef, {
     todoList: firebase.firestore.FieldValue.arrayRemove(oldTask),
   });
@@ -123,8 +141,4 @@ export const toggleTaskItem = (groupId, newTask, oldTask) => (dispatch) => {
     });
 };
 
-export const postUserData = () => (dispatch) => {
-  dispatch({ type: actionTypes.POST_USER_DATA_START });
-  dispatch({ type: actionTypes.POST_USER_DATA_SUCCESS });
-  dispatch({ type: actionTypes.POST_USER_DATA_FAILED });
-};
+export const postUserData = () => (dispatch) => {};

@@ -44,7 +44,7 @@ export default function TodoList({ todoList, groupId }) {
   const classes = useStyles();
   const doneTodoList = [];
   const notDoneTodoList = [];
-
+  
   todoList.forEach((todoItem) => {
     if (todoItem.done) doneTodoList.push(todoItem);
     else notDoneTodoList.push(todoItem);
