@@ -13,5 +13,6 @@ export {
   fetchNewsData,
   fetchSingleGroup,
   fetchGroupInvitationLinkData,
-  acceptOrDeclineInvitation
+  acceptOrDeclineInvitation,
+  createGroupInvitationLink
 } from "./userData";

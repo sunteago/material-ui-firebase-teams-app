@@ -1,0 +1,3 @@
+export const GROUP_INVITATION = "GROUP_INVITATION";
+
+export const SHARE_NEWS = "SHARE_NEWS";

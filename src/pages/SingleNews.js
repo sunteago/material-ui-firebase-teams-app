@@ -5,7 +5,10 @@ import { useParams } from "react-router-dom";
 import { makeStyles, IconButton, Divider, Box } from "@material-ui/core";
 import Modal from "../components/Layout/Modal/Modal";
 import { Typography } from "@material-ui/core";
-import { getHowManyDaysAgo, shareContent } from "../utils/helpers";
+import {
+  getHowManyDaysAgo,
+  shareContent,
+} from "../utils/helpers";
 import ShareIcon from "@material-ui/icons/Share";
 
 const useStyles = makeStyles((theme) => ({
@@ -40,17 +43,16 @@ export default function SingleNews(props) {
   const onShareNewsHandler = () => {
     shareContent(currentNews.title, window.location.href, setOpen);
   };
-  
+
   return (
     <>
       {open && (
-        <Modal
-          open={open}
-          setOpen={setOpen}
-          content="Share this on the following social networks"
-          title="Share news"
-          confirm="Share"
-        />
+        <Modal open={open} setOpen={setOpen} title="Share news" confirm="Share">
+          {" "}
+          <Typography gutterBottom>
+            Share this on the following social networks
+          </Typography>
+        </Modal>
       )}
       {currentNews && (
         <Box className={classes.newsItemContainer}>

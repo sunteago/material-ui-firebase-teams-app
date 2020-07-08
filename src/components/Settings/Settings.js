@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ConfigurationItem from "./ConfigurationItem";
 import TextInput from "../TextInput";
-import { Container, Paper, Button } from "@material-ui/core";
+import { Container, Paper, Button, Typography } from "@material-ui/core";
 // import AlertMessage from "../Layout/AlertMessage";
 // import * as alertTypes from "../../constants/alertTypes";
 import Modal from "../Layout/Modal/Modal";
@@ -41,9 +41,12 @@ export default function Settings(props) {
             open={isModalOpen}
             setOpen={setIsModalOpen}
             title="Update Settings"
-            content="Are you sure you want to change this settings?"
             confirm="Confirm"
-          />
+          >
+            <Typography>
+              Are you sure you want to change this settings?
+            </Typography>
+          </Modal>
         )}
         <ConfigurationItem
           description="Set this group to Public"
@@ -71,6 +74,7 @@ export default function Settings(props) {
           multiline
           variant="outlined"
           fullWidth={true}
+          required
         />
         <Button
           variant="contained"

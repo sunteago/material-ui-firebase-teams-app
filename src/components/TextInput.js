@@ -21,6 +21,9 @@ export default function TextInput(props) {
     rows,
     variant,
     fullWidth,
+    required,
+    maxLength,
+    minLength
   } = props;
   const classes = useStyles();
 
@@ -41,12 +44,16 @@ export default function TextInput(props) {
         type={type}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        required
+        required={required}
         autoFocus={autoFocus}
         rows={rows}
         multiline={multiline}
         variant={variant}
         fullWidth={fullWidth}
+        inputProps={{
+          maxLength: maxLength || 30,
+          minLength: minLength || 5
+        }}
       />
     </Grid>
   );

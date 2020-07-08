@@ -5,7 +5,6 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import SettingsIcon from '@material-ui/icons/Settings';
 import ListIcon from '@material-ui/icons/List';
-import DateRangeIcon from '@material-ui/icons/DateRange';
 import MessageIcon from '@material-ui/icons/Message';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,8 +33,7 @@ export default function CenteredTabs({ tab, handleTabChange }) {
       >
         <Tab /* label="Tasks List"*/ icon={<ListIcon />} className={classes.tab} aria-label="tasks list" />
         <Tab /* label="Messages" */icon={<MessageIcon />} className={classes.tab} aria-label="messages" />
-        <Tab /* label="Calendar" */ icon={<DateRangeIcon />} className={classes.tab} aria-label="calendar"  />
-        <Tab /* label="Settings"*/ icon={<SettingsIcon />} className={classes.tab} aria-label="settings"  />
+        <Tab /* label="Settings" */ icon={<SettingsIcon />} className={classes.tab} aria-label="calendar"  />
       </Tabs>
     </Paper>
   );

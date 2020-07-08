@@ -10,6 +10,7 @@ const initialState = {
   userGroupsContent: [],
   groupsInLocal: [],
   invitationLinkData: {},
+  generatedInvitationLink: ''
 };
 
 const removeSeenMessages = (action, group) => {
@@ -60,13 +61,16 @@ export function userDataReducer(state = initialState, action) {
           };
         }),
       };
-    
+    case actionTypes.CREATE_GROUP_INVITATION_LINK_SUCCESS:
+      return {
+        ...state,
+        generatedInvitationLink: action.payload
+      }
     case actionTypes.FETCH_INVITATION_LINK_SUCCESS:
       return {
         ...state,
         invitationLinkData: action.payload
       }
-
     // case actionTypes.ACCEPT_OR_DECLINE_INVITATION_STAR:
     // case actionTypes.ACCEPT_OR_DECLINE_INVITATION_SUCCESS:
     // case actionTypes.ACCEPT_OR_DECLINE_INVITATION_FAILED:

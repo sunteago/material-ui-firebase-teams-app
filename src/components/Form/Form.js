@@ -61,6 +61,7 @@ function Form(props) {
             Icon={PersonIcon}
             label="Email"
             autoFocus
+            required
           />
 
           {mode !== "forgotpassword" && (
@@ -70,6 +71,7 @@ function Form(props) {
               type="password"
               Icon={VpnKeyIcon}
               label="Password"
+              required
             />
           )}
 
@@ -80,6 +82,7 @@ function Form(props) {
               type="password"
               Icon={VpnKeyIcon}
               label="Confirm Password"
+              required
             />
           )}
 
@@ -89,6 +92,7 @@ function Form(props) {
             variant="contained"
             color="primary"
             onClick={onActionHandler}
+            required
           >
             {operationName}
           </Button>

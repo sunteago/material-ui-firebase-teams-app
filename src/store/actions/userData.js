@@ -205,3 +205,38 @@ export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
       });
     });
 };
+
+export const createGroupInvitationLink = (groupId, groupName, message) => (
+  dispatch
+) => {
+  dispatch({ type: actionTypes.CREATE_GROUP_INVITATION_LINK_START });
+  const groupRef = db.collection("groups").doc(groupId);
+  const linkCollectionRef = db.collection("invitationLinks");
+  let invitationLinkId;
+  linkCollectionRef
+    .add({
+      groupId,
+      groupName,
+      message,
+    })
+    .then((linkId) => {
+      invitationLinkId = linkId.id;
+      return groupRef.update({
+        activeInvitationLinks: firebase.firestore.FieldValue.arrayUnion(
+          linkId.id
+        ),
+      });
+    })
+    .then(() => {
+      dispatch({
+        type: actionTypes.CREATE_GROUP_INVITATION_LINK_SUCCESS,
+        payload: `${window.location}/invite?link=${invitationLinkId}`,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: actionTypes.CREATE_GROUP_INVITATION_LINK_FAILED,
+        payload: err,
+      });
+    });
+};
