@@ -9,10 +9,10 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   operationTitle: {
-    marginBottom: theme.spacing(4)
+    marginBottom: theme.spacing(4),
   },
   alertMsg: {
-    margin: theme.spacing(3),
+    margin: theme.spacing(1),
   },
   button: {
     margin: `${theme.spacing(3)}px auto`,
@@ -27,6 +27,8 @@ export default function Settings(props) {
     confirmText,
     ConfirmIcon,
     modalConfirmText,
+    confirmHandler,
+    existingGroupName,
   } = props;
 
   const [settings, setSettings] = useState({
@@ -34,6 +36,7 @@ export default function Settings(props) {
     usersAllowedToInvite: false,
   });
   const [groupDescription, setGroupDescription] = useState(description);
+  const [groupName, setGroupName] = useState(existingGroupName || "");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const classes = useStyles();
@@ -47,6 +50,14 @@ export default function Settings(props) {
     });
   };
 
+  const confirmActionHandler = () => {
+    confirmHandler({
+      ...settings,
+      groupName,
+      description: groupDescription,
+    });
+  };
+
   return (
     <Container style={{ padding: "1rem", textAlign: "center" }}>
       {isModalOpen && (
@@ -55,6 +66,8 @@ export default function Settings(props) {
           setOpen={setIsModalOpen}
           title={title}
           confirm="Confirm"
+          decline="Cancel"
+          confirmActionHandler={confirmActionHandler}
         >
           {settings.isPublic && (
             <AlertMessage
@@ -75,6 +88,17 @@ export default function Settings(props) {
       >
         {title}
       </Typography>
+
+      {!existingGroupName && (
+        <TextInput
+          value={groupName}
+          setValue={setGroupName}
+          type="text"
+          label="Group name"
+          variant="outlined"
+          required
+        />
+      )}
 
       <ConfigurationItem
         description="Set this group to Public"

@@ -54,7 +54,15 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 export default function CustomizedDialogs(props) {
-  const { open, setOpen, children, title, confirm } = props;
+  const {
+    open,
+    setOpen,
+    children,
+    title,
+    confirm,
+    decline,
+    confirmActionHandler,
+  } = props;
 
   const handleClose = () => {
     setOpen(false);
@@ -70,11 +78,14 @@ export default function CustomizedDialogs(props) {
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           {title}
         </DialogTitle>
-        <DialogContent dividers>
-          {children}
-        </DialogContent>
+        <DialogContent dividers>{children}</DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose} color="primary">
+          {decline && (
+            <Button onClick={handleClose} color="primary">
+              {decline}
+            </Button>
+          )}
+          <Button autoFocus onClick={confirmActionHandler} color="primary">
             {confirm}
           </Button>
         </DialogActions>

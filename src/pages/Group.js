@@ -123,6 +123,7 @@ export default function Group() {
             description={activeGroup.description}
             confirmText="Save changes"
             ConfirmIcon={SaveIcon}
+            existingGroupName={activeGroup.name}
           />
         )}
       </>

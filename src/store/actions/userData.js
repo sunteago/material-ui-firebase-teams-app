@@ -1,6 +1,7 @@
 import * as actionTypes from "../../constants/types";
 import { db, firebase } from "../../config/firebaseConfig";
 import { getLastMonth } from "../../utils/helpers";
+import Group from "../../models/Group";
 
 export const fetchUserData = (userId) => (dispatch) => {
   dispatch({ type: actionTypes.FETCH_INITIAL_DATA_START });
@@ -253,5 +254,33 @@ export const createGroupInvitationLink = (groupId, groupName, message) => (
         type: actionTypes.CREATE_GROUP_INVITATION_LINK_FAILED,
         payload: err,
       });
+    });
+};
+
+export const createNewGroup = (groupData, userId, history) => (dispatch) => {
+  dispatch({ type: actionTypes.CREATE_NEW_GROUP_START });
+
+  const userRef = db.collection("users").doc(userId);
+  const groupsRef = db.collection("groups");
+  const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+  const groupModel = new Group(groupData, userId, timestamp);
+  
+  let groupId;
+
+  groupsRef
+    .add({ ...groupModel })
+    .then((doc) => {
+      groupId = doc.id;
+      return userRef.update({
+        inGroups: firebase.firestore.FieldValue.arrayUnion(groupId),
+      });
+    })
+    .then(() => {
+      dispatch({ type: actionTypes.CREATE_NEW_GROUP_SUCCESS });
+      history.push(`/groups/${groupId}`);
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: actionTypes.CREATE_NEW_GROUP_FAILED });
     });
 };
