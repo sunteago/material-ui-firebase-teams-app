@@ -1,8 +1,6 @@
 import * as actionTypes from "../../constants/types";
 import { db, firebase } from "../../config/firebaseConfig";
 import { getLastMonth } from "../../utils/helpers";
-import InvitationLink from "../../pages/InvitationLink";
-import transitions from "@material-ui/core/styles/transitions";
 
 export const fetchUserData = (userId) => (dispatch) => {
   dispatch({ type: actionTypes.FETCH_INITIAL_DATA_START });
@@ -28,6 +26,7 @@ export const fetchUserData = (userId) => (dispatch) => {
       }
     })
     .catch((err) => {
+      console.log(err);
       dispatch({ type: actionTypes.FETCH_INITIAL_DATA_FAILED, payload: err });
     });
 };

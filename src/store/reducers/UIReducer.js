@@ -25,6 +25,7 @@ export default function (state = initialState, action) {
     case actionTypes.CLEAR_DASHBOARD_DATA_FAILED:
     case actionTypes.FETCH_SINGLE_GROUP_SUCCESS:
     case actionTypes.FETCH_INVITATION_LINK_SUCCESS:
+    case actionTypes.FETCH_INITIAL_DATA_FAILED:
       return {
         ...state,
         loading: false,

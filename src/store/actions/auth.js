@@ -1,20 +1,32 @@
 import * as actionTypes from "../../constants/types";
-import { app } from "../../config/firebaseConfig";
+import { app, db, firebase } from "../../config/firebaseConfig";
 import { fetchUserData } from "./userData";
+import User from "../../models/User";
 
 export const standardSignup = (email, password) => (dispatch) => {
   dispatch({ type: actionTypes.STANDARD_SIGN_UP_START });
+  const userCollectionRef = db.collection("users");
+  let user;
   app
     .auth()
     .createUserWithEmailAndPassword(email, password)
     .then((result) => {
+      user = result.user;
+    })
+    .then(() => {
+      const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+      const userModel = new User(email, timestamp);
+      return userCollectionRef.doc(user.uid).set({ ...userModel });
+    })
+    .then(() => {
       dispatch({
         type: actionTypes.STANDARD_SIGN_UP_SUCCESS,
-        payload: result.user,
+        payload: user,
       });
-      dispatch(sendEmailVerification(result.user));
+      dispatch(sendEmailVerification(user));
     })
     .catch((err) => {
+      console.log(err);
       dispatch({
         type: actionTypes.STANDARD_SIGN_UP_FAILED,
         payload: err,

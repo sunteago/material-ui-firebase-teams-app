@@ -14,7 +14,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RecentActivityList({ handleClearComment, groups, title }) {
+export default function RecentActivityList(props) {
+  const { handleClearComment, groups, title } = props;
+  
   const classes = useStyles();
   
   return (
