@@ -73,7 +73,7 @@ const DrawerMenu = ({ isOpen, handleDrawerClose, handleDrawerOpen }) => {
               <ListItemIcon>
                 <AddIcon />
               </ListItemIcon>
-              <ListItemText primary="Add a public event" />
+              <ListItemText primary="Create a group" />
             </ListItem>
 
             <Divider />

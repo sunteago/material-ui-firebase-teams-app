@@ -171,22 +171,36 @@ export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
 
   const groupRef = db.collection("groups").doc(groupId);
   const linkRef = db.collection("invitationLinks").doc(linkId);
+  const userRef = db.collection("users").doc(userId);
 
   db.runTransaction((transaction) => {
-    return linkRef.get().then((doc) => {
-      if (!doc.exists) {
-        throw new Error("This link has already been used");
+    return Promise.all([linkRef.get(), userRef.get()]).then((docs) => {
+      
+      if (!docs[0].exists) {
+        throw new Error(
+          "This invitation link is not valid or has already been used"
+        );
       }
+
+      if (docs[1].get("inGroups").includes(groupId)) {
+        throw new Error("You are already in this group");
+      }
+
       transaction.update(groupRef, {
         activeInvitationLinks: firebase.firestore.FieldValue.arrayRemove(
           linkId
         ),
       });
+
       transaction.delete(linkRef);
 
       if (userAccepted) {
         transaction.update(groupRef, {
           [`roles.${userId}`]: "member",
+        });
+
+        transaction.update(userRef, {
+          inGroups: firebase.firestore.FieldValue.arrayUnion(groupId),
         });
       }
     });
@@ -198,6 +212,7 @@ export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
       });
     })
     .catch((err) => {
+      console.log(err);
       dispatch({
         type: actionTypes.ACCEPT_OR_DECLINE_INVITATION_FAILED,
         payload: err,
