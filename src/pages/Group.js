@@ -11,6 +11,7 @@ import NavigationTab from "../components/Layout/NavigationTabs";
 import { Divider, Chip, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PublicIcon from "@material-ui/icons/Public";
+import SaveIcon from "@material-ui/icons/Save";
 import LockIcon from "@material-ui/icons/Lock";
 import Modal from "../components/Layout/Modal/Modal";
 import Settings from "../components/Settings/Settings";
@@ -116,8 +117,12 @@ export default function Group() {
         {tab === 1 && <div>Group Messages</div>}
         {tab === 2 && (
           <Settings
+            title="Change group settings"
+            modalConfirmText="Are you sure you want to change your settings?"
             isPublic={activeGroup.isPublic}
             description={activeGroup.description}
+            confirmText="Save changes"
+            ConfirmIcon={SaveIcon}
           />
         )}
       </>

@@ -7,6 +7,7 @@ import News from "../pages/News";
 import SingleNews from "../pages/SingleNews";
 import Group from "../pages/Group";
 import InvitationLink from "../pages/InvitationLink";
+import CreateGroup from "../pages/CreateGroup";
 
 export default function DashboardRoutes() {
   return (
@@ -23,6 +24,9 @@ export default function DashboardRoutes() {
         </Route>
         <Route exact path="/news/:newsId">
           <SingleNews />
+        </Route>
+        <Route exact path="/groups/create">
+          <CreateGroup />
         </Route>
         <Route exact path="/groups/:groupId/invite">
           <InvitationLink />
