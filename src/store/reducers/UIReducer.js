@@ -26,6 +26,8 @@ export default function (state = initialState, action) {
     case actionTypes.FETCH_SINGLE_GROUP_SUCCESS:
     case actionTypes.FETCH_INVITATION_LINK_SUCCESS:
     case actionTypes.FETCH_INITIAL_DATA_FAILED:
+    case actionTypes.ACCEPT_OR_DECLINE_INVITATION_SUCCESS:
+    case actionTypes.ACCEPT_OR_DECLINE_INVITATION_FAILED:
       return {
         ...state,
         loading: false,
@@ -47,6 +49,7 @@ export default function (state = initialState, action) {
     case actionTypes.CLEAR_DASHBOARD_DATA_START:
     case actionTypes.FETCH_SINGLE_GROUP_START:
     case actionTypes.FETCH_INVITATION_LINK_START:
+    case actionTypes.ACCEPT_OR_DECLINE_INVITATION_START:
       return {
         ...state,
         loading: true,

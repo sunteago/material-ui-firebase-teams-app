@@ -1,21 +1,29 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { makeStyles, Typography, Button } from "@material-ui/core";
+import {
+  makeStyles,
+  Typography,
+  Button,
+  Box,
+  Grid,
+} from "@material-ui/core";
 import * as actions from "../store/actions";
 import AlertMessage from "../components/Layout/AlertMessage";
 import * as alertTypes from "../constants/alertTypes";
 
-
 const useStyles = makeStyles((theme) => ({
-  newsItemContainer: {
-    padding: theme.spacing(2),
-    margin: theme.spacing(1),
-    width: "100%",
+  boxContainer: {
+    margin: theme.spacing(3),
+    textAlign: 'center'
   },
-  boxLink: {
-    textDecoration: "none",
-    cursor: "pointer",
+  buttonsContainer: {
+    textAlign: 'center',
+    marginTop: theme.spacing(3)
+  },
+  text: {
+    textAlign: 'center',
+    marginTop: theme.spacing(2)
   },
   alertMessage: {
     margin: theme.spacing(3),
@@ -24,8 +32,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function InvitationLink() {
   const classes = useStyles();
+
   const location = useLocation();
   const link = new URLSearchParams(location.search).get("link");
+  const history = useHistory();
+
   const invitationLinkId = useState(link)[0];
   const invitationLinkData = useSelector(
     (state) => state.userData.invitationLinkData
@@ -42,29 +53,49 @@ export default function InvitationLink() {
     }
   }, [invitationLinkId, dispatch]);
 
-  const onActionHandler = (action) => {
+  const onAcceptOrDeclineHandler = (action) => {
     dispatch(
       actions.acceptOrDeclineInvitation(
         action,
         invitationLinkId,
         invitationLinkData.groupId,
-        userId
+        userId,
+        history
       )
     );
   };
 
   if (Object.keys(invitationLinkData).length) {
+    const { groupName, message } = invitationLinkData;
+
     return (
-      <>
-        <Typography component="h1">{invitationLinkData.groupName}</Typography>
-        <Typography>{invitationLinkData.message}</Typography>
-        <Button onClick={() => onActionHandler(true)} variant="contained">
-          Join
-        </Button>
-        <Button onClick={() => onActionHandler(false)} variant="contained">
-          Decline
-        </Button>
-      </>
+      <Box>
+        <Typography variant="h4" component="h1">Invitation to join {groupName}</Typography>
+        <Typography className={classes.text}>
+          You have been invited to join <strong>{groupName}</strong>
+        </Typography>
+        <Typography className={classes.text}>{message}</Typography>
+        <Grid container justify="center" className={classes.buttonsContainer}>
+          <Grid item xs={12} sm={6}>
+            <Button
+              onClick={() => onAcceptOrDeclineHandler(false)}
+              variant="contained"
+              color="secondary"
+            >
+              Decline
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Button
+              onClick={() => onAcceptOrDeclineHandler(true)}
+              variant="contained"
+              color="primary"
+            >
+              Accept
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
     );
   } else {
     return Object.keys(groupPageError).length ? (

@@ -8,7 +8,7 @@ import AlertMessage from "../components/Layout/AlertMessage";
 import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
 import TaskListContainer from "../components/Tasks/TasksListContainer";
 import NavigationTab from "../components/Layout/NavigationTabs";
-import { Divider, Chip, Button, TextField } from "@material-ui/core";
+import { Divider, Chip, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PublicIcon from "@material-ui/icons/Public";
 import LockIcon from "@material-ui/icons/Lock";
@@ -45,7 +45,7 @@ export default function Group() {
 
   const [tab, setTab] = useState(0);
   const [activeGroup, setActiveGroup] = useState({});
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const groups = useSelector((state) => state.userData.groupsInLocal);
   const { isFullLoading, groupPageError } = useSelector((state) => state.UI);

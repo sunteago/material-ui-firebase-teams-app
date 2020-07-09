@@ -165,7 +165,7 @@ export const fetchGroupInvitationLinkData = (inviteLinkId) => (dispatch) => {
 };
 
 export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
-  const [userAccepted, linkId, groupId, userId] = args;
+  const [userAccepted, linkId, groupId, userId, history] = args;
 
   dispatch({ type: actionTypes.ACCEPT_OR_DECLINE_INVITATION_START });
 
@@ -175,7 +175,6 @@ export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
 
   db.runTransaction((transaction) => {
     return Promise.all([linkRef.get(), userRef.get()]).then((docs) => {
-      
       if (!docs[0].exists) {
         throw new Error(
           "This invitation link is not valid or has already been used"
@@ -210,6 +209,8 @@ export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
         type: actionTypes.ACCEPT_OR_DECLINE_INVITATION_SUCCESS,
         payload: userAccepted,
       });
+      if (userAccepted) history.push(`/groups/${groupId}`);
+      else history.push("/dashboard");
     })
     .catch((err) => {
       console.log(err);

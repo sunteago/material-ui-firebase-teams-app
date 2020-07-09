@@ -14,15 +14,13 @@ export const standardSignup = (email, password) => (dispatch) => {
       user = result.user;
     })
     .then(() => {
+      //creates user data in db
       const timestamp = firebase.firestore.FieldValue.serverTimestamp();
       const userModel = new User(email, timestamp);
       return userCollectionRef.doc(user.uid).set({ ...userModel });
     })
     .then(() => {
-      dispatch({
-        type: actionTypes.STANDARD_SIGN_UP_SUCCESS,
-        payload: user,
-      });
+      dispatch({ type: actionTypes.STANDARD_SIGN_UP_SUCCESS });
       dispatch(sendEmailVerification(user));
     })
     .catch((err) => {
