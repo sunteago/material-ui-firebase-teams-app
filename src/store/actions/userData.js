@@ -194,6 +194,7 @@ export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
         activeInvitationLinks: firebase.firestore.FieldValue.arrayRemove(
           linkId
         ),
+        lastInvitationLinkUsed: linkId
       });
 
       transaction.delete(linkRef);

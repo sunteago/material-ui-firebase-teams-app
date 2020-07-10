@@ -124,7 +124,7 @@ export default function Group() {
         </Grid>
 
         <SectionTitle>{activeGroup.name}</SectionTitle>
-        {isUserAbleToInvite && (
+        {isUserAbleToInvite && isMember && (
           <Button
             onClick={() => setIsModalOpen((prev) => !prev)}
             size="small"
