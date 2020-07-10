@@ -6,7 +6,7 @@ const initialState = {
   isAccountVerified: false,
   newState: false,
   error: "",
-  user: {}
+  user: {},
 };
 
 export default function authReducer(state = initialState, action) {
@@ -29,6 +29,10 @@ export default function authReducer(state = initialState, action) {
         ...state,
         error: action.payload,
       };
+    case actionTypes.SIGN_OUT_SUCCESS:
+      return {
+        ...initialState,
+      };
     case actionTypes.SEND_VERIFICATION_EMAIL_START:
     case actionTypes.STANDARD_SIGN_UP_START:
     case actionTypes.SIGN_OUT_START:
@@ -37,7 +41,6 @@ export default function authReducer(state = initialState, action) {
     case actionTypes.SEND_VERIFICATION_EMAIL_FAILED:
     case actionTypes.STANDARD_SIGN_UP_SUCCESS:
     case actionTypes.LOG_IN_SUCCESS:
-    case actionTypes.SIGN_OUT_SUCCESS:
     case actionTypes.LOG_IN_START:
       return state;
     default:

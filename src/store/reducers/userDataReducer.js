@@ -71,6 +71,11 @@ export function userDataReducer(state = initialState, action) {
         ...state,
         invitationLinkData: action.payload
       }
+      case actionTypes.SIGN_OUT_SUCCESS:
+        return {
+          ...initialState,
+          lastNews: state.lastNews
+        }
     // case actionTypes.ACCEPT_OR_DECLINE_INVITATION_STAR:
     // case actionTypes.ACCEPT_OR_DECLINE_INVITATION_SUCCESS:
     // case actionTypes.ACCEPT_OR_DECLINE_INVITATION_FAILED:
