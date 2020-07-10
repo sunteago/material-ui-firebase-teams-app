@@ -8,7 +8,7 @@ import AlertMessage from "../components/Layout/AlertMessage";
 import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
 import TaskListContainer from "../components/Tasks/TasksListContainer";
 import NavigationTab from "../components/Layout/NavigationTabs";
-import { Divider, Chip, Button } from "@material-ui/core";
+import { Divider, Chip, Button, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PublicIcon from "@material-ui/icons/Public";
 import SaveIcon from "@material-ui/icons/Save";
@@ -16,9 +16,11 @@ import LockIcon from "@material-ui/icons/Lock";
 import Modal from "../components/Layout/Modal/Modal";
 import Settings from "../components/Settings/Settings";
 import GroupInvitation from "../components/Group/GroupInvitation";
+import AdminIcon from "@material-ui/icons/SupervisorAccount";
+import PersonIcon from "@material-ui/icons/Person";
 
 const useStyles = makeStyles((theme) => ({
-  isPublicChip: {
+  infoChips: {
     position: "absolute",
     right: theme.spacing(2),
     top: theme.spacing(2),
@@ -77,7 +79,7 @@ export default function Group() {
   if (Object.keys(activeGroup).length) {
     const isCreator = activeGroup.roles[userId] === "creator";
     const isUserAbleToInvite = isCreator || activeGroup.usersAllowedToInvite;
-
+    const isMember = !!activeGroup.roles[userId];
     return (
       <>
         {isModalOpen && (
@@ -94,12 +96,33 @@ export default function Group() {
             />
           </Modal>
         )}
-        <Chip
-          className={classes.isPublicChip}
-          icon={activeGroup.isPublic ? <PublicIcon /> : <LockIcon />}
-          label={activeGroup.isPublic ? "Public" : "Private"}
-          variant="outlined"
-        />
+        <Grid
+          container
+          justify="flex-end"
+          className={classes.infoChips}
+          spacing={1}
+        >
+          {isMember && (
+            <Grid item>
+              <Chip
+                icon={isCreator ? <AdminIcon /> : <PersonIcon />}
+                label={isCreator ? "Creator" : "Member"}
+                variant="outlined"
+                color={isCreator ? "secondary" : "primary"}
+              />
+            </Grid>
+          )}
+
+          <Grid item>
+            <Chip
+              icon={activeGroup.isPublic ? <PublicIcon /> : <LockIcon />}
+              label={activeGroup.isPublic ? "Public" : "Private"}
+              variant="outlined"
+              color={activeGroup.isPublic ? "primary" : "secondary"}
+            />
+          </Grid>
+        </Grid>
+
         <SectionTitle>{activeGroup.name}</SectionTitle>
         {isUserAbleToInvite && (
           <Button
@@ -112,13 +135,23 @@ export default function Group() {
             Invite to this group
           </Button>
         )}
+        {!isMember && (
+          <Button
+            size="small"
+            color="primary"
+            className={classes.inviteButton}
+            variant="outlined"
+          >
+            Join this group
+          </Button>
+        )}
         <Divider className={classes.dividerLine} />
         <NavigationTab
           tab={tab}
           handleTabChange={handleTabChange}
           isCreator={isCreator}
         />
-        
+
         {tab === 0 && (
           <TaskListContainer
             todoList={activeGroup.todoList}
