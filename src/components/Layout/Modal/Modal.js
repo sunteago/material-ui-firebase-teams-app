@@ -85,7 +85,7 @@ export default function CustomizedDialogs(props) {
               {decline}
             </Button>
           )}
-          <Button autoFocus onClick={confirmActionHandler} color="primary">
+          <Button onClick={confirmActionHandler} color="primary">
             {confirm}
           </Button>
         </DialogActions>

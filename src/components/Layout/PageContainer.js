@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     width: "100%",
+    zIndex: 1001
   },
   paper: {
     width: "auto",

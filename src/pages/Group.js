@@ -88,6 +88,7 @@ export default function Group() {
             setOpen={setIsModalOpen}
             title="Invite people"
             confirm="OK"
+            confirmActionHandler={() => setIsModalOpen(false)}
           >
             <GroupInvitation
               generatedLink={generatedLink}
