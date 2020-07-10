@@ -52,11 +52,12 @@ export const fetchNewsData = () => (dispatch) => {
 
 export const fetchGroupsData = (groupsArr) => (dispatch) => {
   dispatch({ type: actionTypes.FETCH_GROUP_DATA_START });
-  console.log(groupsArr);
+  
   const groupsRef = db.collection("groups");
   const groupsToFetchList = groupsArr.map((groupId) => {
     return groupsRef.doc(groupId).get();
   });
+
   Promise.all(groupsToFetchList)
     .then((groupsDocArr) => {
       const groups = [];

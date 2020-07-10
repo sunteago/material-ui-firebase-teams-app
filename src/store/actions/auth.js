@@ -24,7 +24,6 @@ export const standardSignup = (email, password) => (dispatch) => {
       dispatch(sendEmailVerification(user));
     })
     .catch((err) => {
-      console.log(err);
       dispatch({
         type: actionTypes.STANDARD_SIGN_UP_FAILED,
         payload: err,

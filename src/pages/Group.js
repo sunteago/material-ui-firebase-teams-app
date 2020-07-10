@@ -50,6 +50,7 @@ export default function Group() {
 
   const groups = useSelector((state) => state.userData.groupsInLocal);
   const { isFullLoading, groupPageError } = useSelector((state) => state.UI);
+  const userId = useSelector((state) => state.auth.user.uid);
   const generatedLink = useSelector(
     (state) => state.userData.generatedInvitationLink
   );
@@ -74,6 +75,9 @@ export default function Group() {
   }, [dispatch, groupId, groups, isFullLoading]);
 
   if (Object.keys(activeGroup).length) {
+    const isCreator = activeGroup.roles[userId] === "creator";
+    const isUserAbleToInvite = isCreator || activeGroup.usersAllowedToInvite;
+
     return (
       <>
         {isModalOpen && (
@@ -97,17 +101,24 @@ export default function Group() {
           variant="outlined"
         />
         <SectionTitle>{activeGroup.name}</SectionTitle>
-        <Button
-          onClick={() => setIsModalOpen((prev) => !prev)}
-          size="small"
-          color="primary"
-          className={classes.inviteButton}
-          variant="outlined"
-        >
-          Invite to this group
-        </Button>
+        {isUserAbleToInvite && (
+          <Button
+            onClick={() => setIsModalOpen((prev) => !prev)}
+            size="small"
+            color="primary"
+            className={classes.inviteButton}
+            variant="outlined"
+          >
+            Invite to this group
+          </Button>
+        )}
         <Divider className={classes.dividerLine} />
-        <NavigationTab tab={tab} handleTabChange={handleTabChange} />
+        <NavigationTab
+          tab={tab}
+          handleTabChange={handleTabChange}
+          isCreator={isCreator}
+        />
+        
         {tab === 0 && (
           <TaskListContainer
             todoList={activeGroup.todoList}
@@ -115,7 +126,8 @@ export default function Group() {
           />
         )}
         {tab === 1 && <div>Group Messages</div>}
-        {tab === 2 && (
+        {tab === 2 && <div>Group Messages</div>}
+        {tab === 3 && isCreator && (
           <Settings
             title="Change group settings"
             modalConfirmText="Are you sure you want to change your settings?"
