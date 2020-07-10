@@ -21,7 +21,7 @@ export const fetchUserData = (userId) => (dispatch) => {
         payload: dashboardData,
       });
       if (dashboardData.inGroups.length !== 0) {
-        dispatch(fetchGroupsData(dashboardData));
+        dispatch(fetchGroupsData(dashboardData.inGroups));
       } else {
         dispatch({ type: actionTypes.FINISH_FETCHING_INITIAL_DATA });
       }
@@ -52,10 +52,10 @@ export const fetchNewsData = () => (dispatch) => {
 
 export const fetchGroupsData = (groupsArr) => (dispatch) => {
   dispatch({ type: actionTypes.FETCH_GROUP_DATA_START });
-
+  console.log(groupsArr);
   const groupsRef = db.collection("groups");
-  const groupsToFetchList = groupsArr.inGroups.map((group) => {
-    return groupsRef.doc(group).get();
+  const groupsToFetchList = groupsArr.map((groupId) => {
+    return groupsRef.doc(groupId).get();
   });
   Promise.all(groupsToFetchList)
     .then((groupsDocArr) => {
@@ -71,9 +71,12 @@ export const fetchGroupsData = (groupsArr) => (dispatch) => {
         type: actionTypes.FETCH_GROUP_DATA_SUCCESS,
         payload: groups,
       });
-      dispatch(clearActivityCommentLocal(groupsArr.seenMessages));
+      if (groupsArr.seenMessages) {
+        dispatch(clearActivityCommentLocal(groupsArr.seenMessages));
+      }
     })
     .catch((err) => {
+      console.log(err);
       dispatch({ type: actionTypes.FETCH_GROUP_DATA_FAILED });
     });
 };

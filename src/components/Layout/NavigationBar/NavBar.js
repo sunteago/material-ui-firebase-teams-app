@@ -62,7 +62,7 @@ function NavBar() {
             </Button>
           ) : (
             <Button color="inherit">
-              <Link to="/login" className={classes.loginBtn}>
+              <Link to="/auth/login" className={classes.loginBtn}>
                 Authenticate
               </Link>
             </Button>

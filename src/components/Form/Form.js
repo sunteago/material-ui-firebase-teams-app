@@ -7,7 +7,6 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { makeStyles, Typography } from "@material-ui/core";
 import { Link, Redirect } from "react-router-dom";
-import FormContainer from "../Layout/FormContainer";
 import TextInput from "../TextInput";
 
 const useStyles = makeStyles((theme) => ({
@@ -50,7 +49,7 @@ function Form(props) {
   return isAuth ? (
     <Redirect to="/dashboard" />
   ) : (
-    <FormContainer>
+    <>
       <Typography variant="h5">{operationName}</Typography>
       <form>
         <Grid container direction="column">
@@ -98,23 +97,23 @@ function Form(props) {
           </Button>
 
           <Typography className={classes.root}>
-            <Link to="/forgotpassword" className={classes.link}>
+            <Link to="/auth/forgotpassword" className={classes.link}>
               Forgot Password?
             </Link>
 
             {mode === "signup" ? (
-              <Link to="/login" className={classes.link}>
+              <Link to="/auth/login" className={classes.link}>
                 Log in
               </Link>
             ) : (
-              <Link to="/signup" className={classes.link}>
+              <Link to="/auth/signup" className={classes.link}>
                 Register
               </Link>
             )}
           </Typography>
         </Grid>
       </form>
-    </FormContainer>
+    </>
   );
 }
 

@@ -1,11 +1,8 @@
 import React from "react";
 import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 
-import Login from "../pages/Login";
-import ForgotPassword from "../pages/ForgotPassword";
-import Signup from "../pages/Signup";
-
 import DashboardRoutes from "./DashboardRoutes";
+import AuthRoutes from "./AuthRoutes";
 
 function AppRouter({ isAuth }) {
   const location = useLocation();
@@ -17,21 +14,15 @@ function AppRouter({ isAuth }) {
     else redirectPath = location.pathname;
   } else {
     if (location.pathname === "/news") redirectPath = "/news";
-    else redirectPath = "/login";
+    else redirectPath = "/auth/login";
   }
 
   return (
     <>
       <Redirect to={redirectPath} />
       <Switch>
-        <Route exact path="/login">
-          <Login />
-        </Route>
-        <Route exact path="/signup">
-          <Signup />
-        </Route>
-        <Route exact path="/forgotpassword">
-          <ForgotPassword />
+        <Route path="/auth">
+          <AuthRoutes />
         </Route>
         <Route path="*">
           <DashboardRoutes />

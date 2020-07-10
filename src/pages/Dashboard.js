@@ -48,8 +48,6 @@ export default function Dashboard() {
     dispatch(actions.clearActivityCommentDB(commentTimestamp, user.uid));
   };
 
-
-
   return isFullLoading ? (
     <CircularLoading type="full" />
   ) : (
