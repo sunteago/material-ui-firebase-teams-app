@@ -38,6 +38,17 @@ export const getAlertMsgFromAction = (action, handler) => {
           This invitation link is not valid, maybe it has been already used !
         </>
       );
+    case alertTypes.INVITATION_LINK_ALREADY_IN_GROUP:
+      return (
+        <>
+          <AlertTitle>Error</AlertTitle>
+          You are already a member of this group, therefore you can't join, to go back to
+          the group page click{" "}
+          <Link href="#" onClick={handler}>
+            here
+          </Link>
+        </>
+      );
     default:
       return (
         <>

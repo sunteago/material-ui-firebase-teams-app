@@ -6,16 +6,14 @@ export {
   startAuthStateChecker,
 } from "./auth";
 
+export { fetchUserData, fetchNewsData } from "./userData";
+
 export {
-  fetchUserData,
   clearActivityCommentDB,
   toggleTaskItem,
-  fetchNewsData,
   fetchSingleGroup,
   fetchGroupInvitationLinkData,
   acceptOrDeclineInvitation,
   createGroupInvitationLink,
-  createNewGroup
-} from "./userData";
-
-//create group actions
+  createNewGroup,
+} from "./groupData";
