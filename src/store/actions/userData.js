@@ -21,7 +21,7 @@ export const fetchUserData = (userId) => (dispatch) => {
         payload: dashboardData,
       });
       if (dashboardData.inGroups.length !== 0) {
-        dispatch(fetchGroupsData(dashboardData.inGroups));
+        dispatch(fetchGroupsData(dashboardData.inGroups, dashboardData.seenMessages));
       } else {
         dispatch({ type: actionTypes.FINISH_FETCHING_INITIAL_DATA });
       }

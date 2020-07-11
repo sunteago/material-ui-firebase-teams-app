@@ -73,12 +73,12 @@ export default function TodoList({ todoList, groupId }) {
     dispatch(actions.toggleTaskItem(groupId, task, oldTask));
   };
 
-  const onAddSuccess = (addedTask) => setNotDone(prev => [...prev,addedTask]);
+  const onTaskAddSuccess = (addedTask) => setNotDone(prev => [...prev,addedTask]);
 
   const onAddTaskHandler = (e) => {
     e.preventDefault();
     setNewTask("");
-    dispatch(actions.addTaskItem(groupId, newTask, onAddSuccess));
+    dispatch(actions.addTaskItem(groupId, newTask, onTaskAddSuccess));
   };
 
   return (

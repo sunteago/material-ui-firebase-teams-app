@@ -3,7 +3,7 @@ import { db, firebase } from "../../config/firebaseConfig";
 import Group from "../../models/Group";
 import Task from "../../models/Task";
 
-export const fetchGroupsData = (groupsArr) => (dispatch) => {
+export const fetchGroupsData = (groupsArr, seenMessages) => (dispatch) => {
   dispatch({ type: actionTypes.FETCH_GROUP_DATA_START });
 
   const groupsRef = db.collection("groups");
@@ -20,13 +20,16 @@ export const fetchGroupsData = (groupsArr) => (dispatch) => {
           group.groupId = groupDoc.id;
           groups.push(group);
         }
+        
       });
+
       dispatch({
         type: actionTypes.FETCH_GROUP_DATA_SUCCESS,
         payload: groups,
       });
-      if (groupsArr.seenMessages) {
-        dispatch(clearActivityCommentLocal(groupsArr.seenMessages));
+      
+      if (seenMessages) {
+        dispatch(clearActivityCommentLocal(seenMessages));
       }
     })
     .catch((err) => {
@@ -295,7 +298,7 @@ export const addTaskItem = (groupId, newTask, cleanTaskInput) => (dispatch) => {
     })
     .then(() => {
       dispatch({ type: actionTypes.ADD_TASK_ITEM_SUCCESS });
-      cleanTaskInput({...task});
+      cleanTaskInput({ ...task });
     })
     .catch((err) => {
       dispatch({ type: actionTypes.ADD_TASK_ITEM_FAILED });
