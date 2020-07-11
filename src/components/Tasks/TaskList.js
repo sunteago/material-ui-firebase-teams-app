@@ -7,7 +7,14 @@ import Paper from "@material-ui/core/Paper";
 import { Card, CardHeader, Divider } from "@material-ui/core";
 
 export default function customList(props) {
-  const { items, listTitle, onClickHandler, isInReadyList, classes } = props;
+  const {
+    items,
+    listTitle,
+    onClickHandler,
+    isInReadyList,
+    classes,
+    onDeleteTaskHandler,
+  } = props;
   return (
     <Card>
       <CardHeader className={classes.cardHeader} title={listTitle} />
@@ -16,13 +23,14 @@ export default function customList(props) {
         <List dense component="div" role="list">
           {items.map((item) => {
             return (
-                <TaskItem
-                  key={item.taskId || Math.random()}
-                  item={item}
-                  onClickHandler={onClickHandler}
-                  classes={classes}
-                  isInReadyList={isInReadyList}
-                />
+              <TaskItem
+                key={item.taskId}
+                item={item}
+                onClickHandler={onClickHandler}
+                classes={classes}
+                isInReadyList={isInReadyList}
+                onDeleteTaskHandler={onDeleteTaskHandler}
+              />
             );
           })}
         </List>

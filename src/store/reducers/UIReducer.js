@@ -30,6 +30,12 @@ export default function (state = initialState, action) {
     case actionTypes.ACCEPT_OR_DECLINE_INVITATION_FAILED:
     case actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_FAILED:
     case actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_SUCCESS:
+    case actionTypes.DELETE_TASK_ITEM_SUCCESS:
+    case actionTypes.ADD_TASK_ITEM_SUCCESS:
+    case actionTypes.TOGGLE_LIST_ITEM_SUCCESS:
+    case actionTypes.DELETE_TASK_ITEM_FAILED:
+    case actionTypes.ADD_TASK_ITEM_FAILED:
+    case actionTypes.TOGGLE_LIST_ITEM_FAILED:
       return {
         ...state,
         loading: false,
@@ -53,6 +59,9 @@ export default function (state = initialState, action) {
     case actionTypes.FETCH_INVITATION_LINK_START:
     case actionTypes.ACCEPT_OR_DECLINE_INVITATION_START:
     case actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_START:
+    case actionTypes.DELETE_TASK_ITEM_START:
+    case actionTypes.ADD_TASK_ITEM_START:
+    case actionTypes.TOGGLE_LIST_ITEM_START:
       return {
         ...state,
         loading: true,

@@ -3,11 +3,10 @@ import { useDispatch } from "react-redux";
 
 import TextInput from "../TextInput";
 import * as actions from "../../store/actions";
-import { toggleDoneAndNotDone } from "../../utils/helpers";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import TaskList from "./TaskList";
-import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
+import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import { IconButton } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -42,43 +41,46 @@ const useStyles = makeStyles((theme) => ({
     animation: "$rotate 2s infinite linear",
   },
   addItemContainer: {
-    display: 'flex',
-    alignItems: 'baseline'
-  }
+    display: "flex",
+    alignItems: "baseline",
+  },
+  listItemIcon: {
+    alignItems: 'center',
+  },
+  listIconButton: {
+    padding: theme.spacing(0.75)
+  },
+  deleteDoneTaskIcon: {
+    "&:hover": {
+      fill: theme.palette.secondary.dark
+    },
+  },
 }));
 
 export default function TodoList({ todoList, groupId }) {
   const classes = useStyles();
-  const doneTodoList = [];
-  const notDoneTodoList = [];
+  const doneTodoList = todoList.filter(listItem => listItem.done === true)
+  const notDoneTodoList = todoList.filter(listItem => listItem.done === false)
 
-  todoList.forEach((todoItem) => {
-    if (todoItem.done) doneTodoList.push(todoItem);
-    else notDoneTodoList.push(todoItem);
-  });
-
-  const [notDone, setNotDone] = useState(notDoneTodoList);
-  const [done, setDone] = useState(doneTodoList);
   const [newTask, setNewTask] = useState("");
 
   const dispatch = useDispatch();
 
   const onTaskClickHandler = (task) => {
     const oldTask = { ...task };
-    if (task.done) {
-      toggleDoneAndNotDone(setDone, setNotDone, task);
-    } else {
-      toggleDoneAndNotDone(setNotDone, setDone, task);
-    }
-    dispatch(actions.toggleTaskItem(groupId, task, oldTask));
+    const updatedTask = {...task, done: !task.done};
+    dispatch(actions.toggleTaskItem(groupId, updatedTask, oldTask));
   };
-
-  const onTaskAddSuccess = (addedTask) => setNotDone(prev => [...prev,addedTask]);
 
   const onAddTaskHandler = (e) => {
     e.preventDefault();
     setNewTask("");
-    dispatch(actions.addTaskItem(groupId, newTask, onTaskAddSuccess));
+    dispatch(actions.addTaskItem(groupId, newTask));
+  };
+
+  const onDeleteTaskHandler = (task) => (e) => {
+    e.stopPropagation();
+    dispatch(actions.deleteTaskItem(groupId, task));
   };
 
   return (
@@ -91,7 +93,7 @@ export default function TodoList({ todoList, groupId }) {
     >
       <Grid item xs={12} sm={6} md={5} lg={3} xl={2}>
         <TaskList
-          items={notDone}
+          items={notDoneTodoList}
           listTitle="Things to do"
           onClickHandler={onTaskClickHandler}
           classes={classes}
@@ -100,10 +102,11 @@ export default function TodoList({ todoList, groupId }) {
 
       <Grid item xs={12} sm={6} md={5} lg={3} xl={2}>
         <TaskList
-          items={done}
+          items={doneTodoList}
           listTitle="Things Ready"
           onClickHandler={onTaskClickHandler}
           classes={classes}
+          onDeleteTaskHandler={onDeleteTaskHandler}
           isInReadyList
         />
       </Grid>
@@ -119,7 +122,7 @@ export default function TodoList({ todoList, groupId }) {
           />
           <IconButton type="submit" aria-label="Add task">
             <AddCircleRoundedIcon />
-          </IconButton> 
+          </IconButton>
         </form>
       </Grid>
     </Grid>

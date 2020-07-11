@@ -40,7 +40,7 @@ export function userDataReducer(state = initialState, action) {
         ...state,
         lastNews: action.payload,
       };
-    case actionTypes.FETCH_GROUP_DATA_SUCCESS: //GROUPS change
+    case actionTypes.FETCH_GROUP_DATA_SUCCESS:
       return {
         ...state,
         userGroupsContent: action.payload,
@@ -76,6 +76,56 @@ export function userDataReducer(state = initialState, action) {
         ...initialState,
         lastNews: state.lastNews,
       };
+    case actionTypes.DELETE_TASK_ITEM_SUCCESS:
+      return {
+        ...state,
+        groupsInLocal: state.groupsInLocal.map((group) => {
+          const { groupId, taskId } = action.payload;
+          if (group.groupId === groupId) {
+            return {
+              ...group,
+              todoList: group.todoList.filter((task) => task.taskId !== taskId),
+            };
+          }
+          return group;
+        }),
+      };
+    case actionTypes.TOGGLE_LIST_ITEM_SUCCESS:
+      return {
+        ...state,
+        groupsInLocal: state.groupsInLocal.map((group) => {
+          const { groupId, oldTask } = action.payload;
+          if (group.groupId === groupId) {
+            return {
+              ...group,
+              todoList: group.todoList.map((task) => {
+                if (task.taskId === oldTask.taskId) {
+                  return {
+                    ...task,
+                    done: !task.done,
+                  };
+                }
+                return task;
+              }),
+            };
+          }
+          return group;
+        }),
+      };
+    case actionTypes.ADD_TASK_ITEM_SUCCESS:
+      return {
+        ...state,
+        groupsInLocal: state.groupsInLocal.map(group => {
+          const {groupId, newTask} = action.payload;
+          if (group.groupId === groupId) {
+            return {
+              ...group,
+              todoList: group.todoList.concat(newTask)
+            }
+          }
+          return group;
+        })
+      }
     case actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_SUCCESS:
     case actionTypes.ACCEPT_OR_DECLINE_INVITATION_START:
     case actionTypes.ACCEPT_OR_DECLINE_INVITATION_SUCCESS:

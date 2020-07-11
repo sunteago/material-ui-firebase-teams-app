@@ -76,11 +76,12 @@ export default function Group() {
     }
   }, [dispatch, groupId, groupsInLocal, isFullLoading]);
 
+
   if (Object.keys(activeGroup).length) {
     const isCreator = activeGroup.roles[userId] === "creator";
     const isUserAbleToInvite = isCreator || activeGroup.usersAllowedToInvite;
     const isMember = !!activeGroup.roles[userId];
-
+    
     return (
       <>
         {isModalOpen && (

@@ -79,7 +79,7 @@ export const clearActivityCommentDB = (commTimestamp, userId) => (dispatch) => {
     });
 };
 
-export const toggleTaskItem = (groupId, newTask, oldTask) => (dispatch) => {
+export const toggleTaskItem = (groupId, updatedTask, oldTask) => (dispatch) => {
   dispatch({ type: actionTypes.TOGGLE_LIST_ITEM_START });
 
   const batch = db.batch();
@@ -88,14 +88,20 @@ export const toggleTaskItem = (groupId, newTask, oldTask) => (dispatch) => {
     todoList: firebase.firestore.FieldValue.arrayRemove(oldTask),
   });
   batch.update(groupRef, {
-    todoList: firebase.firestore.FieldValue.arrayUnion(newTask),
+    todoList: firebase.firestore.FieldValue.arrayUnion(updatedTask),
   });
 
   batch
     .commit()
     .then(() => {
       dispatch({ type: actionTypes.TOGGLE_LIST_ITEM_LOCAL });
-      dispatch({ type: actionTypes.TOGGLE_LIST_ITEM_SUCCESS });
+      dispatch({
+        type: actionTypes.TOGGLE_LIST_ITEM_SUCCESS,
+        payload: {
+          groupId,
+          oldTask,
+        },
+      });
     })
     .catch((err) => {
       dispatch({ type: actionTypes.TOGGLE_LIST_ITEM_FAILED, payload: err });
@@ -291,29 +297,47 @@ export const createNewGroup = (groupData, userId, history) => (dispatch) => {
       history.push(`/groups/${groupId}`);
     })
     .catch((err) => {
-      console.log(err);
       dispatch({ type: actionTypes.CREATE_NEW_GROUP_FAILED });
     });
 };
 
-export const addTaskItem = (groupId, newTask, cleanTaskInput) => (dispatch) => {
+export const addTaskItem = (groupId, newTask) => (dispatch) => {
   dispatch({ type: actionTypes.ADD_TASK_ITEM_START });
   const groupRef = db.collection("groups").doc(groupId);
 
-  const task = new Task(newTask, 1);
+  const task = {...new Task(newTask, 1)};
   groupRef
     .update({
-      todoList: firebase.firestore.FieldValue.arrayUnion({ ...task }),
+      todoList: firebase.firestore.FieldValue.arrayUnion(task),
     })
     .then(() => {
-      dispatch({ type: actionTypes.ADD_TASK_ITEM_SUCCESS });
-      cleanTaskInput({ ...task });
+      dispatch({ type: actionTypes.ADD_TASK_ITEM_SUCCESS, payload: {
+        groupId, newTask: task
+      } });
     })
     .catch((err) => {
       dispatch({ type: actionTypes.ADD_TASK_ITEM_FAILED });
     });
 };
 
-export const removeTaskItem = (groupId, toRemoveTask) => (dispatch) => {
-  //todo: assign tasks an ID before continuing
+export const deleteTaskItem = (groupId, task) => (dispatch) => {
+  dispatch({ type: actionTypes.DELETE_TASK_ITEM_START });
+  const groupRef = db.collection("groups").doc(groupId);
+
+  groupRef
+    .update({
+      todoList: firebase.firestore.FieldValue.arrayRemove(task),
+    })
+    .then(() => {
+      dispatch({
+        type: actionTypes.DELETE_TASK_ITEM_SUCCESS,
+        payload: {
+          groupId,
+          taskId: task.taskId,
+        },
+      });
+    })
+    .catch((err) => {
+      dispatch({ type: actionTypes.DELETE_TASK_ITEM_FAILED });
+    });
 };
