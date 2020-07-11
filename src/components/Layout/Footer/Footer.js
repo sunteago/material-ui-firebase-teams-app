@@ -14,9 +14,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(10),
   },
   footerContainer: {
-    marginTop: 'auto',
+    marginTop: "auto",
     width: "100%",
-
   },
 }));
 
@@ -26,12 +25,27 @@ const Footer = () => {
     <div className={classes.footerContainer}>
       <Divider className={classes.dividerLine} />
       <Box m={3} textAlign="center">
-        <IconButton>
-          <GitHubIcon />
-        </IconButton>
-        <IconButton>
-          <LinkedInIcon />
-        </IconButton>
+        <a
+          href="https://www.linkedin.com/in/santiago-vallejo-0593211b1/"
+          alt="Santiago Vallejo's LinkedIn"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <IconButton>
+            <GitHubIcon />
+          </IconButton>
+        </a>
+
+        <a
+          href="https://github.com/sunteago/"
+          alt="Santiago Vallejo's Github"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <IconButton>
+            <LinkedInIcon />
+          </IconButton>
+        </a>
         <Typography>Developed by Santiago Vallejo - 2020</Typography>
       </Box>
     </div>

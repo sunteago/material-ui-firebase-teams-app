@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation, useHistory, Link } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 
 import { makeStyles, Typography, Button, Box, Grid } from "@material-ui/core";
 import * as actions from "../store/actions";

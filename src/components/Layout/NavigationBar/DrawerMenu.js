@@ -70,7 +70,7 @@ const DrawerMenu = ({ isOpen, handleDrawerClose, handleDrawerOpen }) => {
           <>
 
             <Link to="/groups/create" style={{ all: "unset" }}>
-              <ListItem button>
+              <ListItem button onClick={handleDrawerClose}>
                 <ListItemIcon>
                   <AddIcon />
                 </ListItemIcon>
@@ -89,14 +89,14 @@ const DrawerMenu = ({ isOpen, handleDrawerClose, handleDrawerOpen }) => {
               </ListItem>
             </Link>
 
-            <ListItem button>
+            <ListItem button onClick={handleDrawerClose}>
               <ListItemIcon>
                 <GroupIcon />
               </ListItemIcon>
               <ListItemText primary="My groups" />
             </ListItem>
 
-            <ListItem button>
+            <ListItem button onClick={handleDrawerClose}>
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
@@ -116,7 +116,7 @@ const DrawerMenu = ({ isOpen, handleDrawerClose, handleDrawerOpen }) => {
 
         <Divider />
 
-        <ListItem button>
+        <ListItem button onClick={handleDrawerClose}>
           <ListItemIcon>
             <InfoIcon />
           </ListItemIcon>
