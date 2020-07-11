@@ -1,13 +1,14 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 
 import PageContainer from "../components/Layout/PageContainer";
 import Dashboard from "../pages/Dashboard";
-import News from "../pages/News";
-import SingleNews from "../pages/SingleNews";
 import Group from "../pages/Group";
-import InvitationLink from "../pages/InvitationLink";
-import CreateGroup from "../pages/CreateGroup";
+
+const News = React.lazy(() => import("../pages/News"));
+const SingleNews = React.lazy(() => import("../pages/SingleNews"));
+const InvitationLink = React.lazy(() => import("../pages/InvitationLink"));
+const CreateGroup = React.lazy(() => import("../pages/CreateGroup"));
 
 export default function DashboardRoutes() {
   return (
@@ -20,16 +21,24 @@ export default function DashboardRoutes() {
           <Dashboard />
         </Route>
         <Route exact path="/news">
-          <News />
+          <Suspense fallback={<div>Loading News</div>}>
+            <News />
+          </Suspense>
         </Route>
         <Route exact path="/news/:newsId">
-          <SingleNews />
+          <Suspense fallback={<div>Loading News</div>}>
+            <SingleNews />
+          </Suspense>
         </Route>
         <Route exact path="/groups/create">
-          <CreateGroup />
+          <Suspense fallback={<div>Loading CreateGroup</div>}>
+            <CreateGroup />
+          </Suspense>
         </Route>
         <Route exact path="/groups/:groupId/invite">
-          <InvitationLink />
+          <Suspense fallback={<div>Loading Invitation Link</div>}>
+            <InvitationLink />
+          </Suspense>
         </Route>
         <Route exact path="/groups/:groupId">
           <Group />
