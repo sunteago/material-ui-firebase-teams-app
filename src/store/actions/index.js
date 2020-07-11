@@ -17,4 +17,5 @@ export {
   createGroupInvitationLink,
   createNewGroup,
   joinPublicGroupNoInvitation,
+  addTaskItem
 } from "./groupData";

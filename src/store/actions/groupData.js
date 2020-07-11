@@ -1,7 +1,7 @@
 import * as actionTypes from "../../constants/types";
 import { db, firebase } from "../../config/firebaseConfig";
 import Group from "../../models/Group";
-import { fetchUserData } from "./userData";
+import Task from "../../models/Task";
 
 export const fetchGroupsData = (groupsArr) => (dispatch) => {
   dispatch({ type: actionTypes.FETCH_GROUP_DATA_START });
@@ -282,4 +282,26 @@ export const createNewGroup = (groupData, userId, history) => (dispatch) => {
       console.log(err);
       dispatch({ type: actionTypes.CREATE_NEW_GROUP_FAILED });
     });
+};
+
+export const addTaskItem = (groupId, newTask, cleanTaskInput) => (dispatch) => {
+  dispatch({ type: actionTypes.ADD_TASK_ITEM_START });
+  const groupRef = db.collection("groups").doc(groupId);
+
+  const task = new Task(newTask, 1);
+  groupRef
+    .update({
+      todoList: firebase.firestore.FieldValue.arrayUnion({ ...task }),
+    })
+    .then(() => {
+      dispatch({ type: actionTypes.ADD_TASK_ITEM_SUCCESS });
+      cleanTaskInput({...task});
+    })
+    .catch((err) => {
+      dispatch({ type: actionTypes.ADD_TASK_ITEM_FAILED });
+    });
+};
+
+export const removeTaskItem = (groupId, toRemoveTask) => (dispatch) => {
+  //todo: assign tasks an ID before continuing
 };
