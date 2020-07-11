@@ -10,7 +10,7 @@ const initialState = {
   userGroupsContent: [],
   groupsInLocal: [],
   invitationLinkData: {},
-  generatedInvitationLink: ''
+  generatedInvitationLink: "",
 };
 
 const removeSeenMessages = (action, group) => {
@@ -64,21 +64,22 @@ export function userDataReducer(state = initialState, action) {
     case actionTypes.CREATE_GROUP_INVITATION_LINK_SUCCESS:
       return {
         ...state,
-        generatedInvitationLink: action.payload
-      }
+        generatedInvitationLink: action.payload,
+      };
     case actionTypes.FETCH_INVITATION_LINK_SUCCESS:
       return {
         ...state,
-        invitationLinkData: action.payload
-      }
-      case actionTypes.SIGN_OUT_SUCCESS:
-        return {
-          ...initialState,
-          lastNews: state.lastNews
-        }
-    // case actionTypes.ACCEPT_OR_DECLINE_INVITATION_STAR:
-    // case actionTypes.ACCEPT_OR_DECLINE_INVITATION_SUCCESS:
-    // case actionTypes.ACCEPT_OR_DECLINE_INVITATION_FAILED:
+        invitationLinkData: action.payload,
+      };
+    case actionTypes.SIGN_OUT_SUCCESS:
+      return {
+        ...initialState,
+        lastNews: state.lastNews,
+      };
+    case actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_SUCCESS:
+    case actionTypes.ACCEPT_OR_DECLINE_INVITATION_START:
+    case actionTypes.ACCEPT_OR_DECLINE_INVITATION_SUCCESS:
+    case actionTypes.ACCEPT_OR_DECLINE_INVITATION_FAILED:
     case actionTypes.FETCH_SINGLE_GROUP_FAILED:
     case actionTypes.FETCH_NEWS_FAILED:
     case actionTypes.CLEAR_DASHBOARD_DATA_FAILED:

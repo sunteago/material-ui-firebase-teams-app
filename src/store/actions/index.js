@@ -16,4 +16,5 @@ export {
   acceptOrDeclineInvitation,
   createGroupInvitationLink,
   createNewGroup,
+  joinPublicGroupNoInvitation,
 } from "./groupData";

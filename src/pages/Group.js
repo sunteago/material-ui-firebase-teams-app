@@ -50,7 +50,7 @@ export default function Group() {
   const [activeGroup, setActiveGroup] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const groups = useSelector((state) => state.userData.groupsInLocal);
+  const {groupsInLocal, userGroups} = useSelector((state) => state.userData);
   const { isFullLoading, groupPageError } = useSelector((state) => state.UI);
   const userId = useSelector((state) => state.auth.user.uid);
   const generatedLink = useSelector(
@@ -65,7 +65,7 @@ export default function Group() {
 
   useEffect(() => {
     if (!isFullLoading) {
-      const groupInLocal = groups.find((group) => groupId === group.groupId);
+      const groupInLocal = groupsInLocal.find((group) => groupId === group.groupId);
       if (!groupInLocal && shouldFetch.current) {
         dispatch(actions.fetchSingleGroup(groupId));
         shouldFetch.current = false;
@@ -74,12 +74,13 @@ export default function Group() {
         setActiveGroup(groupInLocal);
       }
     }
-  }, [dispatch, groupId, groups, isFullLoading]);
+  }, [dispatch, groupId, groupsInLocal, isFullLoading]);
 
   if (Object.keys(activeGroup).length) {
     const isCreator = activeGroup.roles[userId] === "creator";
     const isUserAbleToInvite = isCreator || activeGroup.usersAllowedToInvite;
     const isMember = !!activeGroup.roles[userId];
+
     return (
       <>
         {isModalOpen && (
@@ -142,6 +143,9 @@ export default function Group() {
             color="primary"
             className={classes.inviteButton}
             variant="outlined"
+            onClick={() =>
+              dispatch(actions.joinPublicGroupNoInvitation(userId, groupId, userGroups))
+            }
           >
             Join this group
           </Button>

@@ -28,6 +28,8 @@ export default function (state = initialState, action) {
     case actionTypes.FETCH_INITIAL_DATA_FAILED:
     case actionTypes.ACCEPT_OR_DECLINE_INVITATION_SUCCESS:
     case actionTypes.ACCEPT_OR_DECLINE_INVITATION_FAILED:
+    case actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_FAILED:
+    case actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -50,6 +52,7 @@ export default function (state = initialState, action) {
     case actionTypes.FETCH_SINGLE_GROUP_START:
     case actionTypes.FETCH_INVITATION_LINK_START:
     case actionTypes.ACCEPT_OR_DECLINE_INVITATION_START:
+    case actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_START:
       return {
         ...state,
         loading: true,

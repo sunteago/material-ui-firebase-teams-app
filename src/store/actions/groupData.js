@@ -1,6 +1,7 @@
 import * as actionTypes from "../../constants/types";
 import { db, firebase } from "../../config/firebaseConfig";
 import Group from "../../models/Group";
+import { fetchUserData } from "./userData";
 
 export const fetchGroupsData = (groupsArr) => (dispatch) => {
   dispatch({ type: actionTypes.FETCH_GROUP_DATA_START });
@@ -141,21 +142,22 @@ export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
       if (docs[1].get("inGroups").includes(groupId)) {
         throw new Error("You are already in this group");
       }
-
+      //delete link from active invitation links
       transaction.update(groupRef, {
         activeInvitationLinks: firebase.firestore.FieldValue.arrayRemove(
           linkId
         ),
         lastInvitationLinkUsed: linkId,
       });
-
+      //delete link document from links collection
       transaction.delete(linkRef);
 
       if (userAccepted) {
+        //set user to member in group document
         transaction.update(groupRef, {
           [`roles.${userId}`]: "member",
         });
-
+        //set groupId in inGroups property within user document
         transaction.update(userRef, {
           inGroups: firebase.firestore.FieldValue.arrayUnion(groupId),
         });
@@ -176,6 +178,47 @@ export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
         type: actionTypes.ACCEPT_OR_DECLINE_INVITATION_FAILED,
         payload: err,
       });
+    });
+};
+
+export const joinPublicGroupNoInvitation = (userId, groupId, inGroups) => (
+  dispatch
+) => {
+  dispatch({ type: actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_START });
+
+  const userRef = db.collection("users").doc(userId);
+  const groupRef = db.collection("groups").doc(groupId);
+
+  db.runTransaction((transaction) => {
+    return transaction.get(userRef).then((userDoc) => {
+      if (!userDoc.exists) {
+        throw new Error("This user does not exist");
+      }
+
+      if (userDoc.data().inGroups.includes(groupId)) {
+        throw new Error("This user is already in this group");
+      }
+
+      transaction.update(userRef, {
+        inGroups: firebase.firestore.FieldValue.arrayUnion(groupId),
+      });
+
+      transaction.update(groupRef, {
+        [`roles.${userId}`]: "member",
+        lastUserJoined: userId,
+      });
+    });
+  })
+    .then(() => {
+      dispatch({
+        type: actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_SUCCESS,
+      });
+      //refetch data for the new group
+      dispatch(fetchGroupsData([...inGroups, groupId]));
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_FAILED });
     });
 };
 
@@ -240,4 +283,3 @@ export const createNewGroup = (groupData, userId, history) => (dispatch) => {
       dispatch({ type: actionTypes.CREATE_NEW_GROUP_FAILED });
     });
 };
-
