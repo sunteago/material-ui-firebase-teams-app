@@ -43,8 +43,8 @@ export function userDataReducer(state = initialState, action) {
     case actionTypes.FETCH_GROUP_DATA_SUCCESS: //GROUPS change
       return {
         ...state,
-        userGroupsContent: [...state.userGroupsContent, ...action.payload],
-        groupsInLocal: [...state.userGroupsContent, ...action.payload],
+        userGroupsContent: action.payload,
+        groupsInLocal: action.payload,
       };
     case actionTypes.FETCH_SINGLE_GROUP_SUCCESS:
       return {

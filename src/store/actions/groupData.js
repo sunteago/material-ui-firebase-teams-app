@@ -20,14 +20,13 @@ export const fetchGroupsData = (groupsArr, seenMessages) => (dispatch) => {
           group.groupId = groupDoc.id;
           groups.push(group);
         }
-        
       });
 
       dispatch({
         type: actionTypes.FETCH_GROUP_DATA_SUCCESS,
         payload: groups,
       });
-      
+
       if (seenMessages) {
         dispatch(clearActivityCommentLocal(seenMessages));
       }
@@ -134,6 +133,8 @@ export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
   const linkRef = db.collection("invitationLinks").doc(linkId);
   const userRef = db.collection("users").doc(userId);
 
+  let inGroups;
+
   db.runTransaction((transaction) => {
     return Promise.all([linkRef.get(), userRef.get()]).then((docs) => {
       if (!docs[0].exists) {
@@ -145,6 +146,9 @@ export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
       if (docs[1].get("inGroups").includes(groupId)) {
         throw new Error("You are already in this group");
       }
+      //save variable for later use (we need to re-fetch data)
+      inGroups = docs[1].get("inGroups");
+
       //delete link from active invitation links
       transaction.update(groupRef, {
         activeInvitationLinks: firebase.firestore.FieldValue.arrayRemove(
@@ -172,8 +176,13 @@ export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
         type: actionTypes.ACCEPT_OR_DECLINE_INVITATION_SUCCESS,
         payload: userAccepted,
       });
-      if (userAccepted) history.push(`/groups/${groupId}`);
-      else history.push("/dashboard");
+      if (userAccepted) {
+        history.push(`/groups/${groupId}`);
+        //refetch data for the new group
+        dispatch(fetchGroupsData([...inGroups, groupId]));
+      } else {
+        history.push("/dashboard");
+      }
     })
     .catch((err) => {
       console.log(err);
