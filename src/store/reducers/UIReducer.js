@@ -36,6 +36,8 @@ export default function (state = initialState, action) {
     case actionTypes.DELETE_TASK_ITEM_FAILED:
     case actionTypes.ADD_TASK_ITEM_FAILED:
     case actionTypes.TOGGLE_LIST_ITEM_FAILED:
+    case actionTypes.FETCH_USER_PROFILE_SUCCESS:
+    case actionTypes.FETCH_USER_PROFILE_FAILED:
       return {
         ...state,
         loading: false,
@@ -62,6 +64,7 @@ export default function (state = initialState, action) {
     case actionTypes.DELETE_TASK_ITEM_START:
     case actionTypes.ADD_TASK_ITEM_START:
     case actionTypes.TOGGLE_LIST_ITEM_START:
+    case actionTypes.FETCH_USER_PROFILE_START:
       return {
         ...state,
         loading: true,

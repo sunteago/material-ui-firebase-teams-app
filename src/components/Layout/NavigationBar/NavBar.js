@@ -32,7 +32,7 @@ function NavBar() {
 
   const { isAuth, user: {uid} } = useSelector((state) => state.auth);
   const { loading } = useSelector((state) => state.UI);
-
+  
   const handleDrawerOpen = () => setIsOpen(true);
   const handleDrawerClose = () => setIsOpen(false);
   

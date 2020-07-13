@@ -11,6 +11,7 @@ const initialState = {
   groupsInLocal: [],
   invitationLinkData: {},
   generatedInvitationLink: "",
+  activeUser: {},
 };
 
 const removeSeenMessages = (action, group) => {
@@ -50,6 +51,11 @@ export function userDataReducer(state = initialState, action) {
       return {
         ...state,
         groupsInLocal: [...state.userGroupsContent, action.payload],
+      };
+    case actionTypes.FETCH_USER_PROFILE_SUCCESS:
+      return {
+        ...state,
+        activeUser: action.payload,
       };
     case actionTypes.CLEAR_DASHBOARD_DATA_LOCAL:
       return {
@@ -115,17 +121,17 @@ export function userDataReducer(state = initialState, action) {
     case actionTypes.ADD_TASK_ITEM_SUCCESS:
       return {
         ...state,
-        groupsInLocal: state.groupsInLocal.map(group => {
-          const {groupId, newTask} = action.payload;
+        groupsInLocal: state.groupsInLocal.map((group) => {
+          const { groupId, newTask } = action.payload;
           if (group.groupId === groupId) {
             return {
               ...group,
-              todoList: group.todoList.concat(newTask)
-            }
+              todoList: group.todoList.concat(newTask),
+            };
           }
           return group;
-        })
-      }
+        }),
+      };
     case actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_SUCCESS:
     case actionTypes.ACCEPT_OR_DECLINE_INVITATION_START:
     case actionTypes.ACCEPT_OR_DECLINE_INVITATION_SUCCESS:

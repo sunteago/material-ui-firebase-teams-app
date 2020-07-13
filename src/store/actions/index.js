@@ -6,7 +6,7 @@ export {
   startAuthStateChecker,
 } from "./auth";
 
-export { fetchUserData, fetchNewsData } from "./userData";
+export { fetchUserData, fetchNewsData, fetchUserProfile } from "./userData";
 
 export {
   clearActivityCommentDB,

@@ -21,7 +21,9 @@ export const fetchUserData = (userId) => (dispatch) => {
         payload: dashboardData,
       });
       if (dashboardData.inGroups.length !== 0) {
-        dispatch(fetchGroupsData(dashboardData.inGroups, dashboardData.seenMessages));
+        dispatch(
+          fetchGroupsData(dashboardData.inGroups, dashboardData.seenMessages)
+        );
       } else {
         dispatch({ type: actionTypes.FINISH_FETCHING_INITIAL_DATA });
       }
@@ -48,4 +50,32 @@ export const fetchNewsData = () => (dispatch) => {
       console.log(err);
       dispatch({ type: actionTypes.FETCH_NEWS_FAILED, payload: err });
     });
+};
+
+export const fetchUserProfile = (currentUser, userId) => (dispatch) => {
+  dispatch({ type: actionTypes.FETCH_USER_PROFILE_START });
+
+  if (currentUser.uid === userId) {
+    dispatch({
+      type: actionTypes.FETCH_USER_PROFILE_SUCCESS,
+      payload: currentUser,
+    });
+  } else {
+    const userRef = db.collection("users").doc(userId);
+    userRef
+      .get()
+      .then((doc) => {
+        if (!doc.exists) {
+          throw new Error("This user does not exist!");
+        }
+        dispatch({
+          type: actionTypes.FETCH_USER_PROFILE_SUCCESS,
+          payload: doc.data(),
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch({ type: actionTypes.FETCH_USER_PROFILE_FAILED, payload: err });
+      });
+  }
 };
