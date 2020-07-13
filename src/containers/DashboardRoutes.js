@@ -9,6 +9,7 @@ const News = React.lazy(() => import("../pages/News"));
 const SingleNews = React.lazy(() => import("../pages/SingleNews"));
 const InvitationLink = React.lazy(() => import("../pages/InvitationLink"));
 const CreateGroup = React.lazy(() => import("../pages/CreateGroup"));
+const Profile = React.lazy(() => import("../pages/Profile"));
 
 export default function DashboardRoutes() {
   return (
@@ -23,6 +24,11 @@ export default function DashboardRoutes() {
         <Route exact path="/news">
           <Suspense fallback={<div>Loading News</div>}>
             <News />
+          </Suspense>
+        </Route>
+        <Route exact path="/profile/:userId">
+          <Suspense fallback={<div>Loading News</div>}>
+            <Profile />
           </Suspense>
         </Route>
         <Route exact path="/news/:newsId">

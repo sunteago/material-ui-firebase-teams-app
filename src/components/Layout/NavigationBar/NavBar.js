@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import * as actions from "../../../store/actions";
+import { useSelector } from "react-redux";
 
 import Loading from "../Loading";
 import AppBar from "@material-ui/core/AppBar";
@@ -12,6 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import MenuIcon from "@material-ui/icons/Menu";
 import DrawerMenu from "./DrawerMenu";
+import AccountMenu from "./AccountMenu";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -30,9 +30,8 @@ function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
   const classes = useStyles();
 
-  const { isAuth } = useSelector((state) => state.auth);
+  const { isAuth, user: {uid} } = useSelector((state) => state.auth);
   const { loading } = useSelector((state) => state.UI);
-  const dispatch = useDispatch();
 
   const handleDrawerOpen = () => setIsOpen(true);
   const handleDrawerClose = () => setIsOpen(false);
@@ -57,10 +56,8 @@ function NavBar() {
           <div className={classes.grow} />
 
           {isAuth ? (
-            <Button color="inherit" onClick={() => dispatch(actions.signOut())}>
-              Sign out
-            </Button>
-          ) : (
+            <AccountMenu userId={uid} />
+          ): (
             <Button color="inherit">
               <Link to="/auth/login" className={classes.loginBtn}>
                 Authenticate
