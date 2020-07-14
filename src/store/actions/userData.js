@@ -55,27 +55,20 @@ export const fetchNewsData = () => (dispatch) => {
 export const fetchUserProfile = (currentUser, userId) => (dispatch) => {
   dispatch({ type: actionTypes.FETCH_USER_PROFILE_START });
 
-  if (currentUser.uid === userId) {
-    dispatch({
-      type: actionTypes.FETCH_USER_PROFILE_SUCCESS,
-      payload: currentUser,
-    });
-  } else {
-    const userRef = db.collection("users").doc(userId);
-    userRef
-      .get()
-      .then((doc) => {
-        if (!doc.exists) {
-          throw new Error("This user does not exist!");
-        }
-        dispatch({
-          type: actionTypes.FETCH_USER_PROFILE_SUCCESS,
-          payload: doc.data(),
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        dispatch({ type: actionTypes.FETCH_USER_PROFILE_FAILED, payload: err });
+  const userRef = db.collection("users").doc(userId);
+  userRef
+    .get()
+    .then((doc) => {
+      if (!doc.exists) {
+        throw new Error("This user does not exist!");
+      }
+      dispatch({
+        type: actionTypes.FETCH_USER_PROFILE_SUCCESS,
+        payload: doc.data(),
       });
-  }
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: actionTypes.FETCH_USER_PROFILE_FAILED, payload: err });
+    });
 };

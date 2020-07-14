@@ -3,9 +3,9 @@ import ConfigurationItem from "./ConfigurationItem";
 import TextInput from "../TextInput";
 import { Container, Button, Typography } from "@material-ui/core";
 import AlertMessage from "../Layout/AlertMessage";
+import * as alertTypes from "../../constants/alertTypes";
 import Modal from "../Layout/Modal/Modal";
 import { makeStyles } from "@material-ui/core";
-import settingsTexts from "../../utils/settingsTexts";
 
 const useStyles = makeStyles((theme) => ({
   operationTitle: {
@@ -20,21 +20,43 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Settings(props) {
-  const { isVisible, descriptText, confirmHandler, existingName, mode } = props;
+  const {
+    title,
+    isPublic,
+    description,
+    confirmText,
+    ConfirmIcon,
+    modalConfirmText,
+    confirmHandler,
+    existingGroupName,
+  } = props;
 
-  const [isPublic, setIsPublic] = useState(isVisible || false);
-  const [usersAllowedToInvite, setUsersAllowedToInvite] = useState(false);
-  const [description, setDescription] = useState(descriptText);
-  const [name, setName] = useState(existingName || "");
+  const [settings, setSettings] = useState({
+    isPublic,
+    usersAllowedToInvite: false,
+  });
+  const [groupDescription, setGroupDescription] = useState(description);
+  const [groupName, setGroupName] = useState(existingGroupName || "");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const classes = useStyles();
 
-  const confirmActionHandler = () => {
-    confirmHandler({ isPublic, usersAllowedToInvite, description, name });
+  const handleToggle = (value) => {
+    setSettings((prevState) => {
+      return {
+        ...prevState,
+        [value]: !prevState[value],
+      };
+    });
   };
 
-  const ConfirmIcon = settingsTexts[mode].ConfirmIcon;
+  const confirmActionHandler = () => {
+    confirmHandler({
+      ...settings,
+      groupName,
+      description: groupDescription,
+    });
+  };
 
   return (
     <Container style={{ padding: "1rem", textAlign: "center" }}>
@@ -42,20 +64,20 @@ export default function Settings(props) {
         <Modal
           open={isModalOpen}
           setOpen={setIsModalOpen}
-          title={settingsTexts[mode].title}
+          title={title}
           confirm="Confirm"
           decline="Cancel"
           confirmActionHandler={confirmActionHandler}
         >
-          {isPublic && (
+          {settings.isPublic && (
             <AlertMessage
               alertStyles={classes.alertMsg}
               severity="warning"
-              action={settingsTexts[mode].alertMsg}
+              action={alertTypes.MAKE_GROUP_PUBLIC}
               handler={() => {}}
             />
           )}
-          <Typography>{settingsTexts[mode].modalConfirmText}</Typography>
+          <Typography>{modalConfirmText}</Typography>
         </Modal>
       )}
 
@@ -64,40 +86,42 @@ export default function Settings(props) {
         component="h1"
         className={classes.operationTitle}
       >
-        {settingsTexts[mode].title}
+        {title}
       </Typography>
 
-      <TextInput
-        value={name}
-        setValue={setName}
-        type="text"
-        label={settingsTexts[mode].nameText}
-        variant="outlined"
-        required
-      />
+      {!existingGroupName && (
+        <TextInput
+          value={groupName}
+          setValue={setGroupName}
+          type="text"
+          label="Group name"
+          variant="outlined"
+          required
+        />
+      )}
 
       <ConfigurationItem
-        description={settingsTexts[mode].visibilityText}
-        text={settingsTexts[mode].visibilityStates}
-        value={isPublic}
-        setValue={setIsPublic}
+        description="Set this group to Public"
+        text={["Private", "Public"]}
+        value={settings.isPublic}
+        handleToggle={handleToggle}
+        name="isPublic"
         isAdmin
       />
 
-      {mode !== "profile" && (
-        <ConfigurationItem
-          description={settingsTexts[mode].invitationText}
-          text={settingsTexts[mode].invitationStates}
-          value={usersAllowedToInvite}
-          setValue={setUsersAllowedToInvite}
-          isAdmin
-        />
-      )}
+      <ConfigurationItem
+        description="Allow other users to invite with a one-time link"
+        text={["Deny", "Allow"]}
+        value={settings.usersAllowedToInvite}
+        handleToggle={handleToggle}
+        name="usersAllowedToInvite"
+        isAdmin
+      />
       <TextInput
-        value={description}
-        setValue={setDescription}
+        value={groupDescription}
+        setValue={setGroupDescription}
         type="text"
-        label={settingsTexts[mode].descriptionText}
+        label="Group Description"
         rows={4}
         multiline
         variant="outlined"
@@ -112,7 +136,7 @@ export default function Settings(props) {
         startIcon={<ConfirmIcon />}
         onClick={() => setIsModalOpen(!isModalOpen)}
       >
-        {settingsTexts[mode].confirmText}
+        {confirmText}
       </Button>
     </Container>
   );

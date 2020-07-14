@@ -5,7 +5,7 @@ import Switch from "@material-ui/core/Switch";
 import { Typography, Grid } from "@material-ui/core";
 
 export default function ConfigurationItem(props) {
-  const { description, text, value, handleToggle, isAdmin, name } = props;
+  const { description, text, value, setValue, isAdmin } = props;
 
   const configLabel = text[value ? 1 : 0];
   return (
@@ -20,7 +20,7 @@ export default function ConfigurationItem(props) {
                 control={
                   <Switch
                     checked={value}
-                    onChange={() => handleToggle(name)}
+                    onChange={() => setValue(prev => !prev)}
                     name="checkedB"
                   />
                 }
