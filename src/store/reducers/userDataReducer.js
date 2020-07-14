@@ -132,6 +132,16 @@ export function userDataReducer(state = initialState, action) {
           return group;
         }),
       };
+    case actionTypes.SUBMIT_PROFILE_CHANGES_SUCCESS:
+      return {
+        ...state,
+        activeUser: {
+          ...state.activeUser,
+          username: action.payload.username,
+          status: action.payload.email,
+          avatar: action.payload.avatar,
+        },
+      };
     case actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_SUCCESS:
     case actionTypes.ACCEPT_OR_DECLINE_INVITATION_START:
     case actionTypes.ACCEPT_OR_DECLINE_INVITATION_SUCCESS:

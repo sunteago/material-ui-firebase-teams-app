@@ -1,5 +1,6 @@
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import * as alertTypes from "../constants/alertTypes";
+import SaveIcon from '@material-ui/icons/Save';
 
 export default {
   profile: {
@@ -9,9 +10,9 @@ export default {
       "Set your profile to visible (Everyone will be able to see it)",
     visibilityStates: ["Not Visible", "Visible"],
     descriptionText: "About you",
-    confirmText: "Confirm",
+    confirmText: "Save Profile",
     modalConfirmText: "Please, confirm your changes",
-    ConfirmIcon: AddCircleOutlineIcon,
+    ConfirmIcon: SaveIcon,
     alertMsg: alertTypes.MAKE_USER_VISIBLE,
   },
   createGroup: {

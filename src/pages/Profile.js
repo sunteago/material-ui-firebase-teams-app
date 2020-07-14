@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
+import UserProfile from "../components/Profile/UserProfile";
 import Settings from "../components/Settings/Settings";
 import * as actions from "../store/actions";
 import { useParams } from "react-router-dom";
@@ -16,19 +17,34 @@ export default function Profile() {
     dispatch(actions.fetchUserProfile(currentUser, userId));
   }, [dispatch, userId, currentUser]);
 
-  const onConfirmSaveSettings = (userData) => {
+  const onConfirmSaveSettings = (settingsData, setIsModalOpen) => {
+    const userData = {
+      isVisible: settingsData.isPublic,
+      status: settingsData.description,
+      username: settingsData.name,
+    };
+    const finishAction = () => setIsModalOpen(false);
+    dispatch(actions.submitProfileChanges(currentUser.uid, userData, finishAction));
+  };
 
-    console.log(userData);
-  }
+  const isActiveUserCurrentUser = userId === currentUser.uid;
 
   return Object.keys(activeUser).length ? (
-    <Settings
-      mode='profile'
-      confirmHandler={onConfirmSaveSettings}
-      isVisible={activeUser.isVisible}
-      descriptText={activeUser.status}
-      existingName={activeUser.name}
-    />
-  ) : null; 
-  ;
+    isActiveUserCurrentUser ? (
+      <Settings
+        mode="profile"
+        confirmHandler={onConfirmSaveSettings}
+        isVisible={activeUser.isVisible}
+        descriptText={activeUser.status}
+        existingName={activeUser.username}
+      />
+    ) : (
+      <UserProfile
+        avatar={activeUser.avatar}
+        username={activeUser.username}
+        status={activeUser.status}
+        email={activeUser.email}
+      />
+    )
+  ) : null;
 }

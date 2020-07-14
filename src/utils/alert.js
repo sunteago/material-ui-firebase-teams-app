@@ -23,6 +23,14 @@ export const getAlertMsgFromAction = (action, handler) => {
           <strong>everyone will be able to find it!</strong>
         </>
       );
+    case alertTypes.MAKE_USER_VISIBLE:
+      return (
+        <>
+          <AlertTitle>Warning</AlertTitle>
+          If you set your profile to be public —{" "}
+          <strong>everyone will be able to find it!</strong>
+        </>
+      );
     case alertTypes.FETCH_SINGLE_GROUP_ERROR:
       return (
         <>
@@ -42,8 +50,8 @@ export const getAlertMsgFromAction = (action, handler) => {
       return (
         <>
           <AlertTitle>Error</AlertTitle>
-          You are already a member of this group, therefore you can't join, to go back to
-          the group page click{" "}
+          You are already a member of this group, therefore you can't join, to
+          go back to the group page click{" "}
           <Link href="#" onClick={handler}>
             here
           </Link>

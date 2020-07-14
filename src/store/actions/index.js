@@ -6,7 +6,12 @@ export {
   startAuthStateChecker,
 } from "./auth";
 
-export { fetchUserData, fetchNewsData, fetchUserProfile } from "./userData";
+export {
+  fetchUserData,
+  fetchNewsData,
+  fetchUserProfile,
+  submitProfileChanges,
+} from "./userData";
 
 export {
   clearActivityCommentDB,

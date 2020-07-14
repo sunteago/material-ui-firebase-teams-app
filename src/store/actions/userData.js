@@ -72,3 +72,25 @@ export const fetchUserProfile = (currentUser, userId) => (dispatch) => {
       dispatch({ type: actionTypes.FETCH_USER_PROFILE_FAILED, payload: err });
     });
 };
+
+export const submitProfileChanges = (userId, userData, finishAction) => (dispatch) => {
+  dispatch({ type: actionTypes.SUBMIT_PROFILE_CHANGES_START });
+  const userRef = db.collection("users").doc(userId);
+
+  userRef
+    .update(userData)
+    .then(() => {
+      dispatch({
+        type: actionTypes.SUBMIT_PROFILE_CHANGES_SUCCESS,
+        payload: userData,
+      });
+      finishAction();
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: actionTypes.SUBMIT_PROFILE_CHANGES_FAILED,
+        payload: err,
+      });
+    });
+};

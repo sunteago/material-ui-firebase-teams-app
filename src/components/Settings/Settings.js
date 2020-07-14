@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+
 import ConfigurationItem from "./ConfigurationItem";
+import settingsTexts from "../../utils/settingsTexts";
 import TextInput from "../TextInput";
-import { Container, Button, Typography } from "@material-ui/core";
 import AlertMessage from "../Layout/AlertMessage";
 import Modal from "../Layout/Modal/Modal";
+import { Container, Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
-import settingsTexts from "../../utils/settingsTexts";
 
 const useStyles = makeStyles((theme) => ({
   operationTitle: {
@@ -31,7 +32,8 @@ export default function Settings(props) {
   const classes = useStyles();
 
   const confirmActionHandler = () => {
-    confirmHandler({ isPublic, usersAllowedToInvite, description, name });
+    const data = { isPublic, usersAllowedToInvite, description, name };
+    confirmHandler(data, setIsModalOpen);
   };
 
   const ConfirmIcon = settingsTexts[mode].ConfirmIcon;
