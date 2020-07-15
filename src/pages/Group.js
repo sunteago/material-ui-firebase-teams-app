@@ -15,6 +15,7 @@ import SaveIcon from "@material-ui/icons/Save";
 import LockIcon from "@material-ui/icons/Lock";
 import Modal from "../components/Layout/Modal/Modal";
 import Settings from "../components/Settings/Settings";
+import Messages from "../components/Messages/Messages";
 import GroupInvitation from "../components/Group/GroupInvitation";
 import AdminIcon from "@material-ui/icons/SupervisorAccount";
 import PersonIcon from "@material-ui/icons/Person";
@@ -46,13 +47,13 @@ export default function Group() {
   const { groupId } = useParams();
   const classes = useStyles();
 
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState(1);
   const [activeGroup, setActiveGroup] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const {groupsInLocal, userGroups} = useSelector((state) => state.userData);
+  const { groupsInLocal, userGroups } = useSelector((state) => state.userData);
   const { isFullLoading, groupPageError } = useSelector((state) => state.UI);
-  const userId = useSelector((state) => state.auth.user.uid);
+  const user = useSelector((state) => state.auth.user);
   const generatedLink = useSelector(
     (state) => state.userData.generatedInvitationLink
   );
@@ -65,7 +66,9 @@ export default function Group() {
 
   useEffect(() => {
     if (!isFullLoading) {
-      const groupInLocal = groupsInLocal.find((group) => groupId === group.groupId);
+      const groupInLocal = groupsInLocal.find(
+        (group) => groupId === group.groupId
+      );
       if (!groupInLocal && shouldFetch.current) {
         dispatch(actions.fetchSingleGroup(groupId));
         shouldFetch.current = false;
@@ -76,12 +79,11 @@ export default function Group() {
     }
   }, [dispatch, groupId, groupsInLocal, isFullLoading]);
 
-
   if (Object.keys(activeGroup).length) {
-    const isCreator = activeGroup.roles[userId] === "creator";
+    const isCreator = activeGroup.roles[user.uid] === "creator";
     const isUserAbleToInvite = isCreator || activeGroup.usersAllowedToInvite;
-    const isMember = !!activeGroup.roles[userId];
-    
+    const isMember = !!activeGroup.roles[user.uid];
+
     return (
       <>
         {isModalOpen && (
@@ -145,7 +147,13 @@ export default function Group() {
             className={classes.inviteButton}
             variant="outlined"
             onClick={() =>
-              dispatch(actions.joinPublicGroupNoInvitation(userId, groupId, userGroups))
+              dispatch(
+                actions.joinPublicGroupNoInvitation(
+                  user.uid,
+                  groupId,
+                  userGroups
+                )
+              )
             }
           >
             Join this group
@@ -162,10 +170,17 @@ export default function Group() {
           <TaskListContainer
             todoList={activeGroup.todoList}
             groupId={groupId}
+            dispatch={dispatch}
           />
         )}
-        {tab === 1 && <div>Group Messages</div>}
-        {tab === 2 && <div>Group Messages</div>}
+        {tab === 1 && (
+          <Messages
+            messages={activeGroup.messages}
+            user={user}
+            dispatch={dispatch}
+          />
+        )}
+        {tab === 2 && <div>Members</div>}
         {tab === 3 && isCreator && (
           <Settings
             title="Change group settings"

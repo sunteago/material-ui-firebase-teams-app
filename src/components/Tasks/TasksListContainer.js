@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 
 import TextInput from "../TextInput";
 import * as actions from "../../store/actions";
@@ -57,14 +56,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TodoList({ todoList, groupId }) {
+export default function TodoList({ todoList, groupId, dispatch }) {
   const classes = useStyles();
   const doneTodoList = todoList.filter(listItem => listItem.done === true)
   const notDoneTodoList = todoList.filter(listItem => listItem.done === false)
 
   const [newTask, setNewTask] = useState("");
 
-  const dispatch = useDispatch();
 
   const onTaskClickHandler = (task) => {
     const oldTask = { ...task };
