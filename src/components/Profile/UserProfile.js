@@ -1,16 +1,26 @@
 import React from "react";
 
 import SectionTitle from "../Layout/Dashboard/SectionTitle";
-import { Typography } from "@material-ui/core";
+import { Typography, Button, Avatar } from "@material-ui/core";
 
-export default function UserProfile({ email, avatar, username, status }) {
+export default function UserProfile(props) {
+  const { email, avatar, username, status, isCurrentUser, setIsEditing } = props;
+
   return (
     <div>
       <SectionTitle>Profile of</SectionTitle>
       <Typography>{username && `${username} - `}{email}</Typography>
-      <img src={avatar} alt={`${username || email}'s avatar`} />
+      <Avatar src={avatar} alt={`${username || email}'s avatar`} />
       <h1>{username || email}</h1>
       <p>{status}</p>
+      {isCurrentUser && (
+        <Button
+          variant='outlined'
+          onClick={() => setIsEditing(true)}
+        >
+          Edit Profile
+        </Button>
+      )}
     </div>
   );
 }

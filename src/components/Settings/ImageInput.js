@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Avatar, CircularProgress, Container } from "@material-ui/core";
 import { storage, firebase } from "../../config/firebaseConfig";
 
-export default function FileInput({ classes, image, setImage }) {
+export default function ImageInput({ classes, imageURL, setImageURL }) {
   const [progress, setProgress] = useState(null);
 
   const addObserver = (uploadTask) => {
@@ -24,7 +24,7 @@ export default function FileInput({ classes, image, setImage }) {
       },
       (finished) => {
         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-          setImage(downloadURL);
+          setImageURL(downloadURL);
           setProgress(null);
         });
       }
@@ -34,16 +34,18 @@ export default function FileInput({ classes, image, setImage }) {
   const onUploadHandler = (e) => {
     e.preventDefault();
     const image = e.target.files[0];
-    const storageRef = storage.ref();
-    const imageRef = storageRef.child(`images/${image.name}`);
-    const uploadTask = imageRef.put(image);
-    addObserver(uploadTask);
+    if (image) {
+      const storageRef = storage.ref();
+      const imageRef = storageRef.child(`images/${image.name}`);
+      const uploadTask = imageRef.put(image);
+      addObserver(uploadTask);
+    }
   };
 
   return (
     <Container style={{ textAlign: "center", position: "relative" }}>
       <label htmlFor="raised-button-file">
-        <Avatar alt="Avatar" src={image} className={classes.image} />
+        <Avatar alt="Avatar" src={imageURL} className={classes.image} />
         <div className={classes.circularProgress}>
           {progress !== null && (
             <CircularProgress

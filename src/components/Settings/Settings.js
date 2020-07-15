@@ -6,7 +6,7 @@ import ConfigurationItem from "./ConfigurationItem";
 import settingsTexts from "../../utils/settingsTexts";
 import TextInput from "../TextInput";
 import AlertMessage from "../Layout/AlertMessage";
-import FileInput from "./ImageInput";
+import ImageInput from "./ImageInput";
 import Modal from "../Layout/Modal/Modal";
 
 const useStyles = makeStyles((theme) => ({
@@ -38,9 +38,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Settings(props) {
-  const { isVisible, descriptText, confirmHandler, existingName, mode } = props;
+  const {
+    isVisible,
+    descriptText,
+    confirmHandler,
+    existingName,
+    imageUrl,
+    mode,
+    setIsEditing,
+  } = props;
 
-  const [image, setImage] = useState("");
+  const [imageURL, setImageURL] = useState(imageUrl || "");
   const [isPublic, setIsPublic] = useState(isVisible || false);
   const [usersAllowedToInvite, setUsersAllowedToInvite] = useState(false);
   const [description, setDescription] = useState(descriptText);
@@ -50,7 +58,14 @@ export default function Settings(props) {
   const classes = useStyles();
 
   const confirmActionHandler = () => {
-    const data = { isPublic, usersAllowedToInvite, description, name };
+    const data = {
+      isPublic,
+      usersAllowedToInvite,
+      description,
+      name,
+      imageURL,
+    };
+    console.log(data);
     confirmHandler(data, setIsModalOpen);
   };
 
@@ -94,7 +109,11 @@ export default function Settings(props) {
       </Grid>
 
       <Grid item xs={12}>
-        <FileInput classes={classes} image={image} setImage={setImage} />
+        <ImageInput
+          classes={classes}
+          imageURL={imageURL}
+          setImageURL={setImageURL}
+        />
       </Grid>
 
       <Grid item xs={12} sm={8}>
@@ -144,17 +163,31 @@ export default function Settings(props) {
         />
       </Grid>
 
-      <Grid item xs={12}>
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          className={classes.button}
-          startIcon={<ConfirmIcon />}
-          onClick={() => setIsModalOpen(!isModalOpen)}
-        >
-          {settingsTexts[mode].confirmText}
-        </Button>
+      <Grid item container justify='space-between' xs={12} sm={8}>
+        <Grid item xs={12} sm={6}>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            className={classes.button}
+            startIcon={<ConfirmIcon />}
+            onClick={() => setIsModalOpen(!isModalOpen)}
+          >
+            {settingsTexts[mode].confirmText}
+          </Button>
+        </Grid>
+        {mode === "profile" && (
+          <Grid item xs={12} sm={6}>
+            <Button
+              variant="outlined"
+              size="large"
+              className={classes.button}
+              onClick={() => setIsEditing(false)}
+            >
+              Cancel
+            </Button>
+          </Grid>
+        )}
       </Grid>
     </Grid>
   );

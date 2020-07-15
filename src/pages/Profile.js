@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import UserProfile from "../components/Profile/UserProfile";
@@ -9,9 +9,12 @@ import { useParams } from "react-router-dom";
 export default function Profile() {
   const { userId } = useParams();
 
+  const [isEditing, setIsEditing] = useState(false);
+
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.user);
   const activeUser = useSelector((state) => state.userData.activeUser);
+
 
   useEffect(() => {
     dispatch(actions.fetchUserProfile(currentUser, userId));
@@ -22,21 +25,27 @@ export default function Profile() {
       isVisible: settingsData.isPublic,
       status: settingsData.description,
       username: settingsData.name,
+      avatar: settingsData.imageURL
     };
-    const finishAction = () => setIsModalOpen(false);
+    const finishAction = () => {
+      setIsModalOpen(false);
+      setIsEditing(false);
+    };
     dispatch(actions.submitProfileChanges(currentUser.uid, userData, finishAction));
   };
 
   const isActiveUserCurrentUser = userId === currentUser.uid;
 
   return Object.keys(activeUser).length ? (
-    isActiveUserCurrentUser ? (
+    isActiveUserCurrentUser && isEditing ? (
       <Settings
         mode="profile"
         confirmHandler={onConfirmSaveSettings}
         isVisible={activeUser.isVisible}
         descriptText={activeUser.status}
         existingName={activeUser.username}
+        imageUrl={activeUser.avatar}
+        setIsEditing={setIsEditing}
       />
     ) : (
       <UserProfile
@@ -44,6 +53,8 @@ export default function Profile() {
         username={activeUser.username}
         status={activeUser.status}
         email={activeUser.email}
+        isCurrentUser={isActiveUserCurrentUser}
+        setIsEditing={setIsEditing}
       />
     )
   ) : null;
