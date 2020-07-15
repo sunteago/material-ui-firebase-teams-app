@@ -65,7 +65,6 @@ export default function Settings(props) {
       name,
       imageURL,
     };
-    console.log(data);
     confirmHandler(data, setIsModalOpen);
   };
 
@@ -163,7 +162,7 @@ export default function Settings(props) {
         />
       </Grid>
 
-      <Grid item container justify='space-between' xs={12} sm={8}>
+      <Grid item container justify="space-between" xs={12} sm={8}>
         <Grid item xs={12} sm={6}>
           <Button
             variant="contained"

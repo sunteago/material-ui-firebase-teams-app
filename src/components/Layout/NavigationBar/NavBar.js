@@ -30,7 +30,7 @@ function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
   const classes = useStyles();
 
-  const { isAuth, user: {uid} } = useSelector((state) => state.auth);
+  const { isAuth, user } = useSelector((state) => state.auth);
   const { loading } = useSelector((state) => state.UI);
   
   const handleDrawerOpen = () => setIsOpen(true);
@@ -56,7 +56,7 @@ function NavBar() {
           <div className={classes.grow} />
 
           {isAuth ? (
-            <AccountMenu userId={uid} />
+            <AccountMenu userId={user.uid} avatar={user.photoURL} />
           ): (
             <Button color="inherit">
               <Link to="/auth/login" className={classes.loginBtn}>

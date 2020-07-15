@@ -1,5 +1,5 @@
 import * as actionTypes from "../../constants/types";
-import { db } from "../../config/firebaseConfig";
+import { db, firebase } from "../../config/firebaseConfig";
 import { getLastMonth } from "../../utils/helpers";
 import { fetchGroupsData } from "./groupData";
 
@@ -73,12 +73,25 @@ export const fetchUserProfile = (currentUser, userId) => (dispatch) => {
     });
 };
 
-export const submitProfileChanges = (userId, userData, finishAction) => (dispatch) => {
+export const submitProfileChanges = (userId, userData, finishAction) => (
+  dispatch
+) => {
   dispatch({ type: actionTypes.SUBMIT_PROFILE_CHANGES_START });
   const userRef = db.collection("users").doc(userId);
+  const currentUser = firebase.auth().currentUser;
 
-  userRef
-    .update(userData)
+  Promise.all([
+    currentUser.updateProfile({
+      displayName: userData.name,
+      photoURL: userData.imageURL,
+    }),
+    userRef.update({
+      status: userData.description,
+      isVisible: userData.isPublic,
+      avatar: userData.imageURL,
+      name: userData.name
+    }),
+  ])
     .then(() => {
       dispatch({
         type: actionTypes.SUBMIT_PROFILE_CHANGES_SUCCESS,

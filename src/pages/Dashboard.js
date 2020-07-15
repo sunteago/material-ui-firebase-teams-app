@@ -14,16 +14,6 @@ import Grid from "@material-ui/core/Grid";
 import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
 
 const useStyles = makeStyles((theme) => ({
-  userInfo: {
-    alignSelf: "center",
-    display: "flex",
-    alignItems: "center",
-    ...theme.typography.button,
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(1),
-    margin: theme.spacing(3),
-    textAlign: "center",
-  },
   alertMsg: {
     marginTop: theme.spacing(2),
   },
@@ -61,7 +51,7 @@ export default function Dashboard() {
           handler={onClickSendConfirmationLink}
         />
       ) : null}
-      <UserInfo userInfoStyle={classes.userInfo} user={user} />
+      <UserInfo user={user} />
 
       <Grid container spacing={3}>
         <Grid item xs={12} md={9}>

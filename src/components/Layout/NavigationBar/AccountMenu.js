@@ -7,8 +7,9 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import IconButton from "@material-ui/core/IconButton";
+import { Avatar } from "@material-ui/core";
 
-export default function AccountMenu({ userId }) {
+export default function AccountMenu({ userId, avatar }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -36,7 +37,7 @@ export default function AccountMenu({ userId }) {
         onClick={handleMenu}
         color="inherit"
       >
-        <AccountCircle />
+        {avatar ? <Avatar src={avatar} alt={``} /> : <AccountCircle />}
       </IconButton>
       <Menu
         id="menu-appbar"
@@ -53,7 +54,7 @@ export default function AccountMenu({ userId }) {
         open={open}
         onClose={handleClose}
       >
-        <Link style={{all: 'unset'}} to={`/profile/${userId}`}>
+        <Link style={{ all: "unset" }} to={`/profile/${userId}`}>
           <MenuItem onClick={handleClose}>Profile</MenuItem>
         </Link>
         <MenuItem onClick={signOutHandler}>Sign out</MenuItem>

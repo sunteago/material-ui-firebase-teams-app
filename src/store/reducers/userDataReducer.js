@@ -137,9 +137,9 @@ export function userDataReducer(state = initialState, action) {
         ...state,
         activeUser: {
           ...state.activeUser,
-          username: action.payload.username,
+          name: action.payload.name,
           status: action.payload.email,
-          avatar: action.payload.avatar,
+          avatar: action.payload.imageURL,
         },
       };
     case actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_SUCCESS:
