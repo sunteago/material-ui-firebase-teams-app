@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 
+import { Grid, Button, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import ConfigurationItem from "./ConfigurationItem";
 import settingsTexts from "../../utils/settingsTexts";
 import TextInput from "../TextInput";
 import AlertMessage from "../Layout/AlertMessage";
+import FileInput from "./ImageInput";
 import Modal from "../Layout/Modal/Modal";
-import { Container, Button, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
+  settingsContainer: {
+    padding: "1rem",
+    textAlign: "center",
+  },
   operationTitle: {
     marginBottom: theme.spacing(4),
   },
@@ -18,11 +23,24 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: `${theme.spacing(3)}px auto`,
   },
+  image: {
+    width: theme.spacing(10),
+    height: theme.spacing(10),
+    cursor: "pointer",
+    margin: "0 auto",
+  },
+  circularProgress: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%,-50%)",
+  },
 }));
 
 export default function Settings(props) {
   const { isVisible, descriptText, confirmHandler, existingName, mode } = props;
 
+  const [image, setImage] = useState("");
   const [isPublic, setIsPublic] = useState(isVisible || false);
   const [usersAllowedToInvite, setUsersAllowedToInvite] = useState(false);
   const [description, setDescription] = useState(descriptText);
@@ -39,7 +57,12 @@ export default function Settings(props) {
   const ConfirmIcon = settingsTexts[mode].ConfirmIcon;
 
   return (
-    <Container style={{ padding: "1rem", textAlign: "center" }}>
+    <Grid
+      container
+      spacing={4}
+      justify="center"
+      className={classes.settingsContainer}
+    >
       {isModalOpen && (
         <Modal
           open={isModalOpen}
@@ -60,62 +83,79 @@ export default function Settings(props) {
           <Typography>{settingsTexts[mode].modalConfirmText}</Typography>
         </Modal>
       )}
+      <Grid item xs={12}>
+        <Typography
+          variant="h4"
+          component="h1"
+          className={classes.operationTitle}
+        >
+          {settingsTexts[mode].title}
+        </Typography>
+      </Grid>
 
-      <Typography
-        variant="h4"
-        component="h1"
-        className={classes.operationTitle}
-      >
-        {settingsTexts[mode].title}
-      </Typography>
+      <Grid item xs={12}>
+        <FileInput classes={classes} image={image} setImage={setImage} />
+      </Grid>
 
-      <TextInput
-        value={name}
-        setValue={setName}
-        type="text"
-        label={settingsTexts[mode].nameText}
-        variant="outlined"
-        required
-      />
-
-      <ConfigurationItem
-        description={settingsTexts[mode].visibilityText}
-        text={settingsTexts[mode].visibilityStates}
-        value={isPublic}
-        setValue={setIsPublic}
-        isAdmin
-      />
-
-      {mode !== "profile" && (
+      <Grid item xs={12} sm={8}>
         <ConfigurationItem
-          description={settingsTexts[mode].invitationText}
-          text={settingsTexts[mode].invitationStates}
-          value={usersAllowedToInvite}
-          setValue={setUsersAllowedToInvite}
+          description={settingsTexts[mode].visibilityText}
+          text={settingsTexts[mode].visibilityStates}
+          value={isPublic}
+          setValue={setIsPublic}
           isAdmin
         />
+      </Grid>
+
+      {mode !== "profile" && (
+        <Grid item xs={12} sm={8}>
+          <ConfigurationItem
+            description={settingsTexts[mode].invitationText}
+            text={settingsTexts[mode].invitationStates}
+            value={usersAllowedToInvite}
+            setValue={setUsersAllowedToInvite}
+            isAdmin
+          />
+        </Grid>
       )}
-      <TextInput
-        value={description}
-        setValue={setDescription}
-        type="text"
-        label={settingsTexts[mode].descriptionText}
-        rows={4}
-        multiline
-        variant="outlined"
-        fullWidth={true}
-        required
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        size="large"
-        className={classes.button}
-        startIcon={<ConfirmIcon />}
-        onClick={() => setIsModalOpen(!isModalOpen)}
-      >
-        {settingsTexts[mode].confirmText}
-      </Button>
-    </Container>
+
+      <Grid item xs={12} sm={8}>
+        <TextInput
+          value={name}
+          setValue={setName}
+          type="text"
+          label={settingsTexts[mode].nameText}
+          variant="outlined"
+          required
+          fullWidth
+        />
+      </Grid>
+      <Grid item xs={12} sm={8}>
+        <TextInput
+          value={description}
+          setValue={setDescription}
+          type="text"
+          label={settingsTexts[mode].descriptionText}
+          rows={4}
+          multiline
+          variant="outlined"
+          fullWidth={true}
+          required
+        />
+      </Grid>
+
+      <Grid item xs={12}>
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          className={classes.button}
+          startIcon={<ConfirmIcon />}
+          onClick={() => setIsModalOpen(!isModalOpen)}
+        >
+          {settingsTexts[mode].confirmText}
+        </Button>
+      </Grid>
+    </Grid>
   );
 }
