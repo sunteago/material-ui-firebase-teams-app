@@ -11,7 +11,7 @@ function AppRouter({ isAuth }) {
 
   if (isAuth) {
     if (location.pathname === "/") redirectPath = "/dashboard";
-    else redirectPath = location.pathname;
+    else redirectPath = location.pathname + location.search;
   } else {
     if (location.pathname.includes('/news')) redirectPath = location.pathname;
     else redirectPath = "/auth/login";
@@ -19,7 +19,7 @@ function AppRouter({ isAuth }) {
 
   return (
     <>
-      <Redirect to={redirectPath} />
+     <Redirect to={redirectPath} />
       <Switch>
         <Route path="/auth">
           <AuthRoutes />

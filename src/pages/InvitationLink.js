@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory, useParams } from "react-router-dom";
 
 import { makeStyles, Typography, Button, Box, Grid } from "@material-ui/core";
 import * as actions from "../store/actions";
@@ -32,7 +32,7 @@ export default function InvitationLink() {
   const link = new URLSearchParams(location.search).get("link");
   const history = useHistory();
 
-  const invitationLinkId = useState(link)[0];
+  const invitationLinkId = React.useRef(link);
   const invitationLinkData = useSelector(
     (state) => state.userData.invitationLinkData
   );
@@ -45,8 +45,8 @@ export default function InvitationLink() {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if (invitationLinkId) {
-      dispatch(actions.fetchGroupInvitationLinkData(invitationLinkId));
+    if (invitationLinkId.current) {
+      dispatch(actions.fetchGroupInvitationLinkData(invitationLinkId.current));
     }
   }, [invitationLinkId, dispatch]);
 
@@ -54,13 +54,14 @@ export default function InvitationLink() {
     dispatch(
       actions.acceptOrDeclineInvitation(
         action,
-        invitationLinkId,
+        invitationLinkId.current,
         invitationLinkData.groupId,
         userId,
         history
       )
     );
   };
+
 
   if (Object.keys(invitationLinkData).length) {
     const { groupName, message, groupId } = invitationLinkData;
