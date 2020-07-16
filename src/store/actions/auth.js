@@ -22,10 +22,12 @@ export const standardSignup = (email, password, displayName) => (dispatch) => {
         user.updateProfile({ displayName }),
       ]);
     })
-    .then(() => {
+    .then((data) => {
       dispatch({ type: actionTypes.STANDARD_SIGN_UP_SUCCESS });
       dispatch(sendEmailVerification(user));
     })
+    //after creating userData in DB suscribe to auth changes
+    .then(() => dispatch(startAuthStateChecker()))
     .catch((err) => {
       dispatch({
         type: actionTypes.STANDARD_SIGN_UP_FAILED,
@@ -39,7 +41,10 @@ export const logIn = (email, password) => (dispatch) => {
   app
     .auth()
     .signInWithEmailAndPassword(email, password)
-    .then(() => dispatch({ type: actionTypes.LOG_IN_SUCCESS }))
+    .then(() => {
+      dispatch({ type: actionTypes.LOG_IN_SUCCESS });
+      dispatch(startAuthStateChecker());
+    })
     .catch((err) => {
       dispatch({ type: actionTypes.LOG_IN_FAILED, payload: err });
     });
@@ -75,12 +80,14 @@ export const sendEmailVerification = (user) => (dispatch) => {
 
 export const startAuthStateChecker = () => (dispatch) => {
   dispatch({ type: actionTypes.AUTH_CHECK_START });
-  app.auth().onAuthStateChanged(function (user) {
+  const unsuscribe = app.auth().onAuthStateChanged(function (user) {
     if (user) {
       dispatch({ type: actionTypes.AUTH_CHECK_SUCCESS, payload: user });
       dispatch(fetchUserData(user.uid));
     } else {
       dispatch({ type: actionTypes.AUTH_CHECK_FAILED });
+      //no user found on start, unsuscribe
+      unsuscribe();
     }
   });
 };
