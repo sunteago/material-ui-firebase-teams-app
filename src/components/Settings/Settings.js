@@ -56,7 +56,7 @@ export default function Settings(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const classes = useStyles();
-
+  
   const confirmActionHandler = () => {
     const data = {
       isPublic,

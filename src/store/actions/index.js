@@ -25,5 +25,5 @@ export {
   addTaskItem,
   deleteTaskItem,
   postGroupMessage,
-  editGroupData
+  editGroupData,
 } from "./groupData";

@@ -40,7 +40,7 @@ export default function InvitationLink() {
 
   const groupPageError = useSelector((state) => state.UI.groupPageError);
 
-  const userId = useSelector((state) => state.auth.user.uid);
+  const user = useSelector((state) => state.auth.user);
 
   const dispatch = useDispatch();
 
@@ -56,7 +56,7 @@ export default function InvitationLink() {
         action,
         invitationLinkId.current,
         invitationLinkData.groupId,
-        userId,
+        {userId: user.uid, name: user.displayName},
         history
       )
     );

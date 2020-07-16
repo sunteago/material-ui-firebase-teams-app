@@ -132,13 +132,13 @@ export const fetchGroupInvitationLinkData = (inviteLinkId) => (dispatch) => {
 };
 
 export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
-  const [userAccepted, linkId, groupId, userId, history] = args;
+  const [userAccepted, linkId, groupId, user, history] = args;
 
   dispatch({ type: actionTypes.ACCEPT_OR_DECLINE_INVITATION_START });
 
   const groupRef = db.collection("groups").doc(groupId);
   const linkRef = db.collection("invitationLinks").doc(linkId);
-  const userRef = db.collection("users").doc(userId);
+  const userRef = db.collection("users").doc(user.userId);
 
   let inGroups;
 
@@ -169,7 +169,10 @@ export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
       if (userAccepted) {
         //set user to member in group document
         transaction.update(groupRef, {
-          [`roles.${userId}`]: "member",
+          [`roles.${user.userId}`]: {
+            role: "member",
+            name: user.name
+          },
         });
         //set groupId in inGroups property within user document
         transaction.update(userRef, {
@@ -200,12 +203,12 @@ export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
     });
 };
 
-export const joinPublicGroupNoInvitation = (userId, groupId, inGroups) => (
+export const joinPublicGroupNoInvitation = (user, groupId, inGroups) => (
   dispatch
 ) => {
   dispatch({ type: actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_START });
 
-  const userRef = db.collection("users").doc(userId);
+  const userRef = db.collection("users").doc(user.userId);
   const groupRef = db.collection("groups").doc(groupId);
 
   db.runTransaction((transaction) => {
@@ -223,8 +226,11 @@ export const joinPublicGroupNoInvitation = (userId, groupId, inGroups) => (
       });
 
       transaction.update(groupRef, {
-        [`roles.${userId}`]: "member",
-        lastUserJoined: userId,
+        [`roles.${user.userId}`]: {
+          role: "member",
+          name: user.name
+        },
+        lastUserJoined: user.userId,
       });
     });
   })
@@ -276,14 +282,14 @@ export const createGroupInvitationLink = (groupId, groupName, message) => (
     });
 };
 
-export const createNewGroup = (groupData, userId, history) => (dispatch) => {
+export const createNewGroup = (groupData, user, history) => (dispatch) => {
   dispatch({ type: actionTypes.CREATE_NEW_GROUP_START });
-
-  const userRef = db.collection("users").doc(userId);
+  const userRef = db.collection("users").doc(user.userId);
   const groupsRef = db.collection("groups");
   const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-  const groupModel = new Group(groupData, userId, timestamp);
+  const groupModel = new Group(groupData, user, timestamp);
 
+  console.log(groupModel);
   let groupId;
   groupsRef
     .add({ ...groupModel })

@@ -5,7 +5,7 @@ import * as actions from "../store/actions";
 import Settings from "../components/Settings/Settings";
 
 export default function CreateGroup() {
-  const userId = useSelector((state) => state.auth.user.uid);
+  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
   const history = useHistory();
@@ -17,7 +17,7 @@ export default function CreateGroup() {
       usersAllowedToInvite: settingsData.usersAllowedToInvite,
       description: settingsData.description,
     }
-    dispatch(actions.createNewGroup(groupData, userId, history));
+    dispatch(actions.createNewGroup(groupData, {userId: user.uid, name: user.displayName}, history));
   };
 
   return <Settings mode="createGroup" confirmHandler={onConfirmCreateGroup} />;

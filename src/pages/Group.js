@@ -3,19 +3,21 @@ import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../store/actions";
 import { useParams } from "react-router-dom";
 
+import TaskListContainer from "../components/Tasks/TasksListContainer";
+import Messages from "../components/Messages/Messages";
+import Members from "../components/Group/GroupMembers";
+import Settings from "../components/Settings/Settings";
+import GroupInvitation from "../components/Group/GroupInvitation";
+import Modal from "../components/Layout/Modal/Modal";
+
 import * as alertTypes from "../constants/alertTypes";
 import AlertMessage from "../components/Layout/AlertMessage";
 import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
-import TaskListContainer from "../components/Tasks/TasksListContainer";
 import NavigationTab from "../components/Layout/NavigationTabs";
 import { Divider, Chip, Button, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PublicIcon from "@material-ui/icons/Public";
 import LockIcon from "@material-ui/icons/Lock";
-import Modal from "../components/Layout/Modal/Modal";
-import Settings from "../components/Settings/Settings";
-import Messages from "../components/Messages/Messages";
-import GroupInvitation from "../components/Group/GroupInvitation";
 import AdminIcon from "@material-ui/icons/SupervisorAccount";
 import PersonIcon from "@material-ui/icons/Person";
 
@@ -46,7 +48,7 @@ export default function Group() {
   const { groupId } = useParams();
   const classes = useStyles();
 
-  const [tab, setTab] = useState(1);
+  const [tab, setTab] = useState(2);
   const [activeGroup, setActiveGroup] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -78,15 +80,19 @@ export default function Group() {
     }
   }, [dispatch, groupId, groupsInLocal, isFullLoading]);
 
-  const onConfirmSaveGroup = (groupData,setIsModalOpen) => {
+  const onConfirmSaveGroup = (groupData, setIsModalOpen) => {
     dispatch(actions.editGroupData(groupId, groupData, setIsModalOpen));
-  }
-
+  };
 
   if (Object.keys(activeGroup).length) {
-    const isCreator = activeGroup.roles[user.uid] === "creator";
+    const isCreator = !!(
+      activeGroup.roles[user.uid] &&
+      activeGroup.roles[user.uid].role === "creator"
+    );
     const isUserAbleToInvite = isCreator || activeGroup.usersAllowedToInvite;
-    const isMember = !!activeGroup.roles[user.uid];
+    const isMember = !!(
+      activeGroup.roles[user.uid] && activeGroup.roles[user.uid].role
+    );
 
     return (
       <>
@@ -133,7 +139,7 @@ export default function Group() {
         </Grid>
 
         <SectionTitle>{activeGroup.name}</SectionTitle>
-        {isUserAbleToInvite && isMember && (
+        {!!isUserAbleToInvite && isMember && (
           <Button
             onClick={() => setIsModalOpen((prev) => !prev)}
             size="small"
@@ -153,7 +159,7 @@ export default function Group() {
             onClick={() =>
               dispatch(
                 actions.joinPublicGroupNoInvitation(
-                  user.uid,
+                  { userId: user.uid, name: user.displayName },
                   groupId,
                   userGroups
                 )
@@ -185,7 +191,7 @@ export default function Group() {
             groupId={groupId}
           />
         )}
-        {tab === 2 && <div>Members</div>}
+        {tab === 2 && <Members members={activeGroup.roles} />}
         {tab === 3 && isCreator && (
           <Settings
             mode="modifyGroup"
