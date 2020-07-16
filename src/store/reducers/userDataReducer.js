@@ -138,7 +138,7 @@ export function userDataReducer(state = initialState, action) {
         activeUser: {
           ...state.activeUser,
           name: action.payload.name,
-          status: action.payload.email,
+          status: action.payload.description,
           avatar: action.payload.imageURL,
         },
       };

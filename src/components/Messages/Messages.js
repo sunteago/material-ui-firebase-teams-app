@@ -48,6 +48,7 @@ export default function Messages({ groupId, messages, user, dispatch }) {
           content={msg.content}
           author={msg.author}
           classes={classes}
+          userId={msg.userId}
         />
       ))}
       <MessageWritingBox

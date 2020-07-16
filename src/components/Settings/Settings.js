@@ -163,18 +163,6 @@ export default function Settings(props) {
       </Grid>
 
       <Grid item container justify="space-between" xs={12} sm={8}>
-        <Grid item xs={12} sm={6}>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            className={classes.button}
-            startIcon={<ConfirmIcon />}
-            onClick={() => setIsModalOpen(!isModalOpen)}
-          >
-            {settingsTexts[mode].confirmText}
-          </Button>
-        </Grid>
         {mode === "profile" && (
           <Grid item xs={12} sm={6}>
             <Button
@@ -187,6 +175,18 @@ export default function Settings(props) {
             </Button>
           </Grid>
         )}
+        <Grid item xs={12} sm={6}>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            className={classes.button}
+            startIcon={<ConfirmIcon />}
+            onClick={() => setIsModalOpen(!isModalOpen)}
+          >
+            {settingsTexts[mode].confirmText}
+          </Button>
+        </Grid>
       </Grid>
     </Grid>
   );
