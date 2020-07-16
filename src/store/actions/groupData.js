@@ -370,3 +370,26 @@ export const postGroupMessage = (groupId, msg, finishAction) => (dispatch) => {
       dispatch({ type: actionTypes.POST_NEW_MESSAGE_FAILED, payload: err });
     });
 };
+
+export const editGroupData = (groupId, groupData, setOpen) => dispatch => {
+  dispatch({ type: actionTypes.EDIT_GROUP_DATA_START });
+  
+  const groupRef = db.collection('groups').doc(groupId);
+  
+  groupRef.update({
+    description: groupData.description,
+    isPublic: groupData.isPublic,
+    image: groupData.imageURL,
+    name: groupData.name
+  })
+  .then(() => {
+    dispatch({ type: actionTypes.EDIT_GROUP_DATA_SUCCESS, payload: {
+      groupId, groupData
+    } });
+    setOpen(false);
+  })
+  .catch(err => {
+    console.log(err)
+    dispatch({ type: actionTypes.EDIT_GROUP_DATA_FAILED });
+  })
+}

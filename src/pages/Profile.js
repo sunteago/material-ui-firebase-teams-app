@@ -15,7 +15,6 @@ export default function Profile() {
   const currentUser = useSelector((state) => state.auth.user);
   const activeUser = useSelector((state) => state.userData.activeUser);
 
-
   useEffect(() => {
     dispatch(actions.fetchUserProfile(currentUser, userId));
   }, [dispatch, userId, currentUser]);
@@ -25,7 +24,9 @@ export default function Profile() {
       setIsModalOpen(false);
       setIsEditing(false);
     };
-    dispatch(actions.submitProfileChanges(currentUser.uid, settingsData, finishAction));
+    dispatch(
+      actions.submitProfileChanges(currentUser.uid, settingsData, finishAction)
+    );
   };
 
   const isActiveUserCurrentUser = userId === currentUser.uid;

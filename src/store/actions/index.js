@@ -24,5 +24,6 @@ export {
   joinPublicGroupNoInvitation,
   addTaskItem,
   deleteTaskItem,
-  postGroupMessage
+  postGroupMessage,
+  editGroupData
 } from "./groupData";

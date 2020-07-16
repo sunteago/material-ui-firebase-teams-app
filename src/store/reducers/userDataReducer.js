@@ -25,6 +25,9 @@ const removeSeenMessages = (action, group) => {
   return arr;
 };
 
+//TODO: extract similar logic to functions
+//TODO: create a groupData reducer
+
 export function userDataReducer(state = initialState, action) {
   switch (action.type) {
     case actionTypes.FETCH_INITIAL_DATA_SUCCESS:
@@ -145,17 +148,36 @@ export function userDataReducer(state = initialState, action) {
     case actionTypes.POST_NEW_MESSAGE_SUCCESS:
       return {
         ...state,
-        groupsInLocal: state.groupsInLocal.map(group => {
-          const {groupId, message} = action.payload;
+        groupsInLocal: state.groupsInLocal.map((group) => {
+          const { groupId, message } = action.payload;
           if (group.groupId === groupId) {
             return {
               ...group,
-              messages: group.messages.concat(message)
-            }
+              messages: group.messages.concat(message),
+            };
           }
           return group;
-        })
-      }
+        }),
+      };
+    case actionTypes.EDIT_GROUP_DATA_SUCCESS:
+      return {
+        ...state,
+        ...state,
+        groupsInLocal: state.groupsInLocal.map((group) => {
+          const { groupId, groupData } = action.payload;
+          if (group.groupId === groupId) {
+            return {
+              ...group,
+              description: groupData.description,
+              isPublic: groupData.isPublic,
+              image: groupData.imageURL,
+              name: groupData.name,
+              usersAllowedToInvite: groupData.usersAllowedToInvite
+            };
+          }
+          return group;
+        }),
+      };
     case actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_SUCCESS:
     case actionTypes.ACCEPT_OR_DECLINE_INVITATION_START:
     case actionTypes.ACCEPT_OR_DECLINE_INVITATION_SUCCESS:

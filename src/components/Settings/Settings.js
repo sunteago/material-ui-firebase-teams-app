@@ -97,6 +97,8 @@ export default function Settings(props) {
           <Typography>{settingsTexts[mode].modalConfirmText}</Typography>
         </Modal>
       )}
+
+      {settingsTexts[mode].title && (
       <Grid item xs={12}>
         <Typography
           variant="h4"
@@ -106,6 +108,7 @@ export default function Settings(props) {
           {settingsTexts[mode].title}
         </Typography>
       </Grid>
+      )}
 
       <Grid item xs={12}>
         <ImageInput
@@ -162,7 +165,7 @@ export default function Settings(props) {
         />
       </Grid>
 
-      <Grid item container justify="space-between" xs={12} sm={8}>
+      <Grid item container justify="center" xs={12} sm={8}>
         {mode === "profile" && (
           <Grid item xs={12} sm={6}>
             <Button

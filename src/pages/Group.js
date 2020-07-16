@@ -11,7 +11,6 @@ import NavigationTab from "../components/Layout/NavigationTabs";
 import { Divider, Chip, Button, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PublicIcon from "@material-ui/icons/Public";
-import SaveIcon from "@material-ui/icons/Save";
 import LockIcon from "@material-ui/icons/Lock";
 import Modal from "../components/Layout/Modal/Modal";
 import Settings from "../components/Settings/Settings";
@@ -78,6 +77,11 @@ export default function Group() {
       }
     }
   }, [dispatch, groupId, groupsInLocal, isFullLoading]);
+
+  const onConfirmSaveGroup = (groupData,setIsModalOpen) => {
+    dispatch(actions.editGroupData(groupId, groupData, setIsModalOpen));
+  }
+
 
   if (Object.keys(activeGroup).length) {
     const isCreator = activeGroup.roles[user.uid] === "creator";
@@ -184,13 +188,13 @@ export default function Group() {
         {tab === 2 && <div>Members</div>}
         {tab === 3 && isCreator && (
           <Settings
-            title="Change group settings"
-            modalConfirmText="Are you sure you want to change your settings?"
-            isPublic={activeGroup.isPublic}
-            description={activeGroup.description}
-            confirmText="Save changes"
-            ConfirmIcon={SaveIcon}
-            existingGroupName={activeGroup.name}
+            mode="modifyGroup"
+            confirmHandler={onConfirmSaveGroup}
+            isVisible={activeGroup.isPublic}
+            descriptText={activeGroup.description}
+            existingName={activeGroup.name}
+            //imageUrl={activeUser.avatar}
+            //setIsEditing={setIsEditing}
           />
         )}
       </>
