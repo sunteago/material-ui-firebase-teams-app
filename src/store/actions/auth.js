@@ -3,7 +3,7 @@ import { app, db, firebase } from "../../config/firebaseConfig";
 import { fetchUserData } from "./userData";
 import User from "../../models/User";
 
-export const standardSignup = (email, password) => (dispatch) => {
+export const standardSignup = (email, password, displayName) => (dispatch) => {
   dispatch({ type: actionTypes.STANDARD_SIGN_UP_START });
   const userCollectionRef = db.collection("users");
   let user;
@@ -16,8 +16,11 @@ export const standardSignup = (email, password) => (dispatch) => {
     .then(() => {
       //creates user data in db
       const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-      const userModel = new User(email, timestamp);
-      return userCollectionRef.doc(user.uid).set({ ...userModel });
+      const userModel = new User(email, timestamp, displayName);
+      return Promise.all([
+        userCollectionRef.doc(user.uid).set({ ...userModel }),
+        user.updateProfile({ displayName }),
+      ]);
     })
     .then(() => {
       dispatch({ type: actionTypes.STANDARD_SIGN_UP_SUCCESS });
@@ -38,7 +41,6 @@ export const logIn = (email, password) => (dispatch) => {
     .signInWithEmailAndPassword(email, password)
     .then(() => dispatch({ type: actionTypes.LOG_IN_SUCCESS }))
     .catch((err) => {
-      console.log(err);
       dispatch({ type: actionTypes.LOG_IN_FAILED, payload: err });
     });
 };

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 import PersonIcon from "@material-ui/icons/Person";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
+import FaceIcon from "@material-ui/icons/Face";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { makeStyles, Typography } from "@material-ui/core";
@@ -39,6 +40,8 @@ function Form(props) {
     onActionHandler,
     confirmPassword,
     setConfirmPassword,
+    displayName,
+    setDisplayName,
   } = props;
 
   let operationName;
@@ -63,6 +66,17 @@ function Form(props) {
             required
           />
 
+          {mode === "signup" && (
+            <TextInput
+              value={displayName}
+              setValue={setDisplayName}
+              type="text"
+              Icon={FaceIcon}
+              label="Name"
+              required
+            />
+          )}
+          
           {mode !== "forgotpassword" && (
             <TextInput
               value={password}
