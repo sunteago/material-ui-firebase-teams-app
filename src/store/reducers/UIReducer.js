@@ -40,6 +40,8 @@ export default function (state = initialState, action) {
     case actionTypes.FETCH_USER_PROFILE_FAILED:
     case actionTypes.SUBMIT_PROFILE_CHANGES_SUCCESS:
     case actionTypes.SUBMIT_PROFILE_CHANGES_FAILED:
+    case actionTypes.POST_NEW_MESSAGE_SUCCESS:
+    case actionTypes.POST_NEW_MESSAGE_FAILED:
       return {
         ...state,
         loading: false,
@@ -68,6 +70,7 @@ export default function (state = initialState, action) {
     case actionTypes.TOGGLE_LIST_ITEM_START:
     case actionTypes.FETCH_USER_PROFILE_START:
     case actionTypes.SUBMIT_PROFILE_CHANGES_START:
+    case actionTypes.POST_NEW_MESSAGE_START:
       return {
         ...state,
         loading: true,

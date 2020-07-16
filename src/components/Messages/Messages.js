@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import MessageItem from "./MessageItem";
 import { makeStyles } from "@material-ui/core";
 import MessageWritingBox from "./MessageWritingBox";
+import * as actions from "../../store/actions";
 
 const useStyles = makeStyles((theme) => ({
   writingBoxContainer: {
@@ -22,12 +23,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Messages({ messages, user }) {
+export default function Messages({ groupId, messages, user, dispatch }) {
   const classes = useStyles();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const onClickSendMessage = () => {};
+  const clean = () => {
+    setTitle("");
+    setContent("");
+  };
+
+  const onClickSendMessage = () => {
+    dispatch(
+      actions.postGroupMessage(groupId, { title, content, user }, clean)
+    );
+  };
 
   return (
     <div>
@@ -48,6 +58,7 @@ export default function Messages({ messages, user }) {
         avatar={user.photoURL}
         username={user.displayName || user.email}
         classes={classes}
+        sendHandler={onClickSendMessage}
       />
     </div>
   );

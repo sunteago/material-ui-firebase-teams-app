@@ -12,6 +12,7 @@ export default function MessageWritingBox(props) {
     avatar,
     username,
     classes,
+    sendHandler,
   } = props;
   return (
     <Grid
@@ -56,7 +57,7 @@ export default function MessageWritingBox(props) {
         </Grid>
       </Grid>
       <Grid item xs={2}>
-        <IconButton color="primary">
+        <IconButton onClick={sendHandler} color="primary">
           <SendIcon fontSize="large" />
         </IconButton>
       </Grid>

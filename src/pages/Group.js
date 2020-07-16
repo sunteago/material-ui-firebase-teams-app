@@ -178,6 +178,7 @@ export default function Group() {
             messages={activeGroup.messages}
             user={user}
             dispatch={dispatch}
+            groupId={groupId}
           />
         )}
         {tab === 2 && <div>Members</div>}

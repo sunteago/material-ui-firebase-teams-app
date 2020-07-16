@@ -2,6 +2,7 @@ import * as actionTypes from "../../constants/types";
 import { db, firebase } from "../../config/firebaseConfig";
 import Group from "../../models/Group";
 import Task from "../../models/Task";
+import Message from "../../models/Message";
 
 export const fetchGroupsData = (groupsArr, seenMessages) => (dispatch) => {
   dispatch({ type: actionTypes.FETCH_GROUP_DATA_START });
@@ -305,15 +306,19 @@ export const addTaskItem = (groupId, newTask) => (dispatch) => {
   dispatch({ type: actionTypes.ADD_TASK_ITEM_START });
   const groupRef = db.collection("groups").doc(groupId);
 
-  const task = {...new Task(newTask, 1)};
+  const task = { ...new Task(newTask, 1) };
   groupRef
     .update({
       todoList: firebase.firestore.FieldValue.arrayUnion(task),
     })
     .then(() => {
-      dispatch({ type: actionTypes.ADD_TASK_ITEM_SUCCESS, payload: {
-        groupId, newTask: task
-      } });
+      dispatch({
+        type: actionTypes.ADD_TASK_ITEM_SUCCESS,
+        payload: {
+          groupId,
+          newTask: task,
+        },
+      });
     })
     .catch((err) => {
       dispatch({ type: actionTypes.ADD_TASK_ITEM_FAILED });
@@ -339,5 +344,29 @@ export const deleteTaskItem = (groupId, task) => (dispatch) => {
     })
     .catch((err) => {
       dispatch({ type: actionTypes.DELETE_TASK_ITEM_FAILED });
+    });
+};
+
+export const postGroupMessage = (groupId, msg, finishAction) => (dispatch) => {
+  dispatch({ type: actionTypes.POST_NEW_MESSAGE_START });
+  const groupRef = db.collection("groups").doc(groupId);
+
+  const message = new Message(msg, new Date());
+  groupRef
+    .update({
+      messages: firebase.firestore.FieldValue.arrayUnion({ ...message }),
+    })
+    .then(() => {
+      dispatch({
+        type: actionTypes.POST_NEW_MESSAGE_SUCCESS,
+        payload: {
+          groupId,
+          message,
+        },
+      });
+      finishAction();
+    })
+    .catch((err) => {
+      dispatch({ type: actionTypes.POST_NEW_MESSAGE_FAILED, payload: err });
     });
 };
