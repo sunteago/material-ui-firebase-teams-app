@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation, useHistory, useParams } from "react-router-dom";
+import { useLocation, useHistory, Redirect } from "react-router-dom";
 
 import { makeStyles, Typography, Button, Box, Grid } from "@material-ui/core";
 import * as actions from "../store/actions";
@@ -62,6 +62,15 @@ export default function InvitationLink() {
     );
   };
 
+  const redirectToGroupPageHandler = (e, groupId) => {
+     e.preventDefault();
+     history.push(`/groups/${groupId}`)
+  }
+
+  //empty search
+  if (invitationLinkId.current === null) {
+    return <Redirect to="/dashboard" push />;
+  }
 
   if (Object.keys(invitationLinkData).length) {
     const { groupName, message, groupId } = invitationLinkData;
@@ -109,7 +118,7 @@ export default function InvitationLink() {
             alertStyles={classes.alertMessage}
             severity="error"
             action={alertTypes.INVITATION_LINK_ALREADY_IN_GROUP}
-            handler={() => history.push(`/groups/${groupId}`)}
+            handler={(e) => redirectToGroupPageHandler(e, groupId)}
           />
         )}
       </Box>

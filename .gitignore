@@ -27,3 +27,4 @@ yarn-error.log*
 config/
 proposal
 .firebase/
+.firebase/hosting.YnVpbGQ.cache
