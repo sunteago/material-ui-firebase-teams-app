@@ -26,7 +26,7 @@ const Footer = () => {
       <Divider className={classes.dividerLine} />
       <Box m={3} textAlign="center">
         <a
-          href="https://www.linkedin.com/in/santiago-vallejo-0593211b1/"
+          href="https://www.linkedin.com/in/santiago-vallejo-dev/"
           alt="Santiago Vallejo's LinkedIn"
           target="_blank"
           rel="noopener noreferrer"
