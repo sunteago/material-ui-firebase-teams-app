@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
       3
     )}px`,
     position: 'relative',
-    minHeight: '20vh'
+    minHeight: '50vh'
   },
   container: {
     display: "flex",
