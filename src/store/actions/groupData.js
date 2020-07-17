@@ -3,6 +3,8 @@ import { db, firebase } from "../../config/firebaseConfig";
 import Group from "../../models/Group";
 import Task from "../../models/Task";
 import Message from "../../models/Message";
+import InvLink from "../../models/InvitationLink";
+import UserNotification from "../../models/Notification";
 
 export const fetchGroupsData = (groupsArr, seenMessages) => (dispatch) => {
   dispatch({ type: actionTypes.FETCH_GROUP_DATA_START });
@@ -171,7 +173,7 @@ export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
         transaction.update(groupRef, {
           [`roles.${user.userId}`]: {
             role: "member",
-            name: user.name
+            name: user.name,
           },
         });
         //set groupId in inGroups property within user document
@@ -203,6 +205,40 @@ export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
     });
 };
 
+export const sendNotificationToUser = (...args) => (dispatch) => {
+  dispatch({ type: actionTypes.SEND_NOTIFICATION_START });
+  const [invitedUserEmail, groupName, invLink] = args;
+  const invUserEmail = invitedUserEmail.toLowerCase();
+  const usersRef = db.collection("users").where("email", "==", invUserEmail);
+
+  const notif = new UserNotification(
+    "invitation",
+    undefined,
+    groupName,
+    invLink
+  );
+  console.log(notif);
+  usersRef
+    .get()
+    .then((snapshot) => {
+      let userRef;
+      snapshot.forEach((doc) => {
+        userRef = db.collection("users").doc(doc.id);
+      });
+      return userRef.update({
+        notifications: firebase.firestore.FieldValue.arrayUnion({ ...notif }),
+      });
+    })
+    .then(() => {
+      dispatch({ type: actionTypes.SEND_NOTIFICATION_SUCCESS });
+      console.log("succeed");
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: actionTypes.SEND_NOTIFICATION_FAILED, payload: err });
+    });
+};
+
 export const joinPublicGroupNoInvitation = (user, groupId, inGroups) => (
   dispatch
 ) => {
@@ -228,7 +264,7 @@ export const joinPublicGroupNoInvitation = (user, groupId, inGroups) => (
       transaction.update(groupRef, {
         [`roles.${user.userId}`]: {
           role: "member",
-          name: user.name
+          name: user.name,
         },
         lastUserJoined: user.userId,
       });
@@ -247,19 +283,20 @@ export const joinPublicGroupNoInvitation = (user, groupId, inGroups) => (
     });
 };
 
-export const createGroupInvitationLink = (groupId, groupName, message) => (
-  dispatch
-) => {
+export const createGroupInvitationLink = (...args) => (dispatch) => {
   dispatch({ type: actionTypes.CREATE_GROUP_INVITATION_LINK_START });
+
+  const [groupId, groupName, message, invitedUserEmail] = args;
+
   const groupRef = db.collection("groups").doc(groupId);
   const linkCollectionRef = db.collection("invitationLinks");
+
+  const invLink = new InvLink(groupId, groupName, message, invitedUserEmail);
+  console.log(invLink);
   let invitationLinkId;
+
   linkCollectionRef
-    .add({
-      groupId,
-      groupName,
-      message,
-    })
+    .add({ ...invLink })
     .then((linkId) => {
       invitationLinkId = linkId.id;
       return groupRef.update({
@@ -269,10 +306,20 @@ export const createGroupInvitationLink = (groupId, groupName, message) => (
       });
     })
     .then(() => {
-      dispatch({
-        type: actionTypes.CREATE_GROUP_INVITATION_LINK_SUCCESS,
-        payload: `${window.location}/invite?link=${invitationLinkId}`,
-      });
+      const invitationLink = `${window.location.pathname}/invite?link=${invitationLinkId}`;
+      if (invitedUserEmail) {
+        dispatch({
+          type: actionTypes.CREATE_GROUP_INVITATION_PERSONAL_SUCCESS,
+        });
+        dispatch(
+          sendNotificationToUser(invitedUserEmail, groupName, invitationLink)
+        );
+      } else {
+        dispatch({
+          type: actionTypes.CREATE_GROUP_INVITATION_LINK_SUCCESS,
+          payload: `${window.location.origin}${window.location.pathname}/invite?link=${invitationLinkId}`,
+        });
+      }
     })
     .catch((err) => {
       dispatch({
@@ -377,25 +424,30 @@ export const postGroupMessage = (groupId, msg, finishAction) => (dispatch) => {
     });
 };
 
-export const editGroupData = (groupId, groupData, setOpen) => dispatch => {
+export const editGroupData = (groupId, groupData, setOpen) => (dispatch) => {
   dispatch({ type: actionTypes.EDIT_GROUP_DATA_START });
-  
-  const groupRef = db.collection('groups').doc(groupId);
-  
-  groupRef.update({
-    description: groupData.description,
-    isPublic: groupData.isPublic,
-    image: groupData.imageURL,
-    name: groupData.name
-  })
-  .then(() => {
-    dispatch({ type: actionTypes.EDIT_GROUP_DATA_SUCCESS, payload: {
-      groupId, groupData
-    } });
-    setOpen(false);
-  })
-  .catch(err => {
-    console.log(err)
-    dispatch({ type: actionTypes.EDIT_GROUP_DATA_FAILED });
-  })
-}
+
+  const groupRef = db.collection("groups").doc(groupId);
+
+  groupRef
+    .update({
+      description: groupData.description,
+      isPublic: groupData.isPublic,
+      image: groupData.imageURL,
+      name: groupData.name,
+    })
+    .then(() => {
+      dispatch({
+        type: actionTypes.EDIT_GROUP_DATA_SUCCESS,
+        payload: {
+          groupId,
+          groupData,
+        },
+      });
+      setOpen(false);
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: actionTypes.EDIT_GROUP_DATA_FAILED });
+    });
+};

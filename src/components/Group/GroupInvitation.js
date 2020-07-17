@@ -27,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3),
   },
   generateBtn: {
-    textAlign: 'center'
-  }
+    textAlign: "center",
+  },
 }));
 
 export default function GroupInvitation(props) {
@@ -49,7 +49,14 @@ export default function GroupInvitation(props) {
 
   const personalInviteHandler = (e) => {
     e.preventDefault();
-    setInviteEmail("");
+    dispatch(
+      actions.createGroupInvitationLink(
+        activeGroup.groupId,
+        activeGroup.name,
+        inviteMessage,
+        inviteEmail
+      )
+    );
   };
 
   const onCopyURLHandler = () => {
@@ -99,9 +106,14 @@ export default function GroupInvitation(props) {
         <strong>Personal Invite:</strong> you specify who are you inviting.
       </Typography>
       <Box className={classes.wayContainer}>
-        <form style={{ margin: ".5rem", }}>
-          <Grid container alignItems="baseline" justify="space-around" spacing={2}>
-            <Grid item xs={12} sm={7} >
+        <form style={{ margin: ".5rem" }}>
+          <Grid
+            container
+            alignItems="baseline"
+            justify="space-around"
+            spacing={2}
+          >
+            <Grid item xs={12} sm={7}>
               <TextInput
                 value={inviteEmail}
                 setValue={setInviteEmail}
@@ -112,11 +124,8 @@ export default function GroupInvitation(props) {
                 required
               />
             </Grid>
-            <Grid item xs={12} sm={3}  style={{textAlign: 'center'}}>
-              <Button
-                color="primary"
-                onClick={personalInviteHandler}
-              >
+            <Grid item xs={12} sm={3} style={{ textAlign: "center" }}>
+              <Button color="primary" onClick={personalInviteHandler}>
                 Invite
               </Button>
             </Grid>
@@ -131,28 +140,27 @@ export default function GroupInvitation(props) {
       </Typography>
 
       <Box className={classes.wayContainer}>
-          <Grid container spacing={1} alignItems="center" justify="space-around">
-            <Grid item xs={12} sm={7}>
-              <TextField
-                ref={inviteLinkRef}
-                inputProps={{ readOnly: true }}
-                placeholder="Invitation Link"
-                fullWidth
-                type="url"
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={3} style={{textAlign: 'center'}}>
-              <Button
-                startIcon={<ShareIcon />}
-                color="primary"
-                onClick={onClickGenerateHandler}
-                
-              >
-                {!generatedLink ? "Generate" : "Share"}
-              </Button>
-            </Grid>
+        <Grid container spacing={1} alignItems="center" justify="space-around">
+          <Grid item xs={12} sm={7}>
+            <TextField
+              ref={inviteLinkRef}
+              inputProps={{ readOnly: true }}
+              placeholder="Invitation Link"
+              fullWidth
+              type="url"
+            />
           </Grid>
+
+          <Grid item xs={12} sm={3} style={{ textAlign: "center" }}>
+            <Button
+              startIcon={<ShareIcon />}
+              color="primary"
+              onClick={onClickGenerateHandler}
+            >
+              {!generatedLink ? "Generate" : "Share"}
+            </Button>
+          </Grid>
+        </Grid>
       </Box>
     </>
   );

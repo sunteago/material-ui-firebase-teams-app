@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import MessageItem from "./MessageItem";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Grid } from "@material-ui/core";
 import MessageWritingBox from "./MessageWritingBox";
 import * as actions from "../../store/actions";
 
@@ -40,7 +40,7 @@ export default function Messages({ groupId, messages, user, isMember, dispatch }
   };
 
   return (
-    <div>
+    <Grid container item xs={12} md={8} direction="column" >
       {messages.map((msg) => (
         <MessageItem
           key={msg.timestamp}
@@ -63,6 +63,6 @@ export default function Messages({ groupId, messages, user, isMember, dispatch }
           sendHandler={onClickSendMessage}
         />
       )}
-    </div>
+    </Grid>
   );
 }

@@ -14,6 +14,7 @@ export default function RecentNotifications(props) {
         title={notif.groupName || notif.title}
         content={content}
         handleClear={handleClearNotif(notif)}
+        linkTo={notif.link}
       />
     );
   });

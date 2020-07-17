@@ -96,7 +96,7 @@ export default function InvitationLink() {
               <Grid item xs={12} sm={6}>
                 <Button
                   onClick={() => onAcceptOrDeclineHandler(false)}
-                  variant="contained"
+                  variant="outlined"
                   color="secondary"
                 >
                   Decline

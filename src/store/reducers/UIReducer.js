@@ -44,6 +44,7 @@ export default function (state = initialState, action) {
     case actionTypes.POST_NEW_MESSAGE_FAILED:
     case actionTypes.EDIT_GROUP_DATA_SUCCESS:
     case actionTypes.EDIT_GROUP_DATA_FAILED:
+    case actionTypes.CREATE_GROUP_INVITATION_PERSONAL_SUCCESS:
       return {
         ...state,
         loading: false,
