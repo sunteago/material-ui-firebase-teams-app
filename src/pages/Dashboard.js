@@ -59,6 +59,7 @@ export default function Dashboard() {
             title="Recent Activity"
             handleClearComment={handleClearComment}
             groups={userGroupsContent}
+            userId={user.uid}
           />
         </Grid>
 

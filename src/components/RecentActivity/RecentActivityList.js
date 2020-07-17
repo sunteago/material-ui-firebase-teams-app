@@ -15,10 +15,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function RecentActivityList(props) {
-  const { handleClearComment, groups, title } = props;
+  const { handleClearComment, groups, title, userId } = props;
   
   const classes = useStyles();
-  
+
   return (
     <>
       <SectionTitle style={{ textAlign: "center" }}>{title}</SectionTitle>
@@ -29,6 +29,7 @@ export default function RecentActivityList(props) {
               key={activityItem.groupId}
               activityItem={activityItem}
               handleClearComment={handleClearComment}
+              userId={userId}
             />
           );
         })}
