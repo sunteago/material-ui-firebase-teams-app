@@ -7,6 +7,11 @@ export default class User {
     this.isVisible = true;
     this.seenMessages = [];
     this.name = displayName;
-    this.notifications = [];
+    this.notifications = [{
+      type: 'appMessage',
+      title: 'Welcome',
+      content: 'Welcome to the Teams App. We recommend you to start creating a group',
+      timestamp: new Date(),
+    }];
   }
 }

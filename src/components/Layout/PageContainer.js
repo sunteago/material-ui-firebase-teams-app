@@ -30,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
     padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(
       3
     )}px`,
-    position: 'relative'
+    position: 'relative',
+    minHeight: '50vh'
   },
   container: {
     display: "flex",
