@@ -187,8 +187,9 @@ export default function Group() {
           <Messages
             messages={activeGroup.messages}
             user={user}
-            dispatch={dispatch}
             groupId={groupId}
+            isMember={isMember}
+            dispatch={dispatch}
           />
         )}
         {tab === 2 && <Members members={activeGroup.roles} />}

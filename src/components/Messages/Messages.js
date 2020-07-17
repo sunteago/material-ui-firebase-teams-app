@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Messages({ groupId, messages, user, dispatch }) {
+export default function Messages({ groupId, messages, user, isMember, dispatch }) {
   const classes = useStyles();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -51,16 +51,18 @@ export default function Messages({ groupId, messages, user, dispatch }) {
           userId={msg.userId}
         />
       ))}
-      <MessageWritingBox
-        title={title}
-        setTitle={setTitle}
-        content={content}
-        setContent={setContent}
-        avatar={user.photoURL}
-        username={user.displayName || user.email}
-        classes={classes}
-        sendHandler={onClickSendMessage}
-      />
+      {isMember && (
+        <MessageWritingBox
+          title={title}
+          setTitle={setTitle}
+          content={content}
+          setContent={setContent}
+          avatar={user.photoURL}
+          username={user.displayName || user.email}
+          classes={classes}
+          sendHandler={onClickSendMessage}
+        />
+      )}
     </div>
   );
 }
