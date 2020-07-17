@@ -89,7 +89,7 @@ export const submitProfileChanges = (userId, userData, finishAction) => (
       status: userData.description,
       isVisible: userData.isPublic,
       avatar: userData.imageURL,
-      name: userData.name
+      name: userData.name,
     }),
   ])
     .then(() => {
@@ -108,6 +108,24 @@ export const submitProfileChanges = (userId, userData, finishAction) => (
     });
 };
 
-export const clearNotification = (notifId) => dispatch => {
-  console.log('clearing')
-}
+export const clearNotification = (userId, notif) => (dispatch) => {
+  console.log('some')
+  dispatch({ type: actionTypes.CLEAR_NOTIFICATION_START });
+
+  const userRef = db.collection("users").doc(userId);
+
+  userRef
+    .update({
+      notifications: firebase.firestore.FieldValue.arrayRemove(notif),
+    })
+    .then(() => {
+      dispatch({
+        type: actionTypes.CLEAR_NOTIFICATION_SUCCESS,
+        payload: notif,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: actionTypes.CLEAR_NOTIFICATION_FAILED });
+    });
+};

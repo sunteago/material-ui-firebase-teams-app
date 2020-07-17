@@ -4,56 +4,54 @@ import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../store/actions";
 import RecentNotifications from "../components/Notifications/RecentNotifications";
 import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
-import { Typography, makeStyles, Container, Divider } from "@material-ui/core";
+import { Typography, Container, Divider } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
-  notificationsContainer: {
-    marginTop: theme.spacing(5),
-  },
-}));
+
 
 export default function Notifications() {
-  const classes = useStyles();
 
   const notifications = useSelector((state) => state.userData.notifications);
+  const userId = useSelector((state) => state.auth.user.uid);
   const dispatch = useDispatch();
 
-  const handleClearNotif = () => {
-    dispatch(actions.clearNotification());
+  const handleClearNotif = (notif) => () => {
+    dispatch(actions.clearNotification(userId, notif));
   };
 
   const invitations = notifications.filter(
     (notif) => notif.type === "invitation"
   );
-  const usersJoinedToMyGroup = notifications.filter(
-    (notif) => notif.type === "userJoined"
+  const appMessages = notifications.filter(
+    (notif) => notif.type === "appMessage"
   );
 
   return (
     <>
       <SectionTitle>Last Notifications</SectionTitle>
-      <Container className={classes.notificationsContainer}>
-        {!invitations.length && !usersJoinedToMyGroup.length && (
+      <Divider style={{ width: "100%", margin: "2rem" }} />
+      <Container >
+        {!notifications.length && (
+          <Typography>You have no new notifications</Typography>
+        )}
+        {!!appMessages.length && (
           <>
-            <Typography>You have 0 new notifications</Typography>
-            <Divider style={{width: '100%'}} />
+            <SectionTitle variant="h5">Teams App Staff</SectionTitle>
+            <RecentNotifications
+              notifications={appMessages}
+              handleClearNotif={handleClearNotif}
+              type="appMessage"
+            />
+            <Divider style={{ width: "100%" }} />
           </>
         )}
-        {invitations.length && (
+
+        {!!invitations.length && (
           <>
             <SectionTitle variant="h5">Group Invitations</SectionTitle>
             <RecentNotifications
               notifications={invitations}
               handleClearNotif={handleClearNotif}
-            />
-          </>
-        )}
-        {usersJoinedToMyGroup.length && (
-          <>
-            <SectionTitle variant="h5">New users in your groups</SectionTitle>
-            <RecentNotifications
-              notifications={usersJoinedToMyGroup}
-              handleClearNotif={handleClearNotif}
+              type="invitation"
             />
           </>
         )}

@@ -180,6 +180,13 @@ export function userDataReducer(state = initialState, action) {
           return group;
         }),
       };
+    case actionTypes.CLEAR_NOTIFICATION_SUCCESS: 
+      return {
+        ...state,
+        notifications: state.notifications.filter(notif => (
+          notif.timestamp !== action.payload.timestamp
+        ))
+      }
     case actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_SUCCESS:
     case actionTypes.ACCEPT_OR_DECLINE_INVITATION_START:
     case actionTypes.ACCEPT_OR_DECLINE_INVITATION_SUCCESS:

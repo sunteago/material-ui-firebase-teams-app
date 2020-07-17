@@ -13,10 +13,10 @@ export default function ImageInput({ classes, imageURL, setImageURL }) {
         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setProgress(progress);
         if (snapshot.state === firebase.storage.TaskState.PAUSED) {
-          console.log("Upload is paused");
+          //console.log("Upload is paused");
         }
         if (snapshot.state === firebase.storage.TaskState.RUNNING) {
-          console.log("Upload is running");
+          //console.log("Upload is running");
         }
       },
       (error) => {
