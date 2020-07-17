@@ -106,7 +106,7 @@ export default function GroupInvitation(props) {
         <strong>Personal Invite:</strong> you specify who are you inviting.
       </Typography>
       <Box className={classes.wayContainer}>
-        <form style={{ margin: ".5rem" }}>
+        <form style={{ margin: ".5rem" }} onSubmit={e => e.preventDefault()}>
           <Grid
             container
             alignItems="baseline"
@@ -125,7 +125,7 @@ export default function GroupInvitation(props) {
               />
             </Grid>
             <Grid item xs={12} sm={3} style={{ textAlign: "center" }}>
-              <Button color="primary" onClick={personalInviteHandler}>
+              <Button type='submit' color="primary" onClick={personalInviteHandler}>
                 Invite
               </Button>
             </Grid>

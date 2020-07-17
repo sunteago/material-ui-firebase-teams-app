@@ -35,7 +35,6 @@ export const fetchGroupsData = (groupsArr, seenMessages) => (dispatch) => {
       }
     })
     .catch((err) => {
-      console.log(err);
       dispatch({ type: actionTypes.FETCH_GROUP_DATA_FAILED });
     });
 };
@@ -197,7 +196,6 @@ export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
       }
     })
     .catch((err) => {
-      console.log(err);
       dispatch({
         type: actionTypes.ACCEPT_OR_DECLINE_INVITATION_FAILED,
         payload: err,
@@ -211,13 +209,8 @@ export const sendNotificationToUser = (...args) => (dispatch) => {
   const invUserEmail = invitedUserEmail.toLowerCase();
   const usersRef = db.collection("users").where("email", "==", invUserEmail);
 
-  const notif = new UserNotification(
-    "invitation",
-    undefined,
-    groupName,
-    invLink
-  );
-  console.log(notif);
+  const notif = new UserNotification("invitation",undefined,groupName,invLink);
+
   usersRef
     .get()
     .then((snapshot) => {
@@ -231,10 +224,8 @@ export const sendNotificationToUser = (...args) => (dispatch) => {
     })
     .then(() => {
       dispatch({ type: actionTypes.SEND_NOTIFICATION_SUCCESS });
-      console.log("succeed");
     })
     .catch((err) => {
-      console.log(err);
       dispatch({ type: actionTypes.SEND_NOTIFICATION_FAILED, payload: err });
     });
 };
@@ -292,7 +283,6 @@ export const createGroupInvitationLink = (...args) => (dispatch) => {
   const linkCollectionRef = db.collection("invitationLinks");
 
   const invLink = new InvLink(groupId, groupName, message, invitedUserEmail);
-  console.log(invLink);
   let invitationLinkId;
 
   linkCollectionRef
@@ -336,7 +326,6 @@ export const createNewGroup = (groupData, user, history) => (dispatch) => {
   const timestamp = firebase.firestore.FieldValue.serverTimestamp();
   const groupModel = new Group(groupData, user, timestamp);
 
-  console.log(groupModel);
   let groupId;
   groupsRef
     .add({ ...groupModel })
@@ -447,7 +436,6 @@ export const editGroupData = (groupId, groupData, setOpen) => (dispatch) => {
       setOpen(false);
     })
     .catch((err) => {
-      console.log(err);
       dispatch({ type: actionTypes.EDIT_GROUP_DATA_FAILED });
     });
 };
