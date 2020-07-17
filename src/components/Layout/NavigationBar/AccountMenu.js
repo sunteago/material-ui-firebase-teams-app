@@ -9,15 +9,12 @@ import Menu from "@material-ui/core/Menu";
 import IconButton from "@material-ui/core/IconButton";
 import { Avatar } from "@material-ui/core";
 
-export default function AccountMenu({ userId, avatar }) {
+export default function AccountMenu({ name, userId, avatar, classes }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
 
   const dispatch = useDispatch();
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleClose = () => setAnchorEl(null);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -29,7 +26,7 @@ export default function AccountMenu({ userId, avatar }) {
   };
 
   return (
-    <div>
+    <>
       <IconButton
         aria-label="account of current user"
         aria-controls="menu-appbar"
@@ -37,7 +34,11 @@ export default function AccountMenu({ userId, avatar }) {
         onClick={handleMenu}
         color="inherit"
       >
-        {avatar ? <Avatar src={avatar} alt={``} /> : <AccountCircle />}
+        {avatar ? (
+          <Avatar className={classes.avatar} src={avatar} alt={`${name}'s Avatar`} />
+        ) : (
+          <AccountCircle />
+        )}
       </IconButton>
       <Menu
         id="menu-appbar"
@@ -51,7 +52,7 @@ export default function AccountMenu({ userId, avatar }) {
           vertical: "top",
           horizontal: "right",
         }}
-        open={open}
+        open={!!anchorEl}
         onClose={handleClose}
       >
         <Link style={{ all: "unset" }} to={`/profile/${userId}`}>
@@ -59,6 +60,6 @@ export default function AccountMenu({ userId, avatar }) {
         </Link>
         <MenuItem onClick={signOutHandler}>Sign out</MenuItem>
       </Menu>
-    </div>
+    </>
   );
 }

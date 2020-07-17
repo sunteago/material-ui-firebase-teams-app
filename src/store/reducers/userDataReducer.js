@@ -12,6 +12,7 @@ const initialState = {
   invitationLinkData: {},
   generatedInvitationLink: "",
   activeUser: {},
+  notifications: []
 };
 
 const removeSeenMessages = (action, group) => {
@@ -38,6 +39,7 @@ export function userDataReducer(state = initialState, action) {
         memberSince: action.payload.memberSince,
         isUserVisible: action.payload.isVisible,
         topActivePublicGroups: action.payload.topActivePublicGroups,
+        notifications: action.payload.notifications
       };
     case actionTypes.FETCH_NEWS_SUCCESS:
       return {

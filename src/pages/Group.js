@@ -84,15 +84,17 @@ export default function Group() {
     dispatch(actions.editGroupData(groupId, groupData, setIsModalOpen));
   };
 
+  //there is a group found
   if (Object.keys(activeGroup).length) {
     const isCreator = !!(
       activeGroup.roles[user.uid] &&
       activeGroup.roles[user.uid].role === "creator"
     );
-    const isUserAbleToInvite = isCreator || activeGroup.usersAllowedToInvite;
     const isMember = !!(
       activeGroup.roles[user.uid] && activeGroup.roles[user.uid].role
     );
+
+    const isUserAbleToInvite = isCreator || activeGroup.usersAllowedToInvite;
 
     return (
       <>
@@ -139,7 +141,7 @@ export default function Group() {
         </Grid>
 
         <SectionTitle>{activeGroup.name}</SectionTitle>
-        {!!isUserAbleToInvite && isMember && (
+        {isUserAbleToInvite && isMember && (
           <Button
             onClick={() => setIsModalOpen((prev) => !prev)}
             size="small"

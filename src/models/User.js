@@ -7,5 +7,6 @@ export default class User {
     this.isVisible = true;
     this.seenMessages = [];
     this.name = displayName;
+    this.notifications = [];
   }
 }

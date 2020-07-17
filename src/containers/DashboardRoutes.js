@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import PageContainer from "../components/Layout/PageContainer";
 import Dashboard from "../pages/Dashboard";
 import Group from "../pages/Group";
+import Notifications from "../pages/Notifications";
 
 const News = React.lazy(() => import("../pages/News"));
 const SingleNews = React.lazy(() => import("../pages/SingleNews"));
@@ -17,6 +18,9 @@ export default function DashboardRoutes() {
       <Switch>
         <Route exact path="/dashboard">
           <Dashboard />
+        </Route>
+        <Route exact path="/notifications">
+          <Notifications />
         </Route>
         <Route exact path="/about">
           <Dashboard />
