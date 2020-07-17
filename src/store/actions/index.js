@@ -11,6 +11,7 @@ export {
   fetchNewsData,
   fetchUserProfile,
   submitProfileChanges,
+  clearNotification
 } from "./userData";
 
 export {

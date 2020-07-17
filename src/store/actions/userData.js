@@ -107,3 +107,7 @@ export const submitProfileChanges = (userId, userData, finishAction) => (
       });
     });
 };
+
+export const clearNotification = (notifId) => dispatch => {
+  console.log('clearing')
+}

@@ -27,6 +27,7 @@ export default function NewsList({ title, news }) {
               title={newsItem.title}
               content={newsItem.shortContent}
               linkTo={`/news/${newsItem.newsId}`}
+              type='newsItem'
             />
           );
         })}

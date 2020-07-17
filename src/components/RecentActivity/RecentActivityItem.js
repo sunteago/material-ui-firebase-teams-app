@@ -33,9 +33,7 @@ export default function RecentActivityItem(props) {
                   title={message.title}
                   content={message.content}
                   author={message.author}
-                  handleClearComment={() =>
-                    handleClearComment(message.timestamp)
-                  }
+                  handleClear={() => handleClearComment(message.timestamp)}
                 />
               ))}
           </List>

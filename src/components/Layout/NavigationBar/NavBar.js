@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 import DrawerMenu from "./DrawerMenu";
 import AccountMenu from "./AccountMenu";
-import NotificationsMenu from "./NotificationsIcon";
+import NotificationsButton from "./NotificationsButton";
 import Loading from "../Loading";
 
 import AppBar from "@material-ui/core/AppBar";
@@ -29,6 +29,10 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     width: theme.spacing(5),
     height: theme.spacing(5),
+  },
+  notificationsButton: {
+    all: "unset",
+    color: theme.palette.primary.contrastText,
   },
 }));
 
@@ -64,7 +68,10 @@ function NavBar() {
 
           {isAuth ? (
             <>
-              <NotificationsMenu notificationsNum={notifications.length} />
+              <NotificationsButton
+                classes={classes}
+                notificationsNum={notifications.length}
+              />
               <AccountMenu
                 name={user.displayName}
                 userId={user.uid}

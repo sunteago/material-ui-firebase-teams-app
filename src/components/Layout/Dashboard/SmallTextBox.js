@@ -35,8 +35,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NewsItem(props) {
-  const { title, content, author, handleClearComment, linkTo } = props;
+export default function SmallTextBox(props) {
+  const { title, content, author, handleClear, linkTo, type } = props;
 
   const classes = useStyles();
 
@@ -82,7 +82,7 @@ export default function NewsItem(props) {
 
         <Box style={textStyle} className={classes.textBoxContainer}>
           <ListItemText primary={primaryText} secondary={secondaryText} />
-          {!author && (
+          {type === 'newsItem'  && (
             <Link style={{textDecoration: 'none' }} to={linkTo}>
               <Button color="primary" style={{ padding: ".5rem 0" }}>
                 Read More
@@ -91,17 +91,17 @@ export default function NewsItem(props) {
           )}
         </Box>
 
-        {author && (
+        {type !== 'newsItem' && (
           <IconButton
             style={{ alignSelf: "center" }}
             aria-label="clear comment"
-            onClick={handleClearComment}
+            onClick={handleClear}
           >
             <ClearIcon />
           </IconButton>
         )}
       </ListItem>
-      {!author && <Divider variant="inset" component="li" />}
+      {type === 'newsItem' && <Divider variant="inset" component="li" />}
     </>
   );
 }
