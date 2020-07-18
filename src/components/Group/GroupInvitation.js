@@ -5,7 +5,6 @@ import * as alertTypes from "../../constants/alertTypes";
 import ShareIcon from "@material-ui/icons/Share";
 import { shareContent } from "../../utils/helpers";
 import TextInput from "../TextInput";
-import SnackAlert from "../Layout/SnackAlert";
 import {
   Typography,
   Button,
@@ -34,14 +33,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function GroupInvitation(props) {
-  const { generatedLink, dispatch, activeGroup } = props;
+  const { generatedLink, dispatch, activeGroup, setIsSnackOpen, setSnackData } = props;
   const classes = useStyles();
 
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteMessage, setInviteMessage] = useState("");
-
-  const [isSnackOpen, setIsSnackOpen] = useState(false);
-  const [snackData, setSnackData] = useState({ severity: "", action: "" });
 
   const inviteLinkRef = useRef(null);
 
@@ -180,12 +176,6 @@ export default function GroupInvitation(props) {
           </Grid>
         </Grid>
       </Box>
-      <SnackAlert
-        severity={snackData.severity}
-        open={isSnackOpen}
-        setOpen={setIsSnackOpen}
-        action={snackData.action}
-      />
     </>
   );
 }

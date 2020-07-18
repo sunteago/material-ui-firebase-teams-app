@@ -84,8 +84,10 @@ export const clearActivityCommentDB = (commTimestamp, userId) => (dispatch) => {
     });
 };
 
-export const toggleTaskItem = (groupId, updatedTask, oldTask) => (dispatch) => {
+export const toggleTaskItem = (...args) => (dispatch) => {
   dispatch({ type: actionTypes.TOGGLE_LIST_ITEM_START });
+
+  const [groupId, updatedTask, oldTask, onError] = args;
 
   const batch = db.batch();
   const groupRef = db.collection("groups").doc(groupId);
@@ -110,6 +112,7 @@ export const toggleTaskItem = (groupId, updatedTask, oldTask) => (dispatch) => {
     })
     .catch((err) => {
       dispatch({ type: actionTypes.TOGGLE_LIST_ITEM_FAILED, payload: err });
+      onError({ severity: "error", action: alertTypes.TOGGLE_TASK_FAILED });
     });
 };
 
@@ -232,11 +235,17 @@ export const sendNotificationToUser = (...args) => (dispatch) => {
     })
     .then(() => {
       dispatch({ type: actionTypes.SEND_NOTIFICATION_SUCCESS });
-      onFinish({severity: 'success', action: alertTypes.SENT_INVITATION_LINK_SUCCESS})
+      onFinish({
+        severity: "success",
+        action: alertTypes.SENT_INVITATION_LINK_SUCCESS,
+      });
     })
     .catch((err) => {
       dispatch({ type: actionTypes.SEND_NOTIFICATION_FAILED, payload: err });
-      onFinish({severity: 'error', action: alertTypes.SENT_INVITATION_LINK_FAILED})
+      onFinish({
+        severity: "error",
+        action: alertTypes.SENT_INVITATION_LINK_FAILED,
+      });
     });
 };
 
@@ -312,7 +321,12 @@ export const createGroupInvitationLink = (...args) => (dispatch) => {
           type: actionTypes.CREATE_GROUP_INVITATION_PERSONAL_SUCCESS,
         });
         dispatch(
-          sendNotificationToUser(invitedUserEmail, groupName, invitationLink, onFinish)
+          sendNotificationToUser(
+            invitedUserEmail,
+            groupName,
+            invitationLink,
+            onFinish
+          )
         );
       } else {
         dispatch({
@@ -377,7 +391,7 @@ export const addTaskItem = (groupId, newTask) => (dispatch) => {
     });
 };
 
-export const deleteTaskItem = (groupId, task) => (dispatch) => {
+export const deleteTaskItem = (groupId, task, onError) => (dispatch) => {
   dispatch({ type: actionTypes.DELETE_TASK_ITEM_START });
   const groupRef = db.collection("groups").doc(groupId);
 
@@ -396,6 +410,7 @@ export const deleteTaskItem = (groupId, task) => (dispatch) => {
     })
     .catch((err) => {
       dispatch({ type: actionTypes.DELETE_TASK_ITEM_FAILED });
+      onError({ severity: "error", action: alertTypes.TOGGLE_TASK_FAILED });
     });
 };
 

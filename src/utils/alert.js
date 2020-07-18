@@ -72,13 +72,15 @@ export const getAlertMsgFromAction = (action, handler) => {
 export const getSnackAlertMsgFromAction = (action) => {
   switch (action) {
     case alertTypes.COPY_LINK_SUCCESS:
-      return 'The invitation link was successfully copied to clipboard'
+      return 'The invitation link was successfully copied to clipboard';
     case alertTypes.SENT_INVITATION_LINK_SUCCESS:
-      return 'The invitation was successfully sent'
+      return 'The invitation was successfully sent';
     case alertTypes.SENT_INVITATION_LINK_FAILED:
-      return 'The invitation could not be sent, perhaps an user with that email does not exist'
+      return 'The invitation could not be sent, perhaps an user with that email does not exist';
     case alertTypes.COPY_NEWS_LINK: 
-      return 'The news link was successfully copied to clipboard'
+      return 'The news link was successfully copied to clipboard';
+    case alertTypes.TOGGLE_TASK_FAILED:
+      return 'You need to join this group before interacting with it';
     default:
       return 'Something happened'
   }

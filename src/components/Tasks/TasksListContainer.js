@@ -44,30 +44,47 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "baseline",
   },
   listItemIcon: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   listIconButton: {
-    padding: theme.spacing(0.75)
+    padding: theme.spacing(0.75),
   },
   deleteDoneTaskIcon: {
     "&:hover": {
-      fill: theme.palette.secondary.dark
+      fill: theme.palette.secondary.dark,
     },
   },
 }));
 
-export default function TodoList({ todoList, groupId, dispatch }) {
+export default function TodoList(props) {
+  const {
+    todoList,
+    isMember,
+    groupId,
+    dispatch,
+    setIsSnackOpen,
+    setSnackData,
+  } = props;
+
   const classes = useStyles();
-  const doneTodoList = todoList.filter(listItem => listItem.done === true)
-  const notDoneTodoList = todoList.filter(listItem => listItem.done === false)
+  const doneTodoList = todoList.filter((listItem) => listItem.done === true);
+  const notDoneTodoList = todoList.filter(
+    (listItem) => listItem.done === false
+  );
 
   const [newTask, setNewTask] = useState("");
 
+  const onErrorHandler = (taskResult) => {
+    setIsSnackOpen(true);
+    setSnackData(taskResult);
+  };
 
   const onTaskClickHandler = (task) => {
     const oldTask = { ...task };
-    const updatedTask = {...task, done: !task.done};
-    dispatch(actions.toggleTaskItem(groupId, updatedTask, oldTask));
+    const updatedTask = { ...task, done: !task.done };
+    dispatch(
+      actions.toggleTaskItem(groupId, updatedTask, oldTask, onErrorHandler)
+    );
   };
 
   const onAddTaskHandler = (e) => {
@@ -78,7 +95,7 @@ export default function TodoList({ todoList, groupId, dispatch }) {
 
   const onDeleteTaskHandler = (task) => (e) => {
     e.stopPropagation();
-    dispatch(actions.deleteTaskItem(groupId, task));
+    dispatch(actions.deleteTaskItem(groupId, task, onErrorHandler));
   };
 
   return (
@@ -108,21 +125,26 @@ export default function TodoList({ todoList, groupId, dispatch }) {
           isInReadyList
         />
       </Grid>
-      <Grid item xs={12} container justify="center">
-        <form className={classes.addItemContainer} onSubmit={onAddTaskHandler}>
-          <TextInput
-            label="Add a new Task"
-            value={newTask}
-            setValue={setNewTask}
-            required
-            maxLength={30}
-            minLength={5}
-          />
-          <IconButton type="submit" aria-label="Add task">
-            <AddCircleRoundedIcon />
-          </IconButton>
-        </form>
-      </Grid>
+      {isMember && (
+        <Grid item xs={12} container justify="center">
+          <form
+            className={classes.addItemContainer}
+            onSubmit={onAddTaskHandler}
+          >
+            <TextInput
+              label="Add a new Task"
+              value={newTask}
+              setValue={setNewTask}
+              required
+              maxLength={30}
+              minLength={5}
+            />
+            <IconButton type="submit" aria-label="Add task">
+              <AddCircleRoundedIcon />
+            </IconButton>
+          </form>
+        </Grid>
+      )}
     </Grid>
   );
 }
