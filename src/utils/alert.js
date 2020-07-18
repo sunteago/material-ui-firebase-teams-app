@@ -31,7 +31,7 @@ export const getAlertMsgFromAction = (action, handler) => {
           <strong>everyone will be able to find it!</strong>
         </>
       );
-    case alertTypes.FETCH_SINGLE_GROUP_ERROR:
+    case alertTypes.FETCH_SINGLE_GROUP_FAILED:
       return (
         <>
           <AlertTitle>Error</AlertTitle>
@@ -67,3 +67,17 @@ export const getAlertMsgFromAction = (action, handler) => {
       );
   }
 };
+
+
+export const getSnackAlertMsgFromAction = (action) => {
+  switch (action) {
+    case alertTypes.COPY_LINK_SUCCESS:
+      return 'The invitation link was successfully copied to clipboard'
+    case alertTypes.SENT_INVITATION_LINK_SUCCESS:
+      return 'The invitation was successfully sent'
+    case alertTypes.SENT_INVITATION_LINK_FAILED:
+      return 'The invitation could not be sent, perhaps an user with that email does not exist'
+    default:
+      return 'Something happened'
+  }
+}

@@ -213,7 +213,7 @@ export default function Group() {
       <AlertMessage
         alertStyles={classes.alertMessage}
         severity="error"
-        action={alertTypes.FETCH_SINGLE_GROUP_ERROR}
+        action={alertTypes.FETCH_SINGLE_GROUP_FAILED}
       />
     ) : null;
   }

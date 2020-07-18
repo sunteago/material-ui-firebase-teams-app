@@ -1,6 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import * as actions from "../../store/actions";
 
+import * as alertTypes from "../../constants/alertTypes";
+import ShareIcon from "@material-ui/icons/Share";
+import { shareContent } from "../../utils/helpers";
+import { getSnackAlertMsgFromAction } from "../../utils/alert";
+import TextInput from "../TextInput";
+import SnackAlert from "../Layout/SnackAlert";
 import {
   Typography,
   Button,
@@ -10,9 +16,6 @@ import {
   makeStyles,
   Divider,
 } from "@material-ui/core";
-import ShareIcon from "@material-ui/icons/Share";
-import { shareContent } from "../../utils/helpers";
-import TextInput from "../TextInput";
 
 const useStyles = makeStyles((theme) => ({
   messageContainer: {
@@ -39,6 +42,9 @@ export default function GroupInvitation(props) {
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteMessage, setInviteMessage] = useState("");
 
+  const [isSnackOpen, setIsSnackOpen] = useState(false);
+  const [snackData, setSnackData] = useState({ severity: "", action: "" });
+
   const inviteLinkRef = useRef(null);
 
   useEffect(() => {
@@ -47,6 +53,12 @@ export default function GroupInvitation(props) {
     }
   }, [generatedLink]);
 
+
+  const onFinishHandler = (snackContent) => {
+    setIsSnackOpen(true);
+    setSnackData(snackContent)
+  }
+
   const personalInviteHandler = (e) => {
     e.preventDefault();
     dispatch(
@@ -54,7 +66,8 @@ export default function GroupInvitation(props) {
         activeGroup.groupId,
         activeGroup.name,
         inviteMessage,
-        inviteEmail
+        inviteEmail,
+        onFinishHandler
       )
     );
   };
@@ -63,6 +76,10 @@ export default function GroupInvitation(props) {
     inviteLinkRef.current.querySelector("input").focus();
     inviteLinkRef.current.querySelector("input").select();
     document.execCommand("copy");
+    onFinishHandler({
+      severity: "success",
+      action: alertTypes.COPY_LINK_SUCCESS
+    });
   };
 
   const onClickGenerateHandler = (e) => {
@@ -76,7 +93,7 @@ export default function GroupInvitation(props) {
       );
     } else {
       const shareTitle = `Join ${activeGroup.name}`;
-      shareContent(shareTitle, generatedLink, onCopyURLHandler);
+      shareContent(shareTitle, generatedLink, onCopyURLHandler, setSnackData);
     }
   };
 
@@ -106,7 +123,7 @@ export default function GroupInvitation(props) {
         <strong>Personal Invite:</strong> you specify who are you inviting.
       </Typography>
       <Box className={classes.wayContainer}>
-        <form style={{ margin: ".5rem" }} onSubmit={e => e.preventDefault()}>
+        <form style={{ margin: ".5rem" }} onSubmit={personalInviteHandler}>
           <Grid
             container
             alignItems="baseline"
@@ -125,7 +142,10 @@ export default function GroupInvitation(props) {
               />
             </Grid>
             <Grid item xs={12} sm={3} style={{ textAlign: "center" }}>
-              <Button type='submit' color="primary" onClick={personalInviteHandler}>
+              <Button
+                type="submit"
+                color="primary"
+              >
                 Invite
               </Button>
             </Grid>
@@ -162,6 +182,13 @@ export default function GroupInvitation(props) {
           </Grid>
         </Grid>
       </Box>
+      <SnackAlert
+        severity={snackData.severity}
+        open={isSnackOpen}
+        setOpen={setIsSnackOpen}
+      >
+        {getSnackAlertMsgFromAction(snackData.action)}
+      </SnackAlert>
     </>
   );
 }

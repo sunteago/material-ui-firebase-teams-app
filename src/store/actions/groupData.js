@@ -1,5 +1,8 @@
-import * as actionTypes from "../../constants/types";
 import { db, firebase } from "../../config/firebaseConfig";
+
+import * as actionTypes from "../../constants/types";
+import * as alertTypes from "../../constants/alertTypes";
+
 import Group from "../../models/Group";
 import Task from "../../models/Task";
 import Message from "../../models/Message";
@@ -205,11 +208,16 @@ export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
 
 export const sendNotificationToUser = (...args) => (dispatch) => {
   dispatch({ type: actionTypes.SEND_NOTIFICATION_START });
-  const [invitedUserEmail, groupName, invLink] = args;
+  const [invitedUserEmail, groupName, invLink, onFinish] = args;
   const invUserEmail = invitedUserEmail.toLowerCase();
   const usersRef = db.collection("users").where("email", "==", invUserEmail);
 
-  const notif = new UserNotification("invitation",undefined,groupName,invLink);
+  const notif = new UserNotification(
+    "invitation",
+    undefined,
+    groupName,
+    invLink
+  );
 
   usersRef
     .get()
@@ -224,16 +232,18 @@ export const sendNotificationToUser = (...args) => (dispatch) => {
     })
     .then(() => {
       dispatch({ type: actionTypes.SEND_NOTIFICATION_SUCCESS });
+      onFinish({severity: 'success', action: alertTypes.SENT_INVITATION_LINK_SUCCESS})
     })
     .catch((err) => {
       dispatch({ type: actionTypes.SEND_NOTIFICATION_FAILED, payload: err });
+      onFinish({severity: 'error', action: alertTypes.SENT_INVITATION_LINK_FAILED})
     });
 };
 
-export const joinPublicGroupNoInvitation = (user, groupId, inGroups) => (
-  dispatch
-) => {
+export const joinPublicGroupNoInvitation = (...args) => (dispatch) => {
   dispatch({ type: actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_START });
+
+  const [user, groupId, inGroups] = args;
 
   const userRef = db.collection("users").doc(user.userId);
   const groupRef = db.collection("groups").doc(groupId);
@@ -277,7 +287,7 @@ export const joinPublicGroupNoInvitation = (user, groupId, inGroups) => (
 export const createGroupInvitationLink = (...args) => (dispatch) => {
   dispatch({ type: actionTypes.CREATE_GROUP_INVITATION_LINK_START });
 
-  const [groupId, groupName, message, invitedUserEmail] = args;
+  const [groupId, groupName, message, invitedUserEmail, onFinish] = args;
 
   const groupRef = db.collection("groups").doc(groupId);
   const linkCollectionRef = db.collection("invitationLinks");
@@ -302,7 +312,7 @@ export const createGroupInvitationLink = (...args) => (dispatch) => {
           type: actionTypes.CREATE_GROUP_INVITATION_PERSONAL_SUCCESS,
         });
         dispatch(
-          sendNotificationToUser(invitedUserEmail, groupName, invitationLink)
+          sendNotificationToUser(invitedUserEmail, groupName, invitationLink, onFinish)
         );
       } else {
         dispatch({
