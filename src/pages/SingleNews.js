@@ -2,14 +2,22 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { makeStyles, IconButton, Divider, Box } from "@material-ui/core";
+import SnackAlert from "../components/Layout/SnackAlert";
+import * as alertTypes from "../constants/alertTypes";
+import {
+  makeStyles,
+  IconButton,
+  Divider,
+  Box,
+  TextField,
+  Grid,
+  Button,
+} from "@material-ui/core";
 import Modal from "../components/Layout/Modal/Modal";
 import { Typography } from "@material-ui/core";
-import {
-  getHowManyDaysAgo,
-  shareContent,
-} from "../utils/helpers";
+import { getHowManyDaysAgo, shareContent } from "../utils/helpers";
 import ShareIcon from "@material-ui/icons/Share";
+import { useRef } from "react";
 
 const useStyles = makeStyles((theme) => ({
   newsItemContainer: {
@@ -38,22 +46,59 @@ export default function SingleNews(props) {
   const lastNews = useSelector((state) => state.userData.lastNews);
   const currentNews = lastNews.find((news) => news.newsId === newsId);
 
-  const [open, setOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSnackOpen, setIsSnackOpen] = useState(false);
+  const [snackData, setSnackData] = useState({ severity: "", action: "" });
+
+  const newsLinkRef = useRef();
+
+  const copyNewsLinkHandler = () => {
+    newsLinkRef.current.select();
+    document.execCommand("copy");
+    setIsSnackOpen(true);
+    setSnackData({ severity: "success", action: alertTypes.COPY_NEWS_LINK });
+  };
 
   const onShareNewsHandler = () => {
-    shareContent(currentNews.title, window.location.href, setOpen);
+    shareContent(currentNews.title, window.location.href, copyNewsLinkHandler);
+  };
+  const onClickShareHandler = () => {
+    setIsModalOpen(true);
   };
 
   return (
     <>
-      {open && (
-        <Modal open={open} setOpen={setOpen} title="Share news" confirm="Share">
-          {" "}
-          <Typography gutterBottom>
-            Share this on the following social networks
-          </Typography>
-        </Modal>
-      )}
+      <Modal
+        open={isModalOpen}
+        setOpen={setIsModalOpen}
+        title="Share news"
+        confirm="OK"
+      >
+        <Typography gutterBottom>
+          Share this on the following social networks
+        </Typography>
+        <Grid container spacing={1} alignItems="center" justify="space-around">
+          <Grid item xs={12} sm={7}>
+            <TextField
+              inputRef={newsLinkRef}
+              value={window.location.href}
+              inputProps={{ readOnly: true }}
+              placeholder="News Link"
+              fullWidth
+              type="url"
+            />
+          </Grid>
+          <Grid item xs={12} sm={3} style={{ textAlign: "center" }}>
+            <Button
+              startIcon={<ShareIcon />}
+              color="primary"
+              onClick={onShareNewsHandler}
+            >
+              Share link
+            </Button>
+          </Grid>
+        </Grid>
+      </Modal>
       {currentNews && (
         <Box className={classes.newsItemContainer}>
           <Typography className={classes.newsTitle} variant="h4" component="h1">
@@ -74,11 +119,17 @@ export default function SingleNews(props) {
           <Typography className={classes.newsBody} variant="body1">
             {currentNews.content}
           </Typography>
-          <IconButton onClick={onShareNewsHandler}>
+          <IconButton onClick={onClickShareHandler}>
             <ShareIcon />
           </IconButton>
         </Box>
       )}
+      <SnackAlert
+        severity={snackData.severity}
+        open={isSnackOpen}
+        setOpen={setIsSnackOpen}
+        action={snackData.action}
+      />
     </>
   );
 }

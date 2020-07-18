@@ -69,7 +69,7 @@ export default function CustomizedDialogs(props) {
   };
 
   return (
-    <div>
+    <div >
       <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"

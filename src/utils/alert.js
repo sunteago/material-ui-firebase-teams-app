@@ -77,6 +77,8 @@ export const getSnackAlertMsgFromAction = (action) => {
       return 'The invitation was successfully sent'
     case alertTypes.SENT_INVITATION_LINK_FAILED:
       return 'The invitation could not be sent, perhaps an user with that email does not exist'
+    case alertTypes.COPY_NEWS_LINK: 
+      return 'The news link was successfully copied to clipboard'
     default:
       return 'Something happened'
   }

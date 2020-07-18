@@ -4,7 +4,6 @@ import * as actions from "../../store/actions";
 import * as alertTypes from "../../constants/alertTypes";
 import ShareIcon from "@material-ui/icons/Share";
 import { shareContent } from "../../utils/helpers";
-import { getSnackAlertMsgFromAction } from "../../utils/alert";
 import TextInput from "../TextInput";
 import SnackAlert from "../Layout/SnackAlert";
 import {
@@ -36,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function GroupInvitation(props) {
   const { generatedLink, dispatch, activeGroup } = props;
-
+  console.log(generatedLink)
   const classes = useStyles();
 
   const [inviteEmail, setInviteEmail] = useState("");
@@ -49,7 +48,7 @@ export default function GroupInvitation(props) {
 
   useEffect(() => {
     if (inviteLinkRef.current !== null && generatedLink) {
-      inviteLinkRef.current.querySelector("input").value = generatedLink;
+      inviteLinkRef.current.value = generatedLink;
     }
   }, [generatedLink]);
 
@@ -73,8 +72,8 @@ export default function GroupInvitation(props) {
   };
 
   const onCopyURLHandler = () => {
-    inviteLinkRef.current.querySelector("input").focus();
-    inviteLinkRef.current.querySelector("input").select();
+    inviteLinkRef.current.focus();
+    inviteLinkRef.current.select();
     document.execCommand("copy");
     onFinishHandler({
       severity: "success",
@@ -163,7 +162,7 @@ export default function GroupInvitation(props) {
         <Grid container spacing={1} alignItems="center" justify="space-around">
           <Grid item xs={12} sm={7}>
             <TextField
-              ref={inviteLinkRef}
+              inputRef={inviteLinkRef}
               inputProps={{ readOnly: true }}
               placeholder="Invitation Link"
               fullWidth
@@ -186,9 +185,8 @@ export default function GroupInvitation(props) {
         severity={snackData.severity}
         open={isSnackOpen}
         setOpen={setIsSnackOpen}
-      >
-        {getSnackAlertMsgFromAction(snackData.action)}
-      </SnackAlert>
+        action={snackData.action}
+      />
     </>
   );
 }
