@@ -14,7 +14,7 @@ import * as alertTypes from "../constants/alertTypes";
 import AlertMessage from "../components/Layout/AlertMessage";
 import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
 import NavigationTab from "../components/Layout/NavigationTabs";
-import { Divider, Chip, Button, Grid } from "@material-ui/core";
+import { Divider, Chip, Button, Grid, Avatar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import PublicIcon from "@material-ui/icons/Public";
 import LockIcon from "@material-ui/icons/Lock";
@@ -25,8 +25,11 @@ const useStyles = makeStyles((theme) => ({
   infoChips: {
     position: "absolute",
     right: theme.spacing(2),
-    top: theme.spacing(2),
+    top: theme.spacing(3),
     zIndex: 1000,
+  },
+  groupName: {
+    margin: theme.spacing(2),
   },
   dividerLine: {
     width: "100%",
@@ -34,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
   inviteButton: {
     alignSelf: "flex-end",
+    margin: theme.spacing(2),
   },
   paper: {
     flexGrow: 1,
@@ -48,7 +52,7 @@ export default function Group() {
   const { groupId } = useParams();
   const classes = useStyles();
 
-  const [tab, setTab] = useState(2);
+  const [tab, setTab] = useState(0);
   const [activeGroup, setActiveGroup] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -140,7 +144,24 @@ export default function Group() {
           </Grid>
         </Grid>
 
-        <SectionTitle>{activeGroup.name}</SectionTitle>
+        <Grid
+          item
+          container
+          justify="center"
+          spacing={3}
+          className={classes.groupName}
+        >
+          <Grid item container justify="flex-end" xs={4} sm={6}>
+            <Avatar
+              src={activeGroup.image}
+              alt={`${activeGroup.name}'s image`}
+            />
+          </Grid>
+          <Grid item container justify="flex-start" xs={8} sm={6}>
+            <SectionTitle>{activeGroup.name}</SectionTitle>
+          </Grid>
+        </Grid>
+
         {isUserAbleToInvite && isMember && (
           <Button
             onClick={() => setIsModalOpen((prev) => !prev)}
@@ -202,7 +223,7 @@ export default function Group() {
             isVisible={activeGroup.isPublic}
             descriptText={activeGroup.description}
             existingName={activeGroup.name}
-            //imageUrl={activeUser.avatar}
+            imageUrl={activeGroup.image}
             //setIsEditing={setIsEditing}
           />
         )}

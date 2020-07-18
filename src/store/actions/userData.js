@@ -109,7 +109,6 @@ export const submitProfileChanges = (userId, userData, finishAction) => (
 };
 
 export const clearNotification = (userId, notif) => (dispatch) => {
-  console.log('some')
   dispatch({ type: actionTypes.CLEAR_NOTIFICATION_START });
 
   const userRef = db.collection("users").doc(userId);

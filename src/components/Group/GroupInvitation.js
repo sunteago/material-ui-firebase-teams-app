@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function GroupInvitation(props) {
   const { generatedLink, dispatch, activeGroup } = props;
-  console.log(generatedLink)
   const classes = useStyles();
 
   const [inviteEmail, setInviteEmail] = useState("");

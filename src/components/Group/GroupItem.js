@@ -12,9 +12,13 @@ export default function GroupItem({ group }) {
   return (
     <ListItem alignItems="flex-start">
       <ListItemAvatar>
-        <Avatar>
-          <WorkIcon />
-        </Avatar>
+        {group.image ? (
+          <Avatar src={group.image} alt={`${group.name}'s image`} />
+        ) : (
+          <Avatar>
+            <WorkIcon />
+          </Avatar>
+        )}
       </ListItemAvatar>
       <Link
         to={`/groups/${group.groupId}`}
