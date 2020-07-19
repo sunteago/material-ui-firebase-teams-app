@@ -16,6 +16,7 @@ export default function CreateGroup() {
       isPublic: settingsData.isPublic,
       usersAllowedToInvite: settingsData.usersAllowedToInvite,
       description: settingsData.description,
+      image: settingsData.imageURL
     }
     dispatch(actions.createNewGroup(groupData, {userId: user.uid, name: user.displayName}, history));
   };

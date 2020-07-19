@@ -42,155 +42,184 @@ export default function Settings(props) {
     isVisible,
     descriptText,
     confirmHandler,
+    deleteHandler,
     existingName,
     imageUrl,
     mode,
     setIsEditing,
   } = props;
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentAction, setCurrentAction] = useState("confirm");
+
   const [imageURL, setImageURL] = useState(imageUrl || "");
   const [isPublic, setIsPublic] = useState(isVisible || false);
   const [usersAllowedToInvite, setUsersAllowedToInvite] = useState(false);
   const [description, setDescription] = useState(descriptText);
   const [name, setName] = useState(existingName || "");
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const classes = useStyles();
-  
+
   const confirmActionHandler = () => {
-    const data = {
-      isPublic,
-      usersAllowedToInvite,
-      description,
-      name,
-      imageURL,
-    };
-    confirmHandler(data, setIsModalOpen);
+    if (currentAction === "confirm") {
+       const data = {
+         isPublic,
+         usersAllowedToInvite,
+         description,
+         name,
+         imageURL,
+       };
+       confirmHandler(data, setIsModalOpen);
+      console.log('confirm');
+    } else {
+      deleteHandler();
+    }
+  };
+
+  const onActionHandler = (action) => {
+    setCurrentAction(action);
+    setIsModalOpen(true);
   };
 
   const ConfirmIcon = settingsTexts[mode].ConfirmIcon;
+  
+  const isAlertShowing = (isPublic && currentAction === "confirm") || currentAction === "delete";
 
   return (
-    <Grid
-      container
-      spacing={4}
-      justify="center"
-      className={classes.settingsContainer}
-    >
+    <>
       {isModalOpen && (
         <Modal
           open={isModalOpen}
           setOpen={setIsModalOpen}
-          title={settingsTexts[mode].title}
+          title={settingsTexts[mode].title[currentAction]}
           confirm="Confirm"
           decline="Cancel"
           confirmActionHandler={confirmActionHandler}
         >
-          {isPublic && (
+          {isAlertShowing && (
             <AlertMessage
               alertStyles={classes.alertMsg}
               severity="warning"
-              action={settingsTexts[mode].alertMsg}
-              handler={() => {}}
+              action={settingsTexts[mode].alertMsg[currentAction]}
             />
           )}
-          <Typography>{settingsTexts[mode].modalConfirmText}</Typography>
+          <Typography>{settingsTexts[mode].modalConfirmText[currentAction]}</Typography>
         </Modal>
       )}
 
-      {settingsTexts[mode].title && (
-      <Grid item xs={12}>
-        <Typography
-          variant="h4"
-          component="h1"
-          className={classes.operationTitle}
-        >
-          {settingsTexts[mode].title}
-        </Typography>
-      </Grid>
-      )}
+      <Grid
+        container
+        spacing={4}
+        justify="center"
+        className={classes.settingsContainer}
+      >
+        {settingsTexts[mode].title[currentAction] && (
+          <Grid item xs={12}>
+            <Typography
+              variant="h4"
+              component="h1"
+              className={classes.operationTitle}
+            >
+              {settingsTexts[mode].title[currentAction]}
+            </Typography>
+          </Grid>
+        )}
 
-      <Grid item xs={12}>
-        <ImageInput
-          classes={classes}
-          imageURL={imageURL}
-          setImageURL={setImageURL}
-        />
-      </Grid>
+        <Grid item xs={12}>
+          <ImageInput
+            classes={classes}
+            imageURL={imageURL}
+            setImageURL={setImageURL}
+          />
+        </Grid>
 
-      <Grid item xs={12} sm={8}>
-        <ConfigurationItem
-          description={settingsTexts[mode].visibilityText}
-          text={settingsTexts[mode].visibilityStates}
-          value={isPublic}
-          setValue={setIsPublic}
-          isAdmin
-        />
-      </Grid>
-
-      {mode !== "profile" && (
         <Grid item xs={12} sm={8}>
           <ConfigurationItem
-            description={settingsTexts[mode].invitationText}
-            text={settingsTexts[mode].invitationStates}
-            value={usersAllowedToInvite}
-            setValue={setUsersAllowedToInvite}
+            description={settingsTexts[mode].visibilityText}
+            text={settingsTexts[mode].visibilityStates}
+            value={isPublic}
+            setValue={setIsPublic}
             isAdmin
           />
         </Grid>
-      )}
 
-      <Grid item xs={12} sm={8}>
-        <TextInput
-          value={name}
-          setValue={setName}
-          type="text"
-          label={settingsTexts[mode].nameText}
-          variant="outlined"
-          required
-          fullWidth
-        />
-      </Grid>
-      <Grid item xs={12} sm={8}>
-        <TextInput
-          value={description}
-          setValue={setDescription}
-          type="text"
-          label={settingsTexts[mode].descriptionText}
-          rows={4}
-          multiline
-          variant="outlined"
-          fullWidth={true}
-          required
-        />
-      </Grid>
-
-      <Grid item container justify="center" xs={12} sm={8}>
-        {mode === "profile" && (
-          <Grid item xs={12} sm={6}>
-            <Button
-              variant="outlined"
-              size="large"
-              className={classes.button}
-              onClick={() => setIsEditing(false)}
-            >
-              Cancel
-            </Button>
+        {mode !== "profile" && (
+          <Grid item xs={12} sm={8}>
+            <ConfigurationItem
+              description={settingsTexts[mode].invitationText}
+              text={settingsTexts[mode].invitationStates}
+              value={usersAllowedToInvite}
+              setValue={setUsersAllowedToInvite}
+              isAdmin
+            />
           </Grid>
         )}
-        <Grid item xs={12} sm={6}>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            className={classes.button}
-            startIcon={<ConfirmIcon />}
-            onClick={() => setIsModalOpen(!isModalOpen)}
-          >
-            {settingsTexts[mode].confirmText}
-          </Button>
+
+        <Grid item xs={12} sm={8}>
+          <TextInput
+            value={name}
+            setValue={setName}
+            type="text"
+            label={settingsTexts[mode].nameText}
+            variant="outlined"
+            required
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={8}>
+          <TextInput
+            value={description}
+            setValue={setDescription}
+            type="text"
+            label={settingsTexts[mode].descriptionText}
+            rows={4}
+            multiline
+            variant="outlined"
+            fullWidth={true}
+            required
+          />
+        </Grid>
+
+        <Grid item container justify="center" xs={12} sm={8}>
+          {mode === "profile" && (
+            <Grid item xs={12} sm={6}>
+              <Button
+                variant="outlined"
+                size="large"
+                className={classes.button}
+                onClick={() => setIsEditing(false)}
+              >
+                Cancel
+              </Button>
+            </Grid>
+          )}
+          {mode === "modifyGroup" && (
+            <Grid item xs={12} sm={6}>
+              <Button
+                color="secondary"
+                variant="contained"
+                size="large"
+                className={classes.button}
+                onClick={() => onActionHandler('delete')}
+              >
+                Delete Group
+              </Button>
+            </Grid>
+          )}
+          <Grid item xs={12} sm={6}>
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              className={classes.button}
+              startIcon={<ConfirmIcon />}
+              onClick={() => onActionHandler('confirm')}
+            >
+              {settingsTexts[mode].confirmText}
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 }

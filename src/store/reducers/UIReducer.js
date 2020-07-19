@@ -45,6 +45,10 @@ export default function (state = initialState, action) {
     case actionTypes.EDIT_GROUP_DATA_SUCCESS:
     case actionTypes.EDIT_GROUP_DATA_FAILED:
     case actionTypes.CREATE_GROUP_INVITATION_PERSONAL_SUCCESS:
+    case actionTypes.DELETE_GROUP_SUCCESS:
+    case actionTypes.DELETE_GROUP_FAILED:
+    case actionTypes.CREATE_NEW_GROUP_FAILED:
+    case actionTypes.CREATE_NEW_GROUP_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -75,6 +79,8 @@ export default function (state = initialState, action) {
     case actionTypes.SUBMIT_PROFILE_CHANGES_START:
     case actionTypes.POST_NEW_MESSAGE_START:
     case actionTypes.EDIT_GROUP_DATA_START:
+    case actionTypes.DELETE_GROUP_START:
+    case actionTypes.CREATE_NEW_GROUP_START:
       return {
         ...state,
         loading: true,

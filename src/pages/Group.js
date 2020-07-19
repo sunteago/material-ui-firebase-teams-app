@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../store/actions";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 import TaskListContainer from "../components/Tasks/TasksListContainer";
 import Messages from "../components/Messages/Messages";
@@ -50,8 +50,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Group() {
-  const { groupId } = useParams();
   const classes = useStyles();
+
+  const { groupId } = useParams();
+  const history = useHistory();
 
   const [tab, setTab] = useState(0);
   const [activeGroup, setActiveGroup] = useState({});
@@ -91,7 +93,11 @@ export default function Group() {
     dispatch(actions.editGroupData(groupId, groupData, setIsModalOpen));
   };
 
-  //there is a group found
+  const onDeleteGroup = (groupId, userId) => () => {
+    dispatch(actions.deleteGroup(groupId, userId, history));
+  };
+
+  //if there is a group found
   if (Object.keys(activeGroup).length) {
     const isCreator = !!(
       activeGroup.roles[user.uid] &&
@@ -156,13 +162,13 @@ export default function Group() {
           spacing={3}
           className={classes.groupName}
         >
-          <Grid item container justify="flex-end" xs={4} sm={6}>
+          <Grid item container justify="flex-end" xs={4} sm={5}>
             <Avatar
               src={activeGroup.image}
               alt={`${activeGroup.name}'s image`}
             />
           </Grid>
-          <Grid item container justify="flex-start" xs={8} sm={6}>
+          <Grid item container justify="flex-start" xs={8} sm={7}>
             <SectionTitle>{activeGroup.name}</SectionTitle>
           </Grid>
         </Grid>
@@ -228,11 +234,11 @@ export default function Group() {
           <Settings
             mode="modifyGroup"
             confirmHandler={onConfirmSaveGroup}
+            deleteHandler={onDeleteGroup(groupId, user.uid)}
             isVisible={activeGroup.isPublic}
             descriptText={activeGroup.description}
             existingName={activeGroup.name}
             imageUrl={activeGroup.image}
-            //setIsEditing={setIsEditing}
           />
         )}
         <SnackAlert

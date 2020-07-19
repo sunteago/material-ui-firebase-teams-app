@@ -38,6 +38,7 @@ export const fetchGroupsData = (groupsArr, seenMessages) => (dispatch) => {
       }
     })
     .catch((err) => {
+      console.log(err);
       dispatch({ type: actionTypes.FETCH_GROUP_DATA_FAILED });
     });
 };
@@ -462,5 +463,28 @@ export const editGroupData = (groupId, groupData, setOpen) => (dispatch) => {
     })
     .catch((err) => {
       dispatch({ type: actionTypes.EDIT_GROUP_DATA_FAILED });
+    });
+};
+
+export const deleteGroup = (groupId, userId, history) => (dispatch) => {
+  dispatch({ type: actionTypes.DELETE_GROUP_START });
+  const groupRef = db.collection("groups").doc(groupId);
+  const userRef = db.collection("users").doc(userId);
+
+  Promise.all([
+    groupRef.delete(),
+    userRef.update({
+      inGroups: firebase.firestore.FieldValue.arrayRemove(groupId),
+    }),
+  ])
+    .then(() => {
+      dispatch({
+        type: actionTypes.DELETE_GROUP_SUCCESS,
+        payload: { groupId },
+      });
+      history.push("/dashboard");
+    })
+    .catch((err) => {
+      dispatch({ type: actionTypes.DELETE_GROUP_FAILED, payload: err });
     });
 };

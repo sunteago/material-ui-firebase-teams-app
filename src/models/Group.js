@@ -4,6 +4,7 @@ export default class Group {
       role: "creator",
       name: user.name
     } };
+    this.image = groupData.image;
     this.name = groupData.groupName;
     this.isPublic = groupData.isPublic;
     this.description = groupData.description;

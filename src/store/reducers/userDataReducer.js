@@ -12,7 +12,7 @@ const initialState = {
   invitationLinkData: {},
   generatedInvitationLink: "",
   activeUser: {},
-  notifications: []
+  notifications: [],
 };
 
 const removeSeenMessages = (action, group) => {
@@ -26,6 +26,7 @@ const removeSeenMessages = (action, group) => {
   return arr;
 };
 
+//TODO : avoid double groups
 //TODO: extract similar logic to functions
 //TODO: create a groupData reducer
 
@@ -39,7 +40,7 @@ export function userDataReducer(state = initialState, action) {
         memberSince: action.payload.memberSince,
         isUserVisible: action.payload.isVisible,
         topActivePublicGroups: action.payload.topActivePublicGroups,
-        notifications: action.payload.notifications
+        notifications: action.payload.notifications,
       };
     case actionTypes.FETCH_NEWS_SUCCESS:
       return {
@@ -174,19 +175,29 @@ export function userDataReducer(state = initialState, action) {
               isPublic: groupData.isPublic,
               image: groupData.imageURL,
               name: groupData.name,
-              usersAllowedToInvite: groupData.usersAllowedToInvite
+              usersAllowedToInvite: groupData.usersAllowedToInvite,
             };
           }
           return group;
         }),
       };
-    case actionTypes.CLEAR_NOTIFICATION_SUCCESS: 
+    case actionTypes.CLEAR_NOTIFICATION_SUCCESS:
       return {
         ...state,
-        notifications: state.notifications.filter(notif => (
-          notif.timestamp !== action.payload.timestamp
-        ))
-      }
+        notifications: state.notifications.filter(
+          (notif) => notif.timestamp !== action.payload.timestamp
+        ),
+      };
+    case actionTypes.DELETE_GROUP_SUCCESS:
+      return {
+        ...state,
+        groupsInLocal: state.groupsInLocal.filter(
+          (group) => group.groupId !== action.payload.groupId
+        ),
+        userGroupsContent: state.userGroupsContent.filter(
+          (group) => group.groupId !== action.payload.groupId
+        ),
+      };
     case actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_SUCCESS:
     case actionTypes.ACCEPT_OR_DECLINE_INVITATION_START:
     case actionTypes.ACCEPT_OR_DECLINE_INVITATION_SUCCESS:

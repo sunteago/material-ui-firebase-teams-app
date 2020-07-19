@@ -4,19 +4,19 @@ import SaveIcon from "@material-ui/icons/Save";
 
 export default {
   profile: {
-    title: "Edit Profile",
+    title: {confirm: "Edit Profile"},
     nameText: "Public Name",
     visibilityText:
       "Set your profile to visible (Everyone will be able to see it)",
     visibilityStates: ["Not Visible", "Visible"],
     descriptionText: "About you",
     confirmText: "Save Profile",
-    modalConfirmText: "Please, confirm your changes",
+    modalConfirmText: { confirm: "Please, confirm your changes" },
     ConfirmIcon: SaveIcon,
-    alertMsg: alertTypes.MAKE_USER_VISIBLE,
+    alertMsg: { confirm: alertTypes.MAKE_USER_VISIBLE },
   },
   createGroup: {
-    title: "Create Group",
+    title: {confirm: "Create Group"},
     nameText: "Group Name",
     visibilityText:
       "Set this group profile to public (Everyone will be able to see it)",
@@ -25,12 +25,15 @@ export default {
     invitationText: "Allow other users to invite with a one-time link",
     invitationStates: ["Deny", "Allow"],
     confirmText: "Confirm",
-    modalConfirmText: `Please, check that all is correct, once you create a group
-     you won't be able to change its name`,
+    modalConfirmText: {
+      confirm: `Please, check that all is correct, once you create a group
+    you won't be able to change its name`,
+    },
     ConfirmIcon: AddCircleOutlineIcon,
-    alertMsg: alertTypes.MAKE_GROUP_PUBLIC,
+    alertMsg: { confirm: alertTypes.MAKE_GROUP_PUBLIC },
   },
   modifyGroup: {
+    title: {confirm: "Create Group", delete: 'Delete Group'},
     nameText: "Group Name",
     visibilityText:
       "Set this group profile to public (Everyone will be able to see it)",
@@ -39,8 +42,15 @@ export default {
     invitationText: "Allow other users to invite with a one-time link",
     invitationStates: ["Deny", "Allow"],
     confirmText: "Confirm",
-    modalConfirmText: `Are you sure you want to save this settings?`,
+    modalConfirmText: {
+      confirm: "Are you sure you want to save this settings?",
+      delete: ''
+    },
+    modalDeleteText: "Are you sure you want to delete this group?",
     ConfirmIcon: SaveIcon,
-    alertMsg: alertTypes.MAKE_GROUP_PUBLIC,
+    alertMsg: {
+      confirm: alertTypes.MAKE_GROUP_PUBLIC,
+      delete: alertTypes.DELETE_GROUP,
+    },
   },
 };
