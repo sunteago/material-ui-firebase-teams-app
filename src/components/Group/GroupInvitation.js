@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function GroupInvitation(props) {
-  const { generatedLink, dispatch, activeGroup, setIsSnackOpen, setSnackData } = props;
+  const { generatedLink, dispatch, activeGroup } = props;
   const classes = useStyles();
 
   const [inviteEmail, setInviteEmail] = useState("");
@@ -47,11 +47,10 @@ export default function GroupInvitation(props) {
     }
   }, [generatedLink]);
 
-
-  const onFinishHandler = (snackContent) => {
-    setIsSnackOpen(true);
-    setSnackData(snackContent)
-  }
+  // const onFinishHandler = (snackContent) => {
+  //   setIsSnackOpen(true);
+  //   setSnackData(snackContent)
+  // }
 
   const personalInviteHandler = (e) => {
     e.preventDefault();
@@ -60,8 +59,7 @@ export default function GroupInvitation(props) {
         activeGroup.groupId,
         activeGroup.name,
         inviteMessage,
-        inviteEmail,
-        onFinishHandler
+        inviteEmail
       )
     );
   };
@@ -70,10 +68,12 @@ export default function GroupInvitation(props) {
     inviteLinkRef.current.focus();
     inviteLinkRef.current.select();
     document.execCommand("copy");
-    onFinishHandler({
-      severity: "success",
-      action: alertTypes.COPY_LINK_SUCCESS
-    });
+    dispatch(
+      actions.imperativeOpenSnackbar({
+        severity: "success",
+        action: alertTypes.COPY_LINK_SUCCESS,
+      })
+    );
   };
 
   const onClickGenerateHandler = (e) => {
@@ -87,7 +87,7 @@ export default function GroupInvitation(props) {
       );
     } else {
       const shareTitle = `Join ${activeGroup.name}`;
-      shareContent(shareTitle, generatedLink, onCopyURLHandler, setSnackData);
+      shareContent(shareTitle, generatedLink, onCopyURLHandler);
     }
   };
 
@@ -136,10 +136,7 @@ export default function GroupInvitation(props) {
               />
             </Grid>
             <Grid item xs={12} sm={3} style={{ textAlign: "center" }}>
-              <Button
-                type="submit"
-                color="primary"
-              >
+              <Button type="submit" color="primary">
                 Invite
               </Button>
             </Grid>

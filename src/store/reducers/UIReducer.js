@@ -5,10 +5,23 @@ const initialState = {
   isFullLoading: true,
   dashboardLoading: false,
   groupPageError: {},
+  snackData: {
+    severity: "",
+    action: "",
+    isOpen: false,
+  },
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case actionTypes.SEND_NOTIFICATION_SUCCESS:
+    case actionTypes.SEND_NOTIFICATION_FAILED:
+    case actionTypes.TOGGLE_LIST_ITEM_FAILED:
+      return {
+        ...state,
+        loading: false,
+        snackData: action.payload,
+      };
     case actionTypes.AUTH_CHECK_FAILED:
     case actionTypes.LOG_IN_FAILED:
     case actionTypes.SIGN_OUT_FAILED:
@@ -35,7 +48,6 @@ export default function (state = initialState, action) {
     case actionTypes.TOGGLE_LIST_ITEM_SUCCESS:
     case actionTypes.DELETE_TASK_ITEM_FAILED:
     case actionTypes.ADD_TASK_ITEM_FAILED:
-    case actionTypes.TOGGLE_LIST_ITEM_FAILED:
     case actionTypes.FETCH_USER_PROFILE_SUCCESS:
     case actionTypes.FETCH_USER_PROFILE_FAILED:
     case actionTypes.SUBMIT_PROFILE_CHANGES_SUCCESS:
@@ -89,6 +101,22 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isFullLoading: true,
+      };
+    case actionTypes.OPEN_SNACKBAR:
+      return {
+        ...state,
+        snackData: {
+          isOpen: true,
+          ...action.payload,
+        },
+      };
+    case actionTypes.CLOSE_SNACKBAR:
+      return {
+        ...state,
+        snackData: {
+          ...state.snackData,
+          isOpen: false,
+        },
       };
     default:
       return state;

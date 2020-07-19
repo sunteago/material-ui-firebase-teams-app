@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import SnackAlert from "../components/Layout/SnackAlert";
 import * as alertTypes from "../constants/alertTypes";
+import { imperativeOpenSnackbar } from "../store/actions";
 import {
   makeStyles,
   IconButton,
@@ -47,16 +47,20 @@ export default function SingleNews(props) {
   const currentNews = lastNews.find((news) => news.newsId === newsId);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSnackOpen, setIsSnackOpen] = useState(false);
-  const [snackData, setSnackData] = useState({ severity: "", action: "" });
+
+  const dispatch = useDispatch();
 
   const newsLinkRef = useRef();
 
   const copyNewsLinkHandler = () => {
     newsLinkRef.current.select();
     document.execCommand("copy");
-    setIsSnackOpen(true);
-    setSnackData({ severity: "success", action: alertTypes.COPY_NEWS_LINK });
+    dispatch(
+      imperativeOpenSnackbar({
+        severity: "success",
+        action: alertTypes.COPY_NEWS_LINK,
+      })
+    );
   };
 
   const onShareNewsHandler = () => {
@@ -124,12 +128,6 @@ export default function SingleNews(props) {
           </IconButton>
         </Box>
       )}
-      <SnackAlert
-        severity={snackData.severity}
-        open={isSnackOpen}
-        setOpen={setIsSnackOpen}
-        action={snackData.action}
-      />
     </>
   );
 }

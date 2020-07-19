@@ -57,14 +57,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TodoList(props) {
-  const {
-    todoList,
-    isMember,
-    groupId,
-    dispatch,
-    setIsSnackOpen,
-    setSnackData,
-  } = props;
+  const { todoList, isMember, groupId, dispatch } = props;
 
   const classes = useStyles();
   const doneTodoList = todoList.filter((listItem) => listItem.done === true);
@@ -74,17 +67,10 @@ export default function TodoList(props) {
 
   const [newTask, setNewTask] = useState("");
 
-  const onErrorHandler = (taskResult) => {
-    setIsSnackOpen(true);
-    setSnackData(taskResult);
-  };
-
   const onTaskClickHandler = (task) => {
     const oldTask = { ...task };
     const updatedTask = { ...task, done: !task.done };
-    dispatch(
-      actions.toggleTaskItem(groupId, updatedTask, oldTask, onErrorHandler)
-    );
+    dispatch(actions.toggleTaskItem(groupId, updatedTask, oldTask));
   };
 
   const onAddTaskHandler = (e) => {
@@ -95,7 +81,7 @@ export default function TodoList(props) {
 
   const onDeleteTaskHandler = (task) => (e) => {
     e.stopPropagation();
-    dispatch(actions.deleteTaskItem(groupId, task, onErrorHandler));
+    dispatch(actions.deleteTaskItem(groupId, task));
   };
 
   return (

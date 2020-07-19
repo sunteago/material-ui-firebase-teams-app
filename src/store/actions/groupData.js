@@ -85,10 +85,8 @@ export const clearActivityCommentDB = (commTimestamp, userId) => (dispatch) => {
     });
 };
 
-export const toggleTaskItem = (...args) => (dispatch) => {
+export const toggleTaskItem = (groupId, updatedTask, oldTask) => (dispatch) => {
   dispatch({ type: actionTypes.TOGGLE_LIST_ITEM_START });
-
-  const [groupId, updatedTask, oldTask, onError] = args;
 
   const batch = db.batch();
   const groupRef = db.collection("groups").doc(groupId);
@@ -112,8 +110,14 @@ export const toggleTaskItem = (...args) => (dispatch) => {
       });
     })
     .catch((err) => {
-      dispatch({ type: actionTypes.TOGGLE_LIST_ITEM_FAILED, payload: err });
-      onError({ severity: "error", action: alertTypes.TOGGLE_TASK_FAILED });
+      dispatch({
+        type: actionTypes.TOGGLE_LIST_ITEM_FAILED,
+        payload: {
+          severity: "error",
+          action: alertTypes.TOGGLE_TASK_FAILED,
+          isOpen: true,
+        },
+      });
     });
 };
 
@@ -212,7 +216,7 @@ export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
 
 export const sendNotificationToUser = (...args) => (dispatch) => {
   dispatch({ type: actionTypes.SEND_NOTIFICATION_START });
-  const [invitedUserEmail, groupName, invLink, onFinish] = args;
+  const [invitedUserEmail, groupName, invLink] = args;
   const invUserEmail = invitedUserEmail.toLowerCase();
   const usersRef = db.collection("users").where("email", "==", invUserEmail);
 
@@ -235,17 +239,23 @@ export const sendNotificationToUser = (...args) => (dispatch) => {
       });
     })
     .then(() => {
-      dispatch({ type: actionTypes.SEND_NOTIFICATION_SUCCESS });
-      onFinish({
-        severity: "success",
-        action: alertTypes.SENT_INVITATION_LINK_SUCCESS,
+      dispatch({
+        type: actionTypes.SEND_NOTIFICATION_SUCCESS,
+        payload: {
+          isOpen: true,
+          severity: "success",
+          action: alertTypes.SENT_INVITATION_LINK_SUCCESS,
+        },
       });
     })
     .catch((err) => {
-      dispatch({ type: actionTypes.SEND_NOTIFICATION_FAILED, payload: err });
-      onFinish({
-        severity: "error",
-        action: alertTypes.SENT_INVITATION_LINK_FAILED,
+      dispatch({
+        type: actionTypes.SEND_NOTIFICATION_FAILED,
+        payload: {
+          isOpen: true,
+          severity: "error",
+          action: alertTypes.SENT_INVITATION_LINK_FAILED,
+        },
       });
     });
 };
@@ -297,7 +307,7 @@ export const joinPublicGroupNoInvitation = (...args) => (dispatch) => {
 export const createGroupInvitationLink = (...args) => (dispatch) => {
   dispatch({ type: actionTypes.CREATE_GROUP_INVITATION_LINK_START });
 
-  const [groupId, groupName, message, invitedUserEmail, onFinish] = args;
+  const [groupId, groupName, message, invitedUserEmail] = args;
 
   const groupRef = db.collection("groups").doc(groupId);
   const linkCollectionRef = db.collection("invitationLinks");
@@ -322,12 +332,7 @@ export const createGroupInvitationLink = (...args) => (dispatch) => {
           type: actionTypes.CREATE_GROUP_INVITATION_PERSONAL_SUCCESS,
         });
         dispatch(
-          sendNotificationToUser(
-            invitedUserEmail,
-            groupName,
-            invitationLink,
-            onFinish
-          )
+          sendNotificationToUser(invitedUserEmail, groupName, invitationLink)
         );
       } else {
         dispatch({

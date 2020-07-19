@@ -10,7 +10,6 @@ import Settings from "../components/Settings/Settings";
 import GroupInvitation from "../components/Group/GroupInvitation";
 import Modal from "../components/Layout/Modal/Modal";
 
-import SnackAlert from "../components/Layout/SnackAlert";
 import * as alertTypes from "../constants/alertTypes";
 import AlertMessage from "../components/Layout/AlertMessage";
 import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
@@ -58,8 +57,6 @@ export default function Group() {
   const [tab, setTab] = useState(0);
   const [activeGroup, setActiveGroup] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSnackOpen, setIsSnackOpen] = useState(false);
-  const [snackData, setSnackData] = useState({ severity: "error", action: "" });
 
   const { groupsInLocal, userGroups } = useSelector((state) => state.userData);
   const { isFullLoading, groupPageError } = useSelector((state) => state.UI);
@@ -123,8 +120,6 @@ export default function Group() {
               generatedLink={generatedLink}
               dispatch={dispatch}
               activeGroup={activeGroup}
-              setIsSnackOpen={setIsSnackOpen}
-              setSnackData={setSnackData}
             />
           </Modal>
         )}
@@ -216,8 +211,6 @@ export default function Group() {
             isMember={isMember}
             groupId={groupId}
             dispatch={dispatch}
-            setIsSnackOpen={setIsSnackOpen}
-            setSnackData={setSnackData}
           />
         )}
         {tab === 1 && (
@@ -241,12 +234,6 @@ export default function Group() {
             imageUrl={activeGroup.image}
           />
         )}
-        <SnackAlert
-          severity={snackData.severity}
-          open={isSnackOpen}
-          setOpen={setIsSnackOpen}
-          action={snackData.action}
-        />
       </>
     );
   } else {
