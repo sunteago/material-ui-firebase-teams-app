@@ -8,6 +8,7 @@ import {
   Typography,
   Grid,
 } from "@material-ui/core";
+import { getHowManyDaysAgo } from "../../utils/helpers";
 
 const useStyles = makeStyles((theme) => ({
   profileContainer: {
@@ -20,15 +21,15 @@ const useStyles = makeStyles((theme) => ({
     margin: "0 auto",
   },
   gridItem: {
-    textAlign: 'center'
-  }
+    textAlign: "center",
+  },
 }));
 
 export default function UserProfile({ user, isCurrentUser, setIsEditing }) {
-  const { avatar, name, status, email } = user;
+  const { avatar, name, status, memberSince } = user;
   const classes = useStyles();
   return (
-    <Grid container spacing={4} justify='center'>
+    <Grid container spacing={3} justify="center">
       <Grid className={classes.gridItem} item xs={12} sm={8}>
         <SectionTitle style={{ textAlign: "center" }}>
           {name ? `${name}'s ` : "User's "}Profile
@@ -38,15 +39,25 @@ export default function UserProfile({ user, isCurrentUser, setIsEditing }) {
         <Avatar
           className={classes.avatar}
           src={avatar}
-          alt={`${name || email}'s avatar`}
+          alt={`${name}'s avatar`}
         />
       </Grid>
       <Grid className={classes.gridItem} item xs={12} sm={8}>
-        <Typography variant='h5' component='h2'>{name || email}</Typography>
+        <Typography variant="h5" component="h2">
+          {name}
+        </Typography>
+      </Grid>
+      <Grid className={classes.gridItem} style={{paddingTop: 0}} item xs={12} sm={8}>
+        <Typography variant="caption" display="block" paragraph>
+          Joined {getHowManyDaysAgo(memberSince)}
+        </Typography>
       </Grid>
       <Grid className={classes.gridItem} item xs={12} sm={8}>
-        <Typography variant="body1" display="block" paragraph>{status}</Typography>
+        <Typography variant="body1" display="block" paragraph>
+          {status}
+        </Typography>
       </Grid>
+
       <Grid className={classes.gridItem} item xs={12} sm={8}>
         {isCurrentUser && (
           <Button variant="outlined" onClick={() => setIsEditing(true)}>
