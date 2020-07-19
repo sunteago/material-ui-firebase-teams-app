@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import Form from "../components/Form/Form";
 import * as actions from "../store/actions";
 
-function SignUp({ history, standardSignup }) {
+export default function SignUp() {
+  const dispatch = useDispatch();
+
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,7 +13,9 @@ function SignUp({ history, standardSignup }) {
 
   const onSignUpHandler = (e) => {
     e.preventDefault();
-    standardSignup(email, password, displayName);
+    dispatch(
+      actions.standardSignup(email.toLowerCase(), password, displayName)
+    );
   };
 
   return (
@@ -31,18 +35,3 @@ function SignUp({ history, standardSignup }) {
     </>
   );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    msg: state.auth.msg,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    standardSignup: (email, password, name) =>
-      dispatch(actions.standardSignup(email, password, name)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
