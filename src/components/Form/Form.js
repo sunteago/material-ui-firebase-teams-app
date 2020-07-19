@@ -54,7 +54,9 @@ function Form(props) {
   ) : (
     <>
       <Typography variant="h5">{operationName}</Typography>
-      <form>
+      <form
+        onSubmit={onActionHandler}
+      >
         <Grid container direction="column">
           <TextInput
             value={email}
@@ -104,7 +106,6 @@ function Form(props) {
             className={classes.loginBtn}
             variant="contained"
             color="primary"
-            onClick={onActionHandler}
             required
           >
             {operationName}
