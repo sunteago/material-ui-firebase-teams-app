@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import MessageItem from "./MessageItem";
 import { makeStyles, Grid } from "@material-ui/core";
 import MessageWritingBox from "./MessageWritingBox";
@@ -23,10 +23,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Messages({ groupId, messages, user, isMember, dispatch }) {
+export default function Messages(props) {
+  const { groupId, messages, user, isMember, dispatch } = props;
+
   const classes = useStyles();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
+  useEffect(() => {
+      const run = {};
+      dispatch(actions.manageMessageObserver(groupId,'start', run))
+    return () => {
+      dispatch(actions.manageMessageObserver(groupId, 'stop'))
+      run.unsubscribe();
+    }
+  }, [dispatch, groupId])
 
   const clean = () => {
     setTitle("");
@@ -38,7 +49,6 @@ export default function Messages({ groupId, messages, user, isMember, dispatch }
       actions.postGroupMessage(groupId, { title, content, user }, clean)
     );
   };
-
   return (
     <Grid container item xs={12} md={8} direction="column" >
       {messages.map((msg) => (

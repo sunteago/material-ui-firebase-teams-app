@@ -432,10 +432,10 @@ export const postGroupMessage = (groupId, msg, finishAction) => (dispatch) => {
     .then(() => {
       dispatch({
         type: actionTypes.POST_NEW_MESSAGE_SUCCESS,
-        payload: {
-          groupId,
-          message,
-        },
+        // payload: {
+        //   groupId,
+        //   //message,
+        // },
       });
       finishAction();
     })
@@ -492,4 +492,22 @@ export const deleteGroup = (groupId, userId, history) => (dispatch) => {
     .catch((err) => {
       dispatch({ type: actionTypes.DELETE_GROUP_FAILED, payload: err });
     });
+};
+
+export const manageMessageObserver = (groupId, action, run) => (dispatch) => {
+  if (action === "start") {
+    dispatch({ type: actionTypes.MESSAGE_OBSERVER_START });
+    const groupRef = db.collection("groups").doc(groupId);
+    run.unsubscribe = groupRef.onSnapshot(function (doc) {
+      dispatch({
+        type: actionTypes.MESSAGE_UPDATE_RECEIVED,
+        payload: {
+          messages: doc.data().messages,
+          groupId: doc.id
+        },
+      });
+    });
+  } else {
+    dispatch({ type: actionTypes.MESSAGE_OBSERVER_STOP });
+  }
 };

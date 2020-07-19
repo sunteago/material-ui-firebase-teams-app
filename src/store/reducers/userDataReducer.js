@@ -148,20 +148,6 @@ export function userDataReducer(state = initialState, action) {
           avatar: action.payload.imageURL,
         },
       };
-    case actionTypes.POST_NEW_MESSAGE_SUCCESS:
-      return {
-        ...state,
-        groupsInLocal: state.groupsInLocal.map((group) => {
-          const { groupId, message } = action.payload;
-          if (group.groupId === groupId) {
-            return {
-              ...group,
-              messages: group.messages.concat(message),
-            };
-          }
-          return group;
-        }),
-      };
     case actionTypes.EDIT_GROUP_DATA_SUCCESS:
       return {
         ...state,
@@ -198,6 +184,19 @@ export function userDataReducer(state = initialState, action) {
           (group) => group.groupId !== action.payload.groupId
         ),
       };
+    case actionTypes.MESSAGE_UPDATE_RECEIVED:
+      return {
+        ...state,
+        groupsInLocal: state.groupsInLocal.map(group => {
+          if (group.groupId === action.payload.groupId){
+            return {
+              ...group,
+              messages: action.payload.messages
+            }
+          }
+          return group;
+        })
+      }
     case actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_SUCCESS:
     case actionTypes.ACCEPT_OR_DECLINE_INVITATION_START:
     case actionTypes.ACCEPT_OR_DECLINE_INVITATION_SUCCESS:
