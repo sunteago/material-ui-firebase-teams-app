@@ -34,6 +34,11 @@ const useStyles = makeStyles((theme) => ({
     all: "unset",
     color: theme.palette.primary.contrastText,
   },
+  linearLoading: {
+    position: "fixed",
+    width: '100%',
+    zIndex: 10000,
+  },
 }));
 
 function NavBar() {
@@ -49,7 +54,9 @@ function NavBar() {
 
   return (
     <>
-      {loading ? <Loading color="secondary" style={{ zIndex: 10000 }} /> : null}
+      {loading ? (
+        <Loading color="secondary" className={classes.linearLoading} />
+      ) : null}
       <AppBar className={classes.grow}>
         <Toolbar className={classes.grow}>
           <IconButton

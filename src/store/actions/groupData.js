@@ -434,13 +434,7 @@ export const postGroupMessage = (groupId, msg, finishAction) => (dispatch) => {
       messages: firebase.firestore.FieldValue.arrayUnion({ ...message }),
     })
     .then(() => {
-      dispatch({
-        type: actionTypes.POST_NEW_MESSAGE_SUCCESS,
-        // payload: {
-        //   groupId,
-        //   //message,
-        // },
-      });
+      dispatch({type: actionTypes.POST_NEW_MESSAGE_SUCCESS});
       finishAction();
     })
     .catch((err) => {
