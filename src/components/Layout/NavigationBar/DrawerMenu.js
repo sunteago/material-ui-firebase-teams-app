@@ -68,7 +68,6 @@ const DrawerMenu = ({ isOpen, handleDrawerClose, handleDrawerOpen }) => {
       <List component="nav" aria-label="main menu options">
         {isLoggedIn && (
           <>
-
             <Link to="/groups/create" style={{ all: "unset" }}>
               <ListItem button onClick={handleDrawerClose}>
                 <ListItemIcon>
@@ -116,12 +115,15 @@ const DrawerMenu = ({ isOpen, handleDrawerClose, handleDrawerOpen }) => {
 
         <Divider />
 
-        <ListItem button onClick={handleDrawerClose}>
-          <ListItemIcon>
-            <InfoIcon />
-          </ListItemIcon>
-          <ListItemText primary="About this app" />
-        </ListItem>
+        <Link to="/about" style={{ all: "unset" }}>
+          <ListItem button onClick={handleDrawerClose}>
+            <ListItemIcon>
+              <InfoIcon />
+            </ListItemIcon>
+            <ListItemText primary="About this app" />
+          </ListItem>
+        </Link>
+
       </List>
     </Drawer>
   );

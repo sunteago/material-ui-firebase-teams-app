@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Auth",
+    "items": [
+      "Create user with password",
+      "Restore password in case user forgot it",
+      "Login with saved session (thanks to firebase observer)"
+    ]
+  },
+  {
+    "title": "Dashboard",
+    "items": ["Show last messages", "Hide seen messages", "See last activity"]
+  },
+  {
+    "title": "Profile",
+    "items": [
+      "see another user's information",
+      "change your information like avatar, status, name and visibility (if another users can see you)"
+    ]
+  },
+  {
+    "title": "Groups",
+    "items": [
+      "Create groups that have name, image, settings",
+      "The creator of the group has access to an admin panel where he can update group changes like name, image or allowing their members to invite other users",
+      "Todo list associated with it. The members are able to create tasks, toggle tasks from done to undone and viceversa, and delete done tasks",
+      "Message section for brainstorming",
+      "List of members",
+      "The creator of the group may delete the group if he wants"
+    ]
+  },
+  {
+    "title": "News",
+    "items": [
+      "There is a news section where user can read the last app-related news"
+    ]
+  }
+]

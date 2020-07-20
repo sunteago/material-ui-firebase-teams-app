@@ -11,6 +11,7 @@ const SingleNews = React.lazy(() => import("../pages/SingleNews"));
 const InvitationLink = React.lazy(() => import("../pages/InvitationLink"));
 const CreateGroup = React.lazy(() => import("../pages/CreateGroup"));
 const Profile = React.lazy(() => import("../pages/Profile"));
+const About = React.lazy(() => import("../pages/About"));
 
 export default function DashboardRoutes() {
   return (
@@ -21,9 +22,6 @@ export default function DashboardRoutes() {
         </Route>
         <Route exact path="/notifications">
           <Notifications />
-        </Route>
-        <Route exact path="/about">
-          <Dashboard />
         </Route>
         <Route exact path="/news">
           <Suspense fallback={<div>Loading News</div>}>
@@ -52,6 +50,11 @@ export default function DashboardRoutes() {
         </Route>
         <Route exact path="/groups/:groupId">
           <Group />
+        </Route>
+        <Route exact path="/about">
+          <Suspense fallback={<div>Loading About Page</div>}>
+            <About />
+          </Suspense>
         </Route>
         <Route path="/">
           <h2>This page couldn't be found!</h2>

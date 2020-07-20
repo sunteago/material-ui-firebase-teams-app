@@ -26,8 +26,8 @@ const Footer = () => {
       <Divider className={classes.dividerLine} />
       <Box m={3} textAlign="center">
         <a
-          href="https://www.linkedin.com/in/santiago-vallejo-dev/"
-          alt="Santiago Vallejo's LinkedIn"
+          href="https://github.com/sunteago/"
+          alt="Santiago Vallejo's Github"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -37,8 +37,8 @@ const Footer = () => {
         </a>
 
         <a
-          href="https://github.com/sunteago/"
-          alt="Santiago Vallejo's Github"
+          href="https://www.linkedin.com/in/santiago-vallejo-dev/"
+          alt="Santiago Vallejo's LinkedIn"
           target="_blank"
           rel="noopener noreferrer"
         >
