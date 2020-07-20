@@ -47,11 +47,6 @@ export default function GroupInvitation(props) {
     }
   }, [generatedLink]);
 
-  // const onFinishHandler = (snackContent) => {
-  //   setIsSnackOpen(true);
-  //   setSnackData(snackContent)
-  // }
-
   const personalInviteHandler = (e) => {
     e.preventDefault();
     dispatch(

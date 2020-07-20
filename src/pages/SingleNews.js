@@ -66,9 +66,7 @@ export default function SingleNews(props) {
   const onShareNewsHandler = () => {
     shareContent(currentNews.title, window.location.href, copyNewsLinkHandler);
   };
-  const onClickShareHandler = () => {
-    setIsModalOpen(true);
-  };
+  const onClickShareHandler = () => setIsModalOpen(true);
 
   return (
     <>
@@ -76,7 +74,7 @@ export default function SingleNews(props) {
         open={isModalOpen}
         setOpen={setIsModalOpen}
         title="Share news"
-        confirm="OK"
+        decline="OK"
       >
         <Typography gutterBottom>
           Share this on the following social networks

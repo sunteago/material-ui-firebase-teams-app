@@ -1,5 +1,5 @@
 import React from "react";
-import debounce from 'just-debounce-it';
+import debounce from "just-debounce-it";
 
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -67,11 +67,11 @@ export default function CustomizedDialogs(props) {
   } = props;
 
   const handleClose = () => setOpen(false);
-  
+
   const debouncedConfirm = debounce(confirmActionHandler, 400);
 
   return (
-    <div >
+    <div>
       <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
@@ -87,9 +87,11 @@ export default function CustomizedDialogs(props) {
               {decline}
             </Button>
           )}
-          <Button onClick={debouncedConfirm} color="primary">
-            {confirm}
-          </Button>
+          {confirm && (
+            <Button onClick={debouncedConfirm} color="primary">
+              {confirm}
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
     </div>

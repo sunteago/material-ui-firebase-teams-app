@@ -107,21 +107,19 @@ export default function Group() {
 
     return (
       <>
-        {isModalOpen && (
-          <Modal
-            open={isModalOpen}
-            setOpen={setIsModalOpen}
-            title="Invite people"
-            confirm="OK"
-            confirmActionHandler={() => setIsModalOpen(false)}
-          >
-            <GroupInvitation
-              generatedLink={generatedInvitationLink}
-              dispatch={dispatch}
-              activeGroup={activeGroup}
-            />
-          </Modal>
-        )}
+        <Modal
+          open={isModalOpen}
+          setOpen={setIsModalOpen}
+          title="Invite people"
+          decline="OK"
+        >
+          <GroupInvitation
+            generatedLink={generatedInvitationLink}
+            dispatch={dispatch}
+            activeGroup={activeGroup}
+          />
+        </Modal>
+
         <Grid
           container
           justify="flex-end"
