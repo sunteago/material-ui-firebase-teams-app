@@ -25,7 +25,7 @@ export default function Dashboard() {
   const user = useSelector((state) => state.auth.user);
   const { isFullLoading } = useSelector((state) => state.UI);
   const { lastNews } = useSelector((state) => state.userData);
-  const { topActivePublicGroups, userGroupsContent } = useSelector(
+  const { topActivePublicGroups, groupsInLocal } = useSelector(
     (state) => state.groupData
   );
   const dispatch = useDispatch();
@@ -38,6 +38,10 @@ export default function Dashboard() {
   const handleClearComment = (commentTimestamp) => {
     dispatch(actions.clearActivityCommentDB(commentTimestamp, user.uid));
   };
+
+  const userGroupsContent = groupsInLocal.filter(group => (
+    'isCurrentUserAMember' in group
+  ))
 
   return isFullLoading ? (
     <CircularLoading type="full" />

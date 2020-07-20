@@ -24,6 +24,7 @@ export const fetchGroupsData = (groupsArr, seenMessages) => (dispatch) => {
         if (groupDoc.exists) {
           const group = groupDoc.data();
           group.groupId = groupDoc.id;
+          group.isCurrentUserAMember = true;
           groups.push(group);
         }
       });
@@ -366,7 +367,10 @@ export const createNewGroup = (groupData, user, history) => (dispatch) => {
       });
     })
     .then(() => {
-      dispatch({ type: actionTypes.CREATE_NEW_GROUP_SUCCESS });
+      dispatch({
+        type: actionTypes.CREATE_NEW_GROUP_SUCCESS,
+        payload: groupId,
+      });
       history.push(`/groups/${groupId}`);
     })
     .catch((err) => {
@@ -483,11 +487,11 @@ export const deleteGroup = (groupId, userId, history) => (dispatch) => {
     }),
   ])
     .then(() => {
+      history.replace("/dashboard");
       dispatch({
         type: actionTypes.DELETE_GROUP_SUCCESS,
         payload: { groupId },
       });
-      history.push("/dashboard");
     })
     .catch((err) => {
       dispatch({ type: actionTypes.DELETE_GROUP_FAILED, payload: err });
@@ -503,7 +507,7 @@ export const manageMessageObserver = (groupId, action, run) => (dispatch) => {
         type: actionTypes.MESSAGE_UPDATE_RECEIVED,
         payload: {
           messages: doc.data().messages,
-          groupId: doc.id
+          groupId: doc.id,
         },
       });
     });
