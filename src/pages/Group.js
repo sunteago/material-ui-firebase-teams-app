@@ -58,12 +58,11 @@ export default function Group() {
   const [activeGroup, setActiveGroup] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { groupsInLocal, userGroups } = useSelector((state) => state.userData);
+  const { groupsInLocal, userGroups, generatedInvitationLink } = useSelector(
+    (state) => state.groupData
+  );
   const { isFullLoading, groupPageError } = useSelector((state) => state.UI);
   const user = useSelector((state) => state.auth.user);
-  const generatedLink = useSelector(
-    (state) => state.userData.generatedInvitationLink
-  );
 
   const dispatch = useDispatch();
 
@@ -117,7 +116,7 @@ export default function Group() {
             confirmActionHandler={() => setIsModalOpen(false)}
           >
             <GroupInvitation
-              generatedLink={generatedLink}
+              generatedLink={generatedInvitationLink}
               dispatch={dispatch}
               activeGroup={activeGroup}
             />

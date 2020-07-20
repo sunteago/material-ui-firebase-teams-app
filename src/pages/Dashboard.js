@@ -23,10 +23,11 @@ export default function Dashboard() {
   const classes = useStyles();
 
   const user = useSelector((state) => state.auth.user);
-  const { lastNews, topActivePublicGroups, userGroupsContent } = useSelector(
-    (state) => state.userData
-  );
   const { isFullLoading } = useSelector((state) => state.UI);
+  const { lastNews } = useSelector((state) => state.userData);
+  const { topActivePublicGroups, userGroupsContent } = useSelector(
+    (state) => state.groupData
+  );
   const dispatch = useDispatch();
 
   const onClickSendConfirmationLink = (e) => {

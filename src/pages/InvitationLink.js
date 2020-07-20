@@ -33,10 +33,9 @@ export default function InvitationLink() {
   const history = useHistory();
 
   const invitationLinkId = React.useRef(link);
-  const invitationLinkData = useSelector(
-    (state) => state.userData.invitationLinkData
+  const { invitationLinkData, userGroups } = useSelector(
+    (state) => state.groupData
   );
-  const userGroups = useSelector((state) => state.userData.userGroups);
 
   const groupPageError = useSelector((state) => state.UI.groupPageError);
 
@@ -56,16 +55,16 @@ export default function InvitationLink() {
         action,
         invitationLinkId.current,
         invitationLinkData.groupId,
-        {userId: user.uid, name: user.displayName},
+        { userId: user.uid, name: user.displayName },
         history
       )
     );
   };
 
   const redirectToGroupPageHandler = (e, groupId) => {
-     e.preventDefault();
-     history.push(`/groups/${groupId}`)
-  }
+    e.preventDefault();
+    history.push(`/groups/${groupId}`);
+  };
 
   //empty search
   if (invitationLinkId.current === null) {
