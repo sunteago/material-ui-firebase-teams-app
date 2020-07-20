@@ -1,8 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import {useSelector} from 'react-redux';
 
-import SnackAlert from "../Layout/SnackAlert";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, IconButton } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
@@ -47,8 +45,6 @@ function PageContainer({ children, paperStyles }) {
   const classes = useStyles();
   const history = useHistory();
 
-  const snackData = useSelector(state => state.UI.snackData)
-
   return (
     <Container maxWidth="xl" className={classes.container}>
       <Paper style={paperStyles} className={classes.paper} elevation={3}>
@@ -59,11 +55,6 @@ function PageContainer({ children, paperStyles }) {
         </Grid>
         {children}
       </Paper>
-      <SnackAlert
-          severity={snackData.severity}
-          open={snackData.isOpen}
-          action={snackData.action}
-        />
     </Container>
   );
 }

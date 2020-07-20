@@ -4,6 +4,7 @@ export {
   signOut,
   sendEmailVerification,
   startAuthStateChecker,
+  sendPasswordResetEmail
 } from "./auth";
 
 export {

@@ -17,6 +17,8 @@ export default function (state = initialState, action) {
     case actionTypes.SEND_NOTIFICATION_SUCCESS:
     case actionTypes.SEND_NOTIFICATION_FAILED:
     case actionTypes.TOGGLE_LIST_ITEM_FAILED:
+    case actionTypes.SEND_PASSWORD_RESET_EMAIL_SUCCESS:
+    case actionTypes.SEND_PASSWORD_RESET_EMAIL_FAILED:
       return {
         ...state,
         loading: false,
@@ -93,6 +95,7 @@ export default function (state = initialState, action) {
     case actionTypes.EDIT_GROUP_DATA_START:
     case actionTypes.DELETE_GROUP_START:
     case actionTypes.CREATE_NEW_GROUP_START:
+    case actionTypes.SEND_PASSWORD_RESET_EMAIL_START:
       return {
         ...state,
         loading: true,

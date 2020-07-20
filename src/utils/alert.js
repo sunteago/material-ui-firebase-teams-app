@@ -88,7 +88,11 @@ export const getSnackAlertMsgFromAction = (action) => {
       return "The news link was successfully copied to clipboard";
     case alertTypes.TOGGLE_TASK_FAILED:
       return "You need to join this group before interacting with it";
+    case alertTypes.SEND_RESET_PASSWORD_SUCCESS:
+      return "In order to restore your password, an email was sent to you";
+    case alertTypes.SEND_RESET_PASSWORD_FAILED:
+      return "There was a problem, maybe your email is incorrect.";
     default:
-      return "Something happened";
+      return "Something went wrong";
   }
 };
