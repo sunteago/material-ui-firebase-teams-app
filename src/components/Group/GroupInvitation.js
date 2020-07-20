@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import * as actions from "../../store/actions";
 
+import debounce from "just-debounce-it";
+import * as actions from "../../store/actions";
 import * as alertTypes from "../../constants/alertTypes";
 import ShareIcon from "@material-ui/icons/Share";
 import { shareContent } from "../../utils/helpers";
@@ -47,8 +48,8 @@ export default function GroupInvitation(props) {
     }
   }, [generatedLink]);
 
-  const personalInviteHandler = (e) => {
-    e.preventDefault();
+  //debounces to avoid innecesary network requests
+  const debouncedPersonalInvite = debounce(() => {
     dispatch(
       actions.createGroupInvitationLink(
         activeGroup.groupId,
@@ -57,6 +58,21 @@ export default function GroupInvitation(props) {
         inviteEmail
       )
     );
+  }, 500);
+
+  const debouncedInvite = debounce(() => {
+    dispatch(
+      actions.createGroupInvitationLink(
+        activeGroup.groupId,
+        activeGroup.name,
+        inviteMessage
+      )
+    );
+  }, 500);
+
+  const personalInviteHandler = (e) => {
+    e.preventDefault();
+    debouncedPersonalInvite();
   };
 
   const onCopyURLHandler = () => {
@@ -73,13 +89,7 @@ export default function GroupInvitation(props) {
 
   const onClickGenerateHandler = (e) => {
     if (!generatedLink) {
-      dispatch(
-        actions.createGroupInvitationLink(
-          activeGroup.groupId,
-          activeGroup.name,
-          inviteMessage
-        )
-      );
+      debouncedInvite();
     } else {
       const shareTitle = `Join ${activeGroup.name}`;
       shareContent(shareTitle, generatedLink, onCopyURLHandler);
