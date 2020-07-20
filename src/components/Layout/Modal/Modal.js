@@ -1,4 +1,6 @@
 import React from "react";
+import debounce from 'just-debounce-it';
+
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -64,9 +66,9 @@ export default function CustomizedDialogs(props) {
     confirmActionHandler,
   } = props;
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClose = () => setOpen(false);
+  
+  const debouncedConfirm = debounce(confirmActionHandler, 400);
 
   return (
     <div >
@@ -85,7 +87,7 @@ export default function CustomizedDialogs(props) {
               {decline}
             </Button>
           )}
-          <Button onClick={confirmActionHandler} color="primary">
+          <Button onClick={debouncedConfirm} color="primary">
             {confirm}
           </Button>
         </DialogActions>

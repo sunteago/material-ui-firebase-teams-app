@@ -70,7 +70,6 @@ export default function Settings(props) {
          imageURL,
        };
        confirmHandler(data, setIsModalOpen);
-      console.log('confirm');
     } else {
       deleteHandler();
     }
