@@ -6,7 +6,7 @@ import List from "@material-ui/core/List";
 import Paper from "@material-ui/core/Paper";
 import { Card, CardHeader, Divider } from "@material-ui/core";
 
-export default function customList(props) {
+export default function TaskList(props) {
   const {
     items,
     listTitle,

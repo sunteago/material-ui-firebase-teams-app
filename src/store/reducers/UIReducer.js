@@ -19,10 +19,11 @@ export default function (state = initialState, action) {
     case actionTypes.TOGGLE_LIST_ITEM_FAILED:
     case actionTypes.SEND_PASSWORD_RESET_EMAIL_SUCCESS:
     case actionTypes.SEND_PASSWORD_RESET_EMAIL_FAILED:
+    case actionTypes.DELETE_TASK_ITEM_SUCCESS:
       return {
         ...state,
         loading: false,
-        snackData: action.payload,
+        snackData: action.payload.snackData,
       };
     case actionTypes.AUTH_CHECK_FAILED:
     case actionTypes.LOG_IN_FAILED:
@@ -45,7 +46,6 @@ export default function (state = initialState, action) {
     case actionTypes.ACCEPT_OR_DECLINE_INVITATION_FAILED:
     case actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_FAILED:
     case actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_SUCCESS:
-    case actionTypes.DELETE_TASK_ITEM_SUCCESS:
     case actionTypes.ADD_TASK_ITEM_SUCCESS:
     case actionTypes.TOGGLE_LIST_ITEM_SUCCESS:
     case actionTypes.DELETE_TASK_ITEM_FAILED:

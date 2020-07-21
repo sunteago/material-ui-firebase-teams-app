@@ -33,7 +33,7 @@ export default {
     alertMsg: { confirm: alertTypes.MAKE_GROUP_PUBLIC },
   },
   modifyGroup: {
-    title: {confirm: "Create Group", delete: 'Delete Group'},
+    title: {confirm: "Edit this group", delete: 'Delete Group'},
     nameText: "Group Name",
     visibilityText:
       "Set this group profile to public (Everyone will be able to see it)",

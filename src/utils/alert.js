@@ -92,6 +92,8 @@ export const getSnackAlertMsgFromAction = (action) => {
       return "In order to restore your password, an email was sent to you";
     case alertTypes.SEND_RESET_PASSWORD_FAILED:
       return "There was a problem, maybe your email is incorrect.";
+      case alertTypes.DELETE_TASK_SUCCESS:
+        return "Task successfully deleted";
     default:
       return "Something went wrong";
   }

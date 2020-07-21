@@ -135,6 +135,11 @@ export const deleteTaskItem = (groupId, task, onError) => (dispatch) => {
         payload: {
           groupId,
           taskId: task.taskId,
+          snackData: {
+            severity: "success",
+            action: alertTypes.DELETE_TASK_SUCCESS,
+            isOpen: true,
+          },
         },
       });
       dispatch(updateGroupLastActivity(groupId));
@@ -174,9 +179,11 @@ export const toggleTaskItem = (groupId, updatedTask, oldTask) => (dispatch) => {
       dispatch({
         type: actionTypes.TOGGLE_LIST_ITEM_FAILED,
         payload: {
-          severity: "error",
-          action: alertTypes.TOGGLE_TASK_FAILED,
-          isOpen: true,
+          snackData: {
+            severity: "error",
+            action: alertTypes.TOGGLE_TASK_FAILED,
+            isOpen: true,
+          }
         },
       });
     });
@@ -322,9 +329,11 @@ export const sendNotificationToUser = (...args) => (dispatch) => {
       dispatch({
         type: actionTypes.SEND_NOTIFICATION_SUCCESS,
         payload: {
-          isOpen: true,
-          severity: "success",
-          action: alertTypes.SENT_INVITATION_LINK_SUCCESS,
+          snackData: {
+            isOpen: true,
+            severity: "success",
+            action: alertTypes.SENT_INVITATION_LINK_SUCCESS,
+          },
         },
       });
     })
@@ -332,9 +341,11 @@ export const sendNotificationToUser = (...args) => (dispatch) => {
       dispatch({
         type: actionTypes.SEND_NOTIFICATION_FAILED,
         payload: {
-          isOpen: true,
-          severity: "error",
-          action: alertTypes.SENT_INVITATION_LINK_FAILED,
+          snackData: {
+            isOpen: true,
+            severity: "error",
+            action: alertTypes.SENT_INVITATION_LINK_FAILED,
+          },
         },
       });
     });

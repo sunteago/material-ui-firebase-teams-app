@@ -102,9 +102,11 @@ export const sendPasswordResetEmail = (email) => (dispatch) => {
       dispatch({
         type: actionTypes.SEND_PASSWORD_RESET_EMAIL_SUCCESS,
         payload: {
-          severity: "success",
-          action: alertTypes.SEND_RESET_PASSWORD_SUCCESS,
-          isOpen: true,
+          snackData: {
+            severity: "success",
+            action: alertTypes.SEND_RESET_PASSWORD_SUCCESS,
+            isOpen: true,
+          },
         },
       });
       console.log("sent email");
@@ -113,9 +115,11 @@ export const sendPasswordResetEmail = (email) => (dispatch) => {
       dispatch({
         type: actionTypes.SEND_PASSWORD_RESET_EMAIL_FAILED,
         payload: {
-          severity: "error",
-          action: alertTypes.SEND_RESET_PASSWORD_FAILED,
-          isOpen: true,
+          snackData: {
+            severity: "error",
+            action: alertTypes.SEND_RESET_PASSWORD_FAILED,
+            isOpen: true,
+          },
         },
       });
       console.log("error");
