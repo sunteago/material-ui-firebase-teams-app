@@ -87,6 +87,7 @@ export default function Group() {
 
   const onConfirmSaveGroup = (groupData, setIsModalOpen) => {
     dispatch(actions.editGroupData(groupId, groupData, setIsModalOpen));
+    setTab(0);
   };
 
   const onDeleteGroup = (groupId, userId) => () => {

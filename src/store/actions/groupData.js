@@ -472,10 +472,10 @@ export const createNewGroup = (groupData, user, history) => (dispatch) => {
         payload: groupId,
       });
       //if it is public, create a space for dashboard data
-      history.push(`/groups/${groupId}`);
       if (groupData.isPublic) {
         dispatch(updatePublicGroupDashboard({ ...groupData, groupId }));
       }
+      history.push(`/groups/${groupId}`);
     })
     .catch((err) => {
       dispatch({ type: actionTypes.CREATE_NEW_GROUP_FAILED });
@@ -526,7 +526,9 @@ export const editGroupData = (groupId, groupData, setOpen) => (dispatch) => {
         },
       });
       setOpen(false);
-      dispatch(updatePublicGroupDashboard({...groupData, groupId}));
+      if (groupData.isPublic) {
+        dispatch(updatePublicGroupDashboard({...groupData, groupId}));
+      }
     })
     .catch((err) => {
       dispatch({ type: actionTypes.EDIT_GROUP_DATA_FAILED });
