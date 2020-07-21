@@ -73,9 +73,8 @@ export const fetchUserProfile = (currentUser, userId) => (dispatch) => {
     });
 };
 
-export const submitProfileChanges = (userId, userData, finishAction) => (
-  dispatch
-) => {
+export const submitProfileChanges = (...args) => (dispatch) => {
+  const [userId, userData, finishAction] = args;
   dispatch({ type: actionTypes.SUBMIT_PROFILE_CHANGES_START });
   const userRef = db.collection("users").doc(userId);
   const currentUser = firebase.auth().currentUser;

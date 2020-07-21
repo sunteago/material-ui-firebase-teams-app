@@ -34,3 +34,16 @@ export const shareContent = (title, url, fallbackAction) => {
     fallbackAction();
   }
 };
+
+export const topActiveGroupsToArray = (activeGroups) => {
+  const activeGroupsArr = [];
+  for (let key in activeGroups) {
+    activeGroupsArr.push({
+      groupId: key,
+      name: activeGroups[key].name,
+      description: activeGroups[key].description,
+      lastActivity: activeGroups[key].lastActivity.toMillis()
+    })
+  }
+  return activeGroupsArr.sort((a,b) => b.lastActivity - a.lastActivity);
+}

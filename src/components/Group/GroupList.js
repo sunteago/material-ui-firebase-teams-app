@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function GroupsContainer({ title, groups }) {
+export default function GroupList({ title, groups }) {
   const classes = useStyles();
   return (
     <>

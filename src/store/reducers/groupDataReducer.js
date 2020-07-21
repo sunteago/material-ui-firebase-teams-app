@@ -3,7 +3,7 @@ import * as actionTypes from "../../constants/types";
 const initialState = {
   userGroups: [], //[groupId, ...]
   groupsInLocal: [], //groups that are in local (downloaded visited or are user's groups)
-  topActivePublicGroups: [], //top groups ordered by activity
+  topActivePublicGroups: {}, //top groups ordered by activity
   generatedInvitationLink: "",
   invitationLinkData: {},
 };

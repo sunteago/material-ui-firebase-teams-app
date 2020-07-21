@@ -86,6 +86,65 @@ export const clearActivityCommentDB = (commTimestamp, userId) => (dispatch) => {
     });
 };
 
+export const updateGroupLastActivity = (groupId) => (dispatch) => {
+  const dashboardRef = db.collection("general").doc("dashboard");
+  const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+  dashboardRef
+    .update({
+      [`topActivePublicGroups.${groupId}.lastActivity`]: timestamp,
+    })
+    .then(() => dispatch({ type: actionTypes.UPDATE_GROUP_LAST_ACTIVITY }))
+    .catch(console.log);
+};
+
+export const addTaskItem = (groupId, newTask) => (dispatch) => {
+  dispatch({ type: actionTypes.ADD_TASK_ITEM_START });
+  const groupRef = db.collection("groups").doc(groupId);
+
+  const task = { ...new Task(newTask, 1) };
+  groupRef
+    .update({
+      todoList: firebase.firestore.FieldValue.arrayUnion(task),
+    })
+    .then(() => {
+      dispatch({
+        type: actionTypes.ADD_TASK_ITEM_SUCCESS,
+        payload: {
+          groupId,
+          newTask: task,
+        },
+      });
+      dispatch(updateGroupLastActivity(groupId));
+    })
+    .catch((err) => {
+      dispatch({ type: actionTypes.ADD_TASK_ITEM_FAILED });
+    });
+};
+
+export const deleteTaskItem = (groupId, task, onError) => (dispatch) => {
+  dispatch({ type: actionTypes.DELETE_TASK_ITEM_START });
+  const groupRef = db.collection("groups").doc(groupId);
+
+  groupRef
+    .update({
+      todoList: firebase.firestore.FieldValue.arrayRemove(task),
+    })
+    .then(() => {
+      dispatch({
+        type: actionTypes.DELETE_TASK_ITEM_SUCCESS,
+        payload: {
+          groupId,
+          taskId: task.taskId,
+        },
+      });
+      dispatch(updateGroupLastActivity(groupId));
+    })
+    .catch((err) => {
+      dispatch({ type: actionTypes.DELETE_TASK_ITEM_FAILED });
+      onError({ severity: "error", action: alertTypes.TOGGLE_TASK_FAILED });
+    });
+};
+
 export const toggleTaskItem = (groupId, updatedTask, oldTask) => (dispatch) => {
   dispatch({ type: actionTypes.TOGGLE_LIST_ITEM_START });
 
@@ -109,6 +168,7 @@ export const toggleTaskItem = (groupId, updatedTask, oldTask) => (dispatch) => {
           oldTask,
         },
       });
+      dispatch(updateGroupLastActivity(groupId));
     })
     .catch((err) => {
       dispatch({
@@ -119,6 +179,25 @@ export const toggleTaskItem = (groupId, updatedTask, oldTask) => (dispatch) => {
           isOpen: true,
         },
       });
+    });
+};
+
+export const postGroupMessage = (groupId, msg, finishAction) => (dispatch) => {
+  dispatch({ type: actionTypes.POST_NEW_MESSAGE_START });
+  const groupRef = db.collection("groups").doc(groupId);
+
+  const message = new Message(msg, new Date());
+  groupRef
+    .update({
+      messages: firebase.firestore.FieldValue.arrayUnion({ ...message }),
+    })
+    .then(() => {
+      dispatch({ type: actionTypes.POST_NEW_MESSAGE_SUCCESS });
+      finishAction();
+      dispatch(updateGroupLastActivity(groupId));
+    })
+    .catch((err) => {
+      dispatch({ type: actionTypes.POST_NEW_MESSAGE_FAILED, payload: err });
     });
 };
 
@@ -378,67 +457,26 @@ export const createNewGroup = (groupData, user, history) => (dispatch) => {
     });
 };
 
-export const addTaskItem = (groupId, newTask) => (dispatch) => {
-  dispatch({ type: actionTypes.ADD_TASK_ITEM_START });
+export const deleteGroup = (groupId, userId, history) => (dispatch) => {
+  dispatch({ type: actionTypes.DELETE_GROUP_START });
   const groupRef = db.collection("groups").doc(groupId);
+  const userRef = db.collection("users").doc(userId);
 
-  const task = { ...new Task(newTask, 1) };
-  groupRef
-    .update({
-      todoList: firebase.firestore.FieldValue.arrayUnion(task),
-    })
+  Promise.all([
+    groupRef.delete(),
+    userRef.update({
+      inGroups: firebase.firestore.FieldValue.arrayRemove(groupId),
+    }),
+  ])
     .then(() => {
+      history.replace("/dashboard");
       dispatch({
-        type: actionTypes.ADD_TASK_ITEM_SUCCESS,
-        payload: {
-          groupId,
-          newTask: task,
-        },
+        type: actionTypes.DELETE_GROUP_SUCCESS,
+        payload: { groupId },
       });
     })
     .catch((err) => {
-      dispatch({ type: actionTypes.ADD_TASK_ITEM_FAILED });
-    });
-};
-
-export const deleteTaskItem = (groupId, task, onError) => (dispatch) => {
-  dispatch({ type: actionTypes.DELETE_TASK_ITEM_START });
-  const groupRef = db.collection("groups").doc(groupId);
-
-  groupRef
-    .update({
-      todoList: firebase.firestore.FieldValue.arrayRemove(task),
-    })
-    .then(() => {
-      dispatch({
-        type: actionTypes.DELETE_TASK_ITEM_SUCCESS,
-        payload: {
-          groupId,
-          taskId: task.taskId,
-        },
-      });
-    })
-    .catch((err) => {
-      dispatch({ type: actionTypes.DELETE_TASK_ITEM_FAILED });
-      onError({ severity: "error", action: alertTypes.TOGGLE_TASK_FAILED });
-    });
-};
-
-export const postGroupMessage = (groupId, msg, finishAction) => (dispatch) => {
-  dispatch({ type: actionTypes.POST_NEW_MESSAGE_START });
-  const groupRef = db.collection("groups").doc(groupId);
-
-  const message = new Message(msg, new Date());
-  groupRef
-    .update({
-      messages: firebase.firestore.FieldValue.arrayUnion({ ...message }),
-    })
-    .then(() => {
-      dispatch({type: actionTypes.POST_NEW_MESSAGE_SUCCESS});
-      finishAction();
-    })
-    .catch((err) => {
-      dispatch({ type: actionTypes.POST_NEW_MESSAGE_FAILED, payload: err });
+      dispatch({ type: actionTypes.DELETE_GROUP_FAILED, payload: err });
     });
 };
 
@@ -466,29 +504,6 @@ export const editGroupData = (groupId, groupData, setOpen) => (dispatch) => {
     })
     .catch((err) => {
       dispatch({ type: actionTypes.EDIT_GROUP_DATA_FAILED });
-    });
-};
-
-export const deleteGroup = (groupId, userId, history) => (dispatch) => {
-  dispatch({ type: actionTypes.DELETE_GROUP_START });
-  const groupRef = db.collection("groups").doc(groupId);
-  const userRef = db.collection("users").doc(userId);
-
-  Promise.all([
-    groupRef.delete(),
-    userRef.update({
-      inGroups: firebase.firestore.FieldValue.arrayRemove(groupId),
-    }),
-  ])
-    .then(() => {
-      history.replace("/dashboard");
-      dispatch({
-        type: actionTypes.DELETE_GROUP_SUCCESS,
-        payload: { groupId },
-      });
-    })
-    .catch((err) => {
-      dispatch({ type: actionTypes.DELETE_GROUP_FAILED, payload: err });
     });
 };
 
