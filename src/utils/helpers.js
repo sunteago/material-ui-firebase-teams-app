@@ -42,8 +42,12 @@ export const topActiveGroupsToArray = (activeGroups) => {
       groupId: key,
       name: activeGroups[key].name,
       description: activeGroups[key].description,
-      lastActivity: activeGroups[key].lastActivity.toMillis()
+      lastActivity: activeGroups[key].lastActivity.toMillis(),
+      image: activeGroups[key].image
     })
   }
-  return activeGroupsArr.sort((a,b) => b.lastActivity - a.lastActivity);
+  if (activeGroupsArr.length > 0) {
+    return activeGroupsArr.sort((a,b) => b.lastActivity - a.lastActivity).slice(0,2);
+  } 
+  return activeGroupsArr;
 }

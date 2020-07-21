@@ -12,11 +12,11 @@ export default function CreateGroup() {
 
   const onConfirmCreateGroup = (settingsData) => {
     const groupData = {
-      groupName: settingsData.name,
+      name: settingsData.name,
       isPublic: settingsData.isPublic,
       usersAllowedToInvite: settingsData.usersAllowedToInvite,
       description: settingsData.description,
-      image: settingsData.imageURL
+      imageURL: settingsData.imageURL
     }
     dispatch(actions.createNewGroup(groupData, {userId: user.uid, name: user.displayName}, history));
   };

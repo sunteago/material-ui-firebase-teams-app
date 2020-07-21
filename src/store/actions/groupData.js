@@ -429,6 +429,27 @@ export const createGroupInvitationLink = (...args) => (dispatch) => {
     });
 };
 
+export const updatePublicGroupDashboard = (groupData) => (dispatch) => {
+  const dashboardRef = db.collection("general").doc("dashboard");
+  const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+  console.log(groupData);
+  dashboardRef
+    .update({
+      [`topActivePublicGroups.${groupData.groupId}`]: {
+        name: groupData.name,
+        description: groupData.description,
+        lastActivity: timestamp,
+        image: groupData.imageURL,
+      },
+    })
+    .then(() => {
+      dispatch({ type: actionTypes.UPDATE_PUBLIC_DASHBOARD_SUCCESS });
+    })
+    .catch(() => {
+      dispatch({ type: actionTypes.UPDATE_PUBLIC_DASHBOARD_SUCCESS });
+    });
+};
+
 export const createNewGroup = (groupData, user, history) => (dispatch) => {
   dispatch({ type: actionTypes.CREATE_NEW_GROUP_START });
   const userRef = db.collection("users").doc(user.userId);
@@ -450,7 +471,11 @@ export const createNewGroup = (groupData, user, history) => (dispatch) => {
         type: actionTypes.CREATE_NEW_GROUP_SUCCESS,
         payload: groupId,
       });
+      //if it is public, create a space for dashboard data
       history.push(`/groups/${groupId}`);
+      if (groupData.isPublic) {
+        dispatch(updatePublicGroupDashboard({ ...groupData, groupId }));
+      }
     })
     .catch((err) => {
       dispatch({ type: actionTypes.CREATE_NEW_GROUP_FAILED });
@@ -501,6 +526,7 @@ export const editGroupData = (groupId, groupData, setOpen) => (dispatch) => {
         },
       });
       setOpen(false);
+      dispatch(updatePublicGroupDashboard({...groupData, groupId}));
     })
     .catch((err) => {
       dispatch({ type: actionTypes.EDIT_GROUP_DATA_FAILED });
