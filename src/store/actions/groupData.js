@@ -429,18 +429,25 @@ export const createGroupInvitationLink = (...args) => (dispatch) => {
     });
 };
 
-export const updatePublicGroupDashboard = (groupData) => (dispatch) => {
+export const updatePublicGroupDashboard = (groupData, action) => (dispatch) => {
   const dashboardRef = db.collection("general").doc("dashboard");
   const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-  console.log(groupData);
+
+  let updatedField = {};
+  if (action === "update") {
+    updatedField = {
+      name: groupData.name,
+      description: groupData.description,
+      lastActivity: timestamp,
+      image: groupData.imageURL,
+    };
+  } else if (action === "delete") {
+    updatedField = firebase.firestore.FieldValue.delete();
+  }
+
   dashboardRef
     .update({
-      [`topActivePublicGroups.${groupData.groupId}`]: {
-        name: groupData.name,
-        description: groupData.description,
-        lastActivity: timestamp,
-        image: groupData.imageURL,
-      },
+      [`topActivePublicGroups.${groupData.groupId}`]: updatedField,
     })
     .then(() => {
       dispatch({ type: actionTypes.UPDATE_PUBLIC_DASHBOARD_SUCCESS });
@@ -473,7 +480,9 @@ export const createNewGroup = (groupData, user, history) => (dispatch) => {
       });
       //if it is public, create a space for dashboard data
       if (groupData.isPublic) {
-        dispatch(updatePublicGroupDashboard({ ...groupData, groupId }));
+        dispatch(
+          updatePublicGroupDashboard({ ...groupData, groupId }, "update")
+        );
       }
       history.push(`/groups/${groupId}`);
     })
@@ -499,13 +508,14 @@ export const deleteGroup = (groupId, userId, history) => (dispatch) => {
         type: actionTypes.DELETE_GROUP_SUCCESS,
         payload: { groupId },
       });
+      dispatch(updatePublicGroupDashboard({ groupId }, "delete"));
     })
     .catch((err) => {
       dispatch({ type: actionTypes.DELETE_GROUP_FAILED, payload: err });
     });
 };
 
-export const editGroupData = (groupId, groupData, setOpen) => (dispatch) => {
+export const editGroupData = (groupId, groupData) => (dispatch) => {
   dispatch({ type: actionTypes.EDIT_GROUP_DATA_START });
 
   const groupRef = db.collection("groups").doc(groupId);
@@ -525,9 +535,12 @@ export const editGroupData = (groupId, groupData, setOpen) => (dispatch) => {
           groupData,
         },
       });
-      setOpen(false);
       if (groupData.isPublic) {
-        dispatch(updatePublicGroupDashboard({...groupData, groupId}));
+        dispatch(
+          updatePublicGroupDashboard({ ...groupData, groupId }, "update")
+        );
+      } else {
+        dispatch(updatePublicGroupDashboard({ groupId }, "delete"));
       }
     })
     .catch((err) => {
