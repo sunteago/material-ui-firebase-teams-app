@@ -3,6 +3,7 @@ import MessageItem from "./MessageItem";
 import { makeStyles, Grid } from "@material-ui/core";
 import MessageWritingBox from "./MessageWritingBox";
 import * as actions from "../../store/actions";
+import {getHowManyDaysAgo} from "../../utils/helpers"
 
 const useStyles = makeStyles((theme) => ({
   writingBoxContainer: {
@@ -49,6 +50,7 @@ export default function Messages(props) {
       actions.postGroupMessage(groupId, { title, content, user }, clean)
     );
   };
+
   return (
     <Grid container item xs={12} md={8} direction="column" >
       {messages.map((msg) => (
@@ -59,6 +61,7 @@ export default function Messages(props) {
           author={msg.author}
           classes={classes}
           userId={msg.userId}
+          timestamp={getHowManyDaysAgo(msg.timestamp)}
         />
       ))}
       {isMember && (

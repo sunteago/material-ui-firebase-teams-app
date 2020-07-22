@@ -98,7 +98,7 @@ export default function GroupInvitation(props) {
 
   return (
     <>
-      <Typography>First, write a short welcome message</Typography>
+      <Typography>First, write a short welcome message (optional)</Typography>
       <Box className={classes.messageContainer}>
         <TextInput
           value={inviteMessage}
@@ -109,7 +109,6 @@ export default function GroupInvitation(props) {
           multiline
           variant="outlined"
           fullWidth
-          required
           maxLength={100}
         />
       </Box>
