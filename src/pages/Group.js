@@ -3,23 +3,17 @@ import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../store/actions";
 import { useParams, useHistory } from "react-router-dom";
 
-import TaskListContainer from "../components/Tasks/TasksListContainer";
-import Messages from "../components/Messages/Messages";
-import Members from "../components/Group/GroupMembers";
-import Settings from "../components/Settings/Settings";
+import GroupHeader from "../components/Group/GroupHeader";
 import GroupInvitation from "../components/Group/GroupInvitation";
+import GroupActionsButtons from "../components/Group/GroupActionButtons";
+import GroupSectionsContainer from "../components/Group/GroupSectionsContainer";
 import Modal from "../components/Layout/Modal/Modal";
 
 import * as alertTypes from "../constants/alertTypes";
 import AlertMessage from "../components/Layout/AlertMessage";
-import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
 import NavigationTab from "../components/Layout/NavigationTabs";
-import { Divider, Chip, Button, Grid, Avatar } from "@material-ui/core";
+import { Divider } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import PublicIcon from "@material-ui/icons/Public";
-import LockIcon from "@material-ui/icons/Lock";
-import AdminIcon from "@material-ui/icons/SupervisorAccount";
-import PersonIcon from "@material-ui/icons/Person";
 
 const useStyles = makeStyles((theme) => ({
   infoChips: {
@@ -41,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   quitButton: {
     alignSelf: "flex-end",
-    margin: theme.spacing(1)
+    margin: theme.spacing(1),
   },
   paper: {
     flexGrow: 1,
@@ -123,92 +117,24 @@ export default function Group() {
           />
         </Modal>
 
-        <Grid
-          container
-          justify="flex-end"
-          className={classes.infoChips}
-          spacing={1}
-        >
-          {isMember && (
-            <Grid item>
-              <Chip
-                icon={isCreator ? <AdminIcon /> : <PersonIcon />}
-                label={isCreator ? "Creator" : "Member"}
-                variant="outlined"
-                color={isCreator ? "secondary" : "primary"}
-              />
-            </Grid>
-          )}
+        <GroupHeader 
+          activeGroup={activeGroup}
+          isMember={isMember}
+          isCreator={isCreator}
+          classes={classes}
+        />
 
-          <Grid item>
-            <Chip
-              icon={activeGroup.isPublic ? <PublicIcon /> : <LockIcon />}
-              label={activeGroup.isPublic ? "Public" : "Private"}
-              variant="outlined"
-              color={activeGroup.isPublic ? "primary" : "secondary"}
-            />
-          </Grid>
-        </Grid>
-
-        <Grid
-          item
-          container
-          justify="center"
-          spacing={3}
-          className={classes.groupName}
-        >
-          <Grid item container justify="flex-end" xs={4} sm={5}>
-            <Avatar
-              src={activeGroup.image}
-              alt={`${activeGroup.name}'s image`}
-            />
-          </Grid>
-          <Grid item container justify="flex-start" xs={8} sm={7}>
-            <SectionTitle>{activeGroup.name}</SectionTitle>
-          </Grid>
-        </Grid>
-
-        {isUserAbleToInvite && isMember && (
-          <Button
-            onClick={() => setIsModalOpen((prev) => !prev)}
-            size="small"
-            color="primary"
-            className={classes.inviteButton}
-            variant="outlined"
-          >
-            Invite to this group
-          </Button>
-        )}
-        {!isMember && (
-          <Button
-            size="small"
-            color="primary"
-            className={classes.inviteButton}
-            variant="outlined"
-            onClick={() =>
-              dispatch(
-                actions.joinPublicGroupNoInvitation(
-                  { userId: user.uid, name: user.displayName },
-                  groupId,
-                  userGroups
-                )
-              )
-            }
-          >
-            Join this group
-          </Button>
-        )}
-        {isMember && (
-          <Button
-            size="small"
-            color="secondary"
-            className={classes.quitButton}
-            variant="outlined"
-            onClick={() => dispatch(actions.leaveGroup(groupId, user.uid, history))}
-          >
-            Quit this Group
-          </Button>
-        )}
+        <GroupActionsButtons
+          classes={classes}
+          isMember={isMember}
+          isUserAbleToInvite={isUserAbleToInvite}
+          setIsModalOpen={setIsModalOpen}
+          dispatch={dispatch}
+          groupId={groupId}
+          user={user}
+          userGroups={userGroups}
+          history={history}
+        />
 
         <Divider className={classes.dividerLine} />
         <NavigationTab
@@ -217,35 +143,16 @@ export default function Group() {
           isCreator={isCreator}
         />
 
-        {tab === 0 && (
-          <TaskListContainer
-            todoList={activeGroup.todoList}
-            isMember={isMember}
-            groupId={groupId}
-            dispatch={dispatch}
-          />
-        )}
-        {tab === 1 && (
-          <Messages
-            messages={activeGroup.messages}
-            user={user}
-            groupId={groupId}
-            isMember={isMember}
-            dispatch={dispatch}
-          />
-        )}
-        {tab === 2 && <Members members={activeGroup.roles} />}
-        {tab === 3 && isCreator && (
-          <Settings
-            mode="modifyGroup"
-            confirmHandler={onConfirmSaveGroup}
-            deleteHandler={onDeleteGroup(groupId, user.uid)}
-            isVisible={activeGroup.isPublic}
-            descriptText={activeGroup.description}
-            existingName={activeGroup.name}
-            imageUrl={activeGroup.image}
-          />
-        )}
+        <GroupSectionsContainer
+          dispatch={dispatch}
+          activeGroup={activeGroup}
+          isMember={isMember}
+          isCreator={isCreator}
+          user={user}
+          onDeleteGroup={onDeleteGroup}
+          onConfirmSaveGroup={onConfirmSaveGroup}
+          tab={tab}
+        />
       </>
     );
   } else {

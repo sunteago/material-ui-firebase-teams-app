@@ -557,6 +557,8 @@ export const leaveGroup = (groupId, userId, history) => (dispatch) => {
   const batch = db.batch();
   batch.update(groupRef, {
     [`roles.${userId}`]: firebase.firestore.FieldValue.delete(),
+    lastUserJoined: firebase.firestore.FieldValue.delete(),
+    lastUserLeft: userId,
   });
   batch.update(userRef, {
     inGroups: firebase.firestore.FieldValue.arrayRemove(groupId),
@@ -573,7 +575,7 @@ export const leaveGroup = (groupId, userId, history) => (dispatch) => {
           snackData: {},
         },
       });
-      // history.push("/dashboard");
+      history.push("/dashboard");
     })
     .catch((err) => {
       dispatch({ type: actionTypes.LEAVE_GROUP_FAILED, payload: err });
