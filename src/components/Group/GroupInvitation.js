@@ -48,7 +48,6 @@ export default function GroupInvitation(props) {
     }
   }, [generatedLink]);
 
-  //debounces to avoid innecesary network requests
   const debouncedPersonalInvite = debounce(() => {
     dispatch(
       actions.createGroupInvitationLink(

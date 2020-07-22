@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@material-ui/core";
 import * as actions from "../../store/actions";
+import debounce from "just-debounce-it";
 
 export default function GroupActionButtons(props) {
   const {
@@ -14,6 +15,20 @@ export default function GroupActionButtons(props) {
     userGroups,
     history,
   } = props;
+
+  const debouncedJoinHandler = debounce(() => {
+    dispatch(
+      actions.joinPublicGroupNoInvitation(
+        { userId: user.uid, name: user.displayName, avatar: user.photoURL },
+        groupId,
+        userGroups
+      )
+    );
+  }, 400);
+
+  const debouncedLeaveHandler = debounce(() => {
+    dispatch(actions.leaveGroup(groupId, user.uid, history));
+  }, 400);
 
   return (
     <>
@@ -34,15 +49,7 @@ export default function GroupActionButtons(props) {
           color="primary"
           className={classes.inviteButton}
           variant="outlined"
-          onClick={() =>
-            dispatch(
-              actions.joinPublicGroupNoInvitation(
-                { userId: user.uid, name: user.displayName, avatar: user.photoURL },
-                groupId,
-                userGroups
-              )
-            )
-          }
+          onClick={debouncedJoinHandler}
         >
           Join this group
         </Button>
@@ -53,7 +60,7 @@ export default function GroupActionButtons(props) {
           color="secondary"
           className={classes.quitButton}
           variant="outlined"
-          onClick={() => dispatch(actions.leaveGroup(groupId, user.uid, history))}
+          onClick={debouncedLeaveHandler}
         >
           Quit this Group
         </Button>
