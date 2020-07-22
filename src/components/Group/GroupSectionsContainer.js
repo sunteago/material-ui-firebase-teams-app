@@ -23,7 +23,7 @@ export default function GroupSectionsContainer(props) {
         <TaskListContainer
           todoList={activeGroup.todoList}
           isMember={isMember}
-          groupId={activeGroup.groupId}
+          group={activeGroup}
           dispatch={dispatch}
         />
       )}

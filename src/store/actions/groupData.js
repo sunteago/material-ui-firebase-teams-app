@@ -86,9 +86,9 @@ export const updateGroupLastActivity = (groupId) => (dispatch) => {
     .catch(console.log);
 };
 
-export const addTaskItem = (groupId, newTask) => (dispatch) => {
+export const addTaskItem = (groupData, newTask) => (dispatch) => {
   dispatch({ type: actionTypes.ADD_TASK_ITEM_START });
-  const groupRef = db.collection("groups").doc(groupId);
+  const groupRef = db.collection("groups").doc(groupData.groupId);
 
   const task = { ...new Task(newTask, 1) };
   groupRef
@@ -99,20 +99,22 @@ export const addTaskItem = (groupId, newTask) => (dispatch) => {
       dispatch({
         type: actionTypes.ADD_TASK_ITEM_SUCCESS,
         payload: {
-          groupId,
+          groupId: groupData.groupId,
           newTask: task,
         },
       });
-      dispatch(updateGroupLastActivity(groupId));
+      if (groupData.isPublic) {
+        dispatch(updateGroupLastActivity(groupData.groupId));
+      }
     })
     .catch((err) => {
       dispatch({ type: actionTypes.ADD_TASK_ITEM_FAILED });
     });
 };
 
-export const deleteTaskItem = (groupId, task, onError) => (dispatch) => {
+export const deleteTaskItem = (groupData, task, onError) => (dispatch) => {
   dispatch({ type: actionTypes.DELETE_TASK_ITEM_START });
-  const groupRef = db.collection("groups").doc(groupId);
+  const groupRef = db.collection("groups").doc(groupData.groupId);
 
   groupRef
     .update({
@@ -122,7 +124,7 @@ export const deleteTaskItem = (groupId, task, onError) => (dispatch) => {
       dispatch({
         type: actionTypes.DELETE_TASK_ITEM_SUCCESS,
         payload: {
-          groupId,
+          groupId: groupData.groupId,
           taskId: task.taskId,
           snackData: {
             severity: "success",
@@ -131,7 +133,9 @@ export const deleteTaskItem = (groupId, task, onError) => (dispatch) => {
           },
         },
       });
-      dispatch(updateGroupLastActivity(groupId));
+      if (groupData.isPublic) {
+        dispatch(updateGroupLastActivity(groupData.groupId));
+      }
     })
     .catch((err) => {
       dispatch({ type: actionTypes.DELETE_TASK_ITEM_FAILED });
@@ -139,11 +143,13 @@ export const deleteTaskItem = (groupId, task, onError) => (dispatch) => {
     });
 };
 
-export const toggleTaskItem = (groupId, updatedTask, oldTask) => (dispatch) => {
+export const toggleTaskItem = (groupData, updatedTask, oldTask) => (
+  dispatch
+) => {
   dispatch({ type: actionTypes.TOGGLE_LIST_ITEM_START });
 
   const batch = db.batch();
-  const groupRef = db.collection("groups").doc(groupId);
+  const groupRef = db.collection("groups").doc(groupData.groupId);
   batch.update(groupRef, {
     todoList: firebase.firestore.FieldValue.arrayRemove(oldTask),
   });
@@ -158,11 +164,13 @@ export const toggleTaskItem = (groupId, updatedTask, oldTask) => (dispatch) => {
       dispatch({
         type: actionTypes.TOGGLE_LIST_ITEM_SUCCESS,
         payload: {
-          groupId,
+          groupId: groupData.groupId,
           oldTask,
         },
       });
-      dispatch(updateGroupLastActivity(groupId));
+      if (groupData.isPublic) {
+        dispatch(updateGroupLastActivity(groupData.groupId));
+      }
     })
     .catch((err) => {
       dispatch({
@@ -572,7 +580,11 @@ export const leaveGroup = (groupId, userId, history) => (dispatch) => {
         payload: {
           groupId,
           userId,
-          snackData: {},
+          snackData: {
+            severity: "success",
+            action: alertTypes.LEAVE_GROUP_SUCCESS,
+            isOpen: true,
+          },
         },
       });
       history.push("/dashboard");

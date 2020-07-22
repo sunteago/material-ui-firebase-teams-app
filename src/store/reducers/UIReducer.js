@@ -20,6 +20,7 @@ export default function (state = initialState, action) {
     case actionTypes.SEND_PASSWORD_RESET_EMAIL_SUCCESS:
     case actionTypes.SEND_PASSWORD_RESET_EMAIL_FAILED:
     case actionTypes.DELETE_TASK_ITEM_SUCCESS:
+    case actionTypes.LEAVE_GROUP_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -63,6 +64,7 @@ export default function (state = initialState, action) {
     case actionTypes.DELETE_GROUP_FAILED:
     case actionTypes.CREATE_NEW_GROUP_FAILED:
     case actionTypes.CREATE_NEW_GROUP_SUCCESS:
+    case actionTypes.LEAVE_GROUP_FAILED:
       return {
         ...state,
         loading: false,
@@ -96,6 +98,7 @@ export default function (state = initialState, action) {
     case actionTypes.DELETE_GROUP_START:
     case actionTypes.CREATE_NEW_GROUP_START:
     case actionTypes.SEND_PASSWORD_RESET_EMAIL_START:
+    case actionTypes.LEAVE_GROUP_START:
       return {
         ...state,
         loading: true,

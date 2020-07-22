@@ -17,6 +17,9 @@ export default function groupDataReducer(state = initialState, action) {
         topActivePublicGroups: action.payload.topActivePublicGroups,
       };
     case actionTypes.FETCH_GROUP_DATA_SUCCESS:
+      if (state.groupsInLocal.some(grp => grp.groupId in state.userGroups)) {
+        action.payload.isCurrentUserAMember = true;
+      }
       return {
         ...state,
         groupsInLocal: action.payload,
@@ -141,14 +144,8 @@ export default function groupDataReducer(state = initialState, action) {
         userGroups: state.userGroups.filter(
           (groupId) => groupId !== action.payload.groupId
         ),
-        groupsInLocal: state.groupsInLocal.map((group) => {
-          if (group.groupId === action.payload.groupId) {
-            return {
-              ...group,
-              isCurrentUserAMember: false,
-            };
-          }
-          return group;
+        groupsInLocal: state.groupsInLocal.filter((group) => {
+          return group.groupId !== action.payload.groupId;
         }),
       };
     case actionTypes.SIGN_OUT_SUCCESS:

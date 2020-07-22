@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TodoList(props) {
-  const { todoList, isMember, groupId, dispatch } = props;
+  const { todoList, isMember, group, dispatch } = props;
 
   const classes = useStyles();
   const doneTodoList = todoList.filter((listItem) => listItem.done === true);
@@ -70,18 +70,18 @@ export default function TodoList(props) {
   const onTaskClickHandler = (task) => {
     const oldTask = { ...task };
     const updatedTask = { ...task, done: !task.done };
-    dispatch(actions.toggleTaskItem(groupId, updatedTask, oldTask));
+    dispatch(actions.toggleTaskItem(group, updatedTask, oldTask));
   };
 
   const onAddTaskHandler = (e) => {
     e.preventDefault();
     setNewTask("");
-    dispatch(actions.addTaskItem(groupId, newTask));
+    dispatch(actions.addTaskItem(group, newTask));
   };
 
   const onDeleteTaskHandler = (task) => (e) => {
     e.stopPropagation();
-    dispatch(actions.deleteTaskItem(groupId, task));
+    dispatch(actions.deleteTaskItem(group, task));
   };
 
   return (
