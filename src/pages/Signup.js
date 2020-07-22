@@ -9,12 +9,6 @@ import TextInput from "../components/TextInput";
 import PersonIcon from "@material-ui/icons/Person";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
-const initialState = {
-  displayName: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
-};
 
 export default function SignUp() {
   const dispatch = useDispatch();
@@ -24,16 +18,13 @@ export default function SignUp() {
     dispatch(standardSignup(email.toLowerCase(), password, displayName));
   };
 
-  const { values, handleSubmit, handleChange } = useForm(
-    initialState,
-    onSignUpHandler
-  );
+  const { values, handleSubmit, handleChange } = useForm(onSignUpHandler);
 
   return (
     <AuthForm mode="signup" onSubmit={handleSubmit}>
       <TextInput
-        value={values.email}
         inputProps={{
+          value: values.email || '',
           type: "email",
           label: "Email",
           name: "email",
@@ -44,8 +35,8 @@ export default function SignUp() {
         Icon={PersonIcon}
       />
       <TextInput
-        value={values.displayName}
         inputProps={{
+          value: values.displayName || '',
           type: "name",
           label: "Name",
           name: "displayName",
@@ -58,8 +49,8 @@ export default function SignUp() {
       />
 
       <TextInput
-        value={values.password}
         inputProps={{
+          value: values.password || '',
           type: "password",
           label: "Password",
           name: "password",
@@ -69,8 +60,8 @@ export default function SignUp() {
         Icon={VpnKeyIcon}
       />
       <TextInput
-        value={values.confirmPassword}
         inputProps={{
+          value: values.confirmPassword || '',
           type: "password",
           label: "Password",
           name: "confirmPassword",

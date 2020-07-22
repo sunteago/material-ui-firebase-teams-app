@@ -99,8 +99,8 @@ export default function GroupInvitation(props) {
       <Typography>First, write a short welcome message (optional)</Typography>
       <Box className={classes.messageContainer}>
         <TextInput
-          value={inviteMessage}
           inputProps={{
+            value: inviteMessage,
             type: "text",
             label: "Invite Message",
             rows: 4,

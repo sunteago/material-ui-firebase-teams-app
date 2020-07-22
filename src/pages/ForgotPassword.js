@@ -14,16 +14,13 @@ function ForgotPassword(props) {
     dispatch(sendPasswordResetEmail(values.email));
   };
 
-  const { values, handleSubmit, handleChange } = useForm(
-    { email: "" },
-    forgotPasswordHandler
-  );
+  const { values, handleSubmit, handleChange } = useForm(forgotPasswordHandler);
 
   return (
     <AuthForm mode="recoverPassword" onSubmit={handleSubmit}>
       <TextInput
         inputProps={{
-          value: values.email,
+          value: values.email || '',
           type: "email",
           label: "Email",
           name: "email",

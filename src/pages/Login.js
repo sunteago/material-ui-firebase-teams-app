@@ -8,26 +8,18 @@ import TextInput from "../components/TextInput";
 import PersonIcon from "@material-ui/icons/Person";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
-const initialState = {
-  email: "",
-  password: "",
-};
-
 function Login({ isAuth }) {
   const dispatch = useDispatch();
 
   const onLogInHandler = () => dispatch(logIn(values.email, values.password));
 
-  const { values, handleSubmit, handleChange } = useForm(
-    initialState,
-    onLogInHandler
-  );
+  const { values, handleSubmit, handleChange } = useForm(onLogInHandler);
 
   return (
     <AuthForm mode="login" onSubmit={handleSubmit}>
       <TextInput
         inputProps={{
-          value: values.email,
+          value: values.email || '',
           type: "email",
           label: "Email",
           autoFocus: true,
@@ -41,7 +33,7 @@ function Login({ isAuth }) {
       />
       <TextInput
         inputProps={{
-          value: values.password,
+          value: values.password || '',
           type: "password",
           label: "Password",
           autoFocus: true,

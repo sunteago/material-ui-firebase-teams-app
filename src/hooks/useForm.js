@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-export default function useForm(initialState, confirmHandler) {
-  const [values, setValues] = useState(initialState);
+export default function useForm( confirmHandler) {
+  const [values, setValues] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
