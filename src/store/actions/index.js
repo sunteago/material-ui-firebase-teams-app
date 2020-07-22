@@ -29,7 +29,8 @@ export {
   postGroupMessage,
   editGroupData,
   deleteGroup,
-  manageMessageObserver
+  manageMessageObserver,
+  leaveGroup
 } from "./groupData";
 
 export {

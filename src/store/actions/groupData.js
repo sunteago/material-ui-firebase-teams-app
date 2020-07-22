@@ -548,6 +548,38 @@ export const editGroupData = (groupId, groupData) => (dispatch) => {
     });
 };
 
+export const leaveGroup = (groupId, userId, history) => (dispatch) => {
+  dispatch({ type: actionTypes.LEAVE_GROUP_START });
+
+  const groupRef = db.collection("groups").doc(groupId);
+  const userRef = db.collection("users").doc(userId);
+
+  const batch = db.batch();
+  batch.update(groupRef, {
+    [`roles.${userId}`]: firebase.firestore.FieldValue.delete(),
+  });
+  batch.update(userRef, {
+    inGroups: firebase.firestore.FieldValue.arrayRemove(groupId),
+  });
+
+  batch
+    .commit()
+    .then(() => {
+      dispatch({
+        type: actionTypes.LEAVE_GROUP_SUCCESS,
+        payload: {
+          groupId,
+          userId,
+          snackData: {},
+        },
+      });
+      // history.push("/dashboard");
+    })
+    .catch((err) => {
+      dispatch({ type: actionTypes.LEAVE_GROUP_FAILED, payload: err });
+    });
+};
+
 export const manageMessageObserver = (groupId, action, run) => (dispatch) => {
   if (action === "start") {
     dispatch({ type: actionTypes.MESSAGE_OBSERVER_START });

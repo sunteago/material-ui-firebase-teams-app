@@ -37,7 +37,11 @@ const useStyles = makeStyles((theme) => ({
   },
   inviteButton: {
     alignSelf: "flex-end",
-    margin: theme.spacing(2),
+    margin: theme.spacing(1),
+  },
+  quitButton: {
+    alignSelf: "flex-end",
+    margin: theme.spacing(1)
   },
   paper: {
     flexGrow: 1,
@@ -100,9 +104,7 @@ export default function Group() {
       activeGroup.roles[user.uid] &&
       activeGroup.roles[user.uid].role === "creator"
     );
-    const isMember = !!(
-      activeGroup.roles[user.uid] && activeGroup.roles[user.uid].role
-    );
+    const isMember = activeGroup.isCurrentUserAMember;
 
     const isUserAbleToInvite = isCreator || activeGroup.usersAllowedToInvite;
 
@@ -196,6 +198,18 @@ export default function Group() {
             Join this group
           </Button>
         )}
+        {isMember && (
+          <Button
+            size="small"
+            color="secondary"
+            className={classes.quitButton}
+            variant="outlined"
+            onClick={() => dispatch(actions.leaveGroup(groupId, user.uid, history))}
+          >
+            Quit this Group
+          </Button>
+        )}
+
         <Divider className={classes.dividerLine} />
         <NavigationTab
           tab={tab}

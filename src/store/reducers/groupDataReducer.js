@@ -135,6 +135,22 @@ export default function groupDataReducer(state = initialState, action) {
           (groupId) => groupId !== action.payload.groupId
         ),
       };
+    case actionTypes.LEAVE_GROUP_SUCCESS:
+      return {
+        ...state,
+        userGroups: state.userGroups.filter(
+          (groupId) => groupId !== action.payload.groupId
+        ),
+        groupsInLocal: state.groupsInLocal.map((group) => {
+          if (group.groupId === action.payload.groupId) {
+            return {
+              ...group,
+              isCurrentUserAMember: false,
+            };
+          }
+          return group;
+        }),
+      };
     case actionTypes.SIGN_OUT_SUCCESS:
       return {
         ...initialState,
