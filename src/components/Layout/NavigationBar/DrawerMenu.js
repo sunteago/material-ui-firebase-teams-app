@@ -88,19 +88,14 @@ const DrawerMenu = ({ isOpen, handleDrawerClose, handleDrawerOpen }) => {
               </ListItem>
             </Link>
 
-            <ListItem button onClick={handleDrawerClose}>
-              <ListItemIcon>
-                <GroupIcon />
-              </ListItemIcon>
-              <ListItemText primary="My groups" />
-            </ListItem>
-
+            <Link to={`/profile/${user.uid}`} style={{ all: "unset" }}>
             <ListItem button onClick={handleDrawerClose}>
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
-              <ListItemText primary="Settings" />
+              <ListItemText primary="Profile Settings" />
             </ListItem>
+            </Link>
           </>
         )}
 
