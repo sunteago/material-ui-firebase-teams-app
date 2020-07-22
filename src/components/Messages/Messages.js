@@ -1,9 +1,11 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
+import * as actions from "../../store/actions";
+
+import Pagination from "./Pagination";
 import MessageItem from "./MessageItem";
 import { makeStyles, Grid } from "@material-ui/core";
 import MessageWritingBox from "./MessageWritingBox";
-import * as actions from "../../store/actions";
-import {getHowManyDaysAgo} from "../../utils/helpers"
+import { getHowManyDaysAgo } from "../../utils/helpers";
 
 const useStyles = makeStyles((theme) => ({
   writingBoxContainer: {
@@ -22,23 +24,32 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(7),
     height: theme.spacing(7),
   },
+  pagination: {
+    display: "flex",
+    justifyContent: "center",
+    "& > *": {
+      marginTop: theme.spacing(2),
+    },
+  },
 }));
+
+const msgPerPage = 3;
 
 export default function Messages(props) {
   const { groupId, messages, user, isMember, dispatch } = props;
-
   const classes = useStyles();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-      const run = {};
-      dispatch(actions.manageMessageObserver(groupId,'start', run))
+    const run = {};
+    dispatch(actions.manageMessageObserver(groupId, "start", run));
     return () => {
-      dispatch(actions.manageMessageObserver(groupId, 'stop'))
+      dispatch(actions.manageMessageObserver(groupId, "stop"));
       run.unsubscribe();
-    }
-  }, [dispatch, groupId])
+    };
+  }, [dispatch, groupId]);
 
   const clean = () => {
     setTitle("");
@@ -51,9 +62,21 @@ export default function Messages(props) {
     );
   };
 
+  const handlePageChange = (event, value) => setPage(value);
+
+
+  const fromMsgNum = (page - 1) * msgPerPage;
+  const toMsgNum = page * msgPerPage;
+
+  const sortedMsgs = messages.sort((a,b) => b.timestamp.seconds - a.timestamp.seconds);
+
+  const currPageMsgs = sortedMsgs.slice(fromMsgNum, toMsgNum);
+
+  const sortedCurrPageMsgs = currPageMsgs.sort((a,b) => a.timestamp.seconds - b.timestamp.seconds);
+
   return (
-    <Grid container item xs={12} md={8} direction="column" >
-      {messages.map((msg) => (
+    <Grid container item xs={12} md={8} direction="column">
+      {sortedCurrPageMsgs.map((msg) => (
         <MessageItem
           key={msg.timestamp}
           title={msg.title}
@@ -64,6 +87,12 @@ export default function Messages(props) {
           timestamp={getHowManyDaysAgo(msg.timestamp)}
         />
       ))}
+      <Pagination
+        classes={classes}
+        page={page}
+        onChange={handlePageChange}
+        numOfPages={Math.ceil(messages.length / msgPerPage)}
+      />
       {isMember && (
         <MessageWritingBox
           title={title}
