@@ -118,12 +118,16 @@ export default function TodoList(props) {
             onSubmit={onAddTaskHandler}
           >
             <TextInput
-              label="Add a new Task"
-              value={newTask}
-              setValue={setNewTask}
-              required
-              maxLength={30}
-              minLength={5}
+              inputProps={{
+                label: "Add a new Task",
+                value: newTask,
+                onChange: (e) => setNewTask(e.target.value),
+                required: true,
+                inputProps: {
+                  maxLength: 30,
+                  minLength: 5,
+                },
+              }}
             />
             <IconButton type="submit" aria-label="Add task">
               <AddCircleRoundedIcon />

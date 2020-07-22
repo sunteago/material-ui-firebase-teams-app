@@ -31,28 +31,36 @@ export default function MessageWritingBox(props) {
       <Grid item container spacing={2} xs={8}>
         <Grid item xs={12}>
           <TextInput
-            value={title}
-            setValue={setTitle}
-            type="text"
-            label="Title"
-            variant="outlined"
-            fullWidth={true}
-            required
-            maxLength={20}
+            inputProps={{
+              value: title,
+              onChange: (e) => setTitle(e.target.value),
+              type: "text",
+              label: "Title",
+              variant: "outlined",
+              fullWidth: true,
+              required: true,
+              inputProps: {
+                maxLength: 20,
+              },
+            }}
           />
         </Grid>
         <Grid item xs={12}>
           <TextInput
-            value={content}
-            setValue={setContent}
-            type="text"
-            label="Content"
-            rows={2}
-            multiline
-            variant="outlined"
-            fullWidth={true}
-            required
-            maxLength={140}
+            inputProps={{
+              value: content,
+              onChange: (e) => setContent(e.target.value),  
+              type: "text",
+              label: "Content",
+              rows: 2,
+              variant: "outlined",
+              multiline: true,
+              fullWidth: true,
+              required: true,
+              inputProps: {
+                maxLength: 140,
+              },
+            }}
           />
         </Grid>
       </Grid>

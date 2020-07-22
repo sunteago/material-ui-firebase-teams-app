@@ -10,21 +10,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TextInput(props) {
-  const {
-    value,
-    setValue,
-    Icon,
-    type,
-    label,
-    autoFocus,
-    multiline,
-    rows,
-    variant,
-    fullWidth,
-    required,
-    maxLength,
-    minLength
-  } = props;
+  const { Icon, inputProps } = props;
+  
   const classes = useStyles();
 
   return (
@@ -39,22 +26,7 @@ export default function TextInput(props) {
           <Icon />
         </Grid>
       )}
-      <TextField
-        label={label}
-        type={type}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        required={required}
-        autoFocus={autoFocus}
-        rows={rows}
-        multiline={multiline}
-        variant={variant}
-        fullWidth={fullWidth}
-        inputProps={{
-          maxLength: maxLength || 30,
-          minLength: minLength || 5
-        }}
-      />
+      <TextField {...inputProps} />
     </Grid>
   );
 }

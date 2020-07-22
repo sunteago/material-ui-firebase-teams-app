@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { sendPasswordResetEmail } from "../store/actions";
 
-import Form from "../components/Form/Form";
+import PersonIcon from "@material-ui/icons/Person";
+import TextInput from "../components/TextInput";
+import AuthForm from "../components/Form/AuthForm";
+
 
 function ForgotPassword(props) {
   const [email, setEmail] = useState("");
@@ -14,12 +17,23 @@ function ForgotPassword(props) {
     dispatch(sendPasswordResetEmail(email));
   };
   return (
-    <Form
-      mode="forgotpassword"
-      email={email}
-      setEmail={setEmail}
+    <AuthForm
+      mode="recoverPassword"
+      formStates={{ email, setEmail }}
       onActionHandler={onForgotPasswordHandler}
-    />
+    >
+      <TextInput
+        inputProps={{
+          value: email,
+          type: "password",
+          label: "Password",
+          onChange: (e) => setEmail(e.target.value),
+          required: true,
+          autoFocus: true
+        }}
+        Icon={PersonIcon}
+      />
+    </AuthForm>
   );
 }
 

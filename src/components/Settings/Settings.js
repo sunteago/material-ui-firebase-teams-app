@@ -156,27 +156,33 @@ export default function Settings(props) {
 
         <Grid item xs={12} sm={8}>
           <TextInput
-            value={name}
-            setValue={setName}
-            type="text"
-            label={settingsTexts[mode].nameText}
-            variant="outlined"
-            required
-            fullWidth
+            inputProps={{
+              value: name,
+              onChange: e => setName(e.target.value),
+              type: 'text',
+              label: settingsTexts[mode].nameText,
+              required: true,
+              fullWidth: true,
+              variant: 'outlined'
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={8}>
           <TextInput
-            value={description}
-            setValue={setDescription}
-            type="text"
-            label={settingsTexts[mode].descriptionText}
-            rows={4}
-            multiline
-            maxLength={50}
-            variant="outlined"
-            fullWidth={true}
-            required
+            inputProps={{
+              value: description,
+              onChange: e => setDescription(e.target.value),
+              type: 'text',
+              label: settingsTexts[mode].descriptionText,
+              rows: 4,
+              variant: 'outlined',
+              multiline: true,
+              required: true,
+              fullWidth: true,
+              inputProps: {
+                maxLength: 50
+              }
+            }}
           />
         </Grid>
 

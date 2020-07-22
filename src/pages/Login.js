@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import Form from "../components/Form/Form";
 import { useDispatch } from "react-redux";
-import * as actions from "../store/actions";
+import { logIn } from "../store/actions";
+
+import AuthForm from "../components/Form/AuthForm";
+import TextInput from "../components/TextInput";
+import PersonIcon from "@material-ui/icons/Person";
+import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
 function Login({ isAuth }) {
   const [email, setEmail] = useState("");
@@ -11,18 +15,34 @@ function Login({ isAuth }) {
 
   const onLogInHandler = (e) => {
     e.preventDefault();
-    dispatch(actions.logIn(email, password));
+    dispatch(logIn(email, password));
   };
-  
+
   return (
-    <Form
-      mode="login"
-      email={email}
-      setEmail={setEmail}
-      password={password}
-      setPassword={setPassword}
-      onActionHandler={onLogInHandler}
-    />
+    <AuthForm mode="login" onActionHandler={onLogInHandler}>
+      <TextInput
+        inputProps={{
+          value: email,
+          type: "email",
+          label: "Email",
+          autoFocus: true,
+          required: true,
+          onChange: (e) => setEmail(e.target.value),
+        }}
+        Icon={PersonIcon}
+      />
+      <TextInput
+        inputProps={{
+          value: password,
+          type: "password",
+          label: "Password",
+          autoFocus: true,
+          required: true,
+          onChange: (e) => setPassword(e.target.value),
+        }}
+        Icon={VpnKeyIcon}
+      />
+    </AuthForm>
   );
 }
 export default Login;

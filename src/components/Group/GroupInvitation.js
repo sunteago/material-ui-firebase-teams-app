@@ -10,7 +10,6 @@ import {
   Typography,
   Button,
   Grid,
-  TextField,
   Box,
   makeStyles,
   Divider,
@@ -101,14 +100,18 @@ export default function GroupInvitation(props) {
       <Box className={classes.messageContainer}>
         <TextInput
           value={inviteMessage}
-          setValue={setInviteMessage}
-          type="text"
-          label="Invite Message"
-          rows={4}
-          multiline
-          variant="outlined"
-          fullWidth
-          maxLength={100}
+          inputProps={{
+            type: "text",
+            label: "Invite Message",
+            rows: 4,
+            multiline: true,
+            variant: "outlined",
+            fullWidth: true,
+            onChange: (e) => setInviteMessage(e.target.value),
+            inputProps: {
+              maxLength: 100,
+            },
+          }}
         />
       </Box>
       <Typography>
@@ -129,13 +132,14 @@ export default function GroupInvitation(props) {
           >
             <Grid item xs={12} sm={7}>
               <TextInput
-                value={inviteEmail}
-                setValue={setInviteEmail}
-                type="email"
-                label="Email"
-                autoFocus
-                fullWidth
-                required
+                inputProps={{
+                  value: inviteEmail,
+                  onChange: (e) => setInviteEmail(e.target.value),
+                  type: "email",
+                  label: "Email",
+                  fullWidth: true,
+                  required: true,
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={3} style={{ textAlign: "center" }}>
@@ -156,12 +160,16 @@ export default function GroupInvitation(props) {
       <Box className={classes.wayContainer}>
         <Grid container spacing={1} alignItems="center" justify="space-around">
           <Grid item xs={12} sm={7}>
-            <TextField
-              inputRef={inviteLinkRef}
-              inputProps={{ readOnly: true }}
-              placeholder="Invitation Link"
-              fullWidth
-              type="url"
+            <TextInput
+              inputProps={{
+                inputRef: inviteLinkRef,
+                placeholder: "Invitation Link",
+                type: "url",
+                fullWidth: true,
+                inputProps: {
+                  readOnly: true,
+                },
+              }}
             />
           </Grid>
 
