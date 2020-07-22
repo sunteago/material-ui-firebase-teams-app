@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 
+import CircularLoading from "../components/Layout/CircularLoading";
 import PageContainer from "../components/Layout/PageContainer";
 import Dashboard from "../pages/Dashboard";
 import Group from "../pages/Group";
@@ -14,6 +15,7 @@ const Profile = React.lazy(() => import("../pages/Profile"));
 const About = React.lazy(() => import("../pages/About"));
 
 export default function DashboardRoutes() {
+
   return (
     <PageContainer>
       <Switch>
@@ -24,27 +26,27 @@ export default function DashboardRoutes() {
           <Notifications />
         </Route>
         <Route exact path="/news">
-          <Suspense fallback={<div>Loading News</div>}>
+          <Suspense fallback={<CircularLoading type='board'/>} >
             <News />
           </Suspense>
         </Route>
         <Route exact path="/profile/:userId">
-          <Suspense fallback={<div>Loading News</div>}>
+          <Suspense fallback={<CircularLoading type='board'/>} >
             <Profile />
           </Suspense>
         </Route>
         <Route exact path="/news/:newsId">
-          <Suspense fallback={<div>Loading News</div>}>
+          <Suspense fallback={<CircularLoading type='board'/>} >
             <SingleNews />
           </Suspense>
         </Route>
         <Route exact path="/groups/create">
-          <Suspense fallback={<div>Loading CreateGroup</div>}>
+          <Suspense fallback={<CircularLoading type='board'/>} >
             <CreateGroup />
           </Suspense>
         </Route>
         <Route exact path="/groups/:groupId/invite">
-          <Suspense fallback={<div>Loading Invitation Link</div>}>
+          <Suspense fallback={<CircularLoading type='board'/>} >
             <InvitationLink />
           </Suspense>
         </Route>
@@ -52,7 +54,7 @@ export default function DashboardRoutes() {
           <Group />
         </Route>
         <Route exact path="/about">
-          <Suspense fallback={<div>Loading About Page</div>}>
+          <Suspense fallback={<CircularLoading type='board'/>} >
             <About />
           </Suspense>
         </Route>

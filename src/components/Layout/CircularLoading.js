@@ -3,12 +3,18 @@ import { CircularProgress, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles((theme) => ({
-  spinnerContainer: {
+  fullSize: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: '100vh'
-  }
+    height: "100vh",
+  },
+  smallSize: {
+    minHeight: '20vh',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 }));
 
 export default function CircularLoading(props) {
@@ -17,11 +23,13 @@ export default function CircularLoading(props) {
   let size;
   if (props.type === "full") {
     size = 75;
-  } else if (props.type === "board" ) {
-    size = 40
+  } else if (props.type === "board") {
+    size = 40;
   }
   return (
-    <Container className={classes.spinnerContainer}>
+    <Container
+      className={classes[props.type === "full" ? "fullSize" : "smallSize"]}
+    >
       <CircularProgress size={size} {...props} />
     </Container>
   );

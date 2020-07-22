@@ -35,6 +35,8 @@ export const shareContent = (title, url, fallbackAction) => {
   }
 };
 
+export const limitGroupsArray = (groupsArr, num) => groupsArr.slice(0, num);
+
 export const topActiveGroupsToArray = (activeGroups) => {
   const activeGroupsArr = [];
   for (let key in activeGroups) {
@@ -47,16 +49,14 @@ export const topActiveGroupsToArray = (activeGroups) => {
     });
   }
   if (activeGroupsArr.length > 0) {
-    return activeGroupsArr
-      .sort((a, b) => b.lastActivity - a.lastActivity)
-      .slice(0, 2);
+    const groups = activeGroupsArr.sort((a, b) => b.lastActivity - a.lastActivity);
+    return limitGroupsArray(groups, 3);
   }
   return activeGroupsArr;
 };
 
 //filters groups with messages written by user and seen messages
 export const cleanDashboard = (groups, seenMessages, userId) => {
-  console.log(seenMessages)
   return groups.map((group) => {
     return {
       ...group,
