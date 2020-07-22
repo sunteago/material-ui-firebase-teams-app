@@ -1,44 +1,55 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { logIn } from "../store/actions";
+import useForm from "../hooks/useForm";
 
 import AuthForm from "../components/Form/AuthForm";
 import TextInput from "../components/TextInput";
 import PersonIcon from "@material-ui/icons/Person";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
-function Login({ isAuth }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const initialState = {
+  email: "",
+  password: "",
+};
 
+function Login({ isAuth }) {
   const dispatch = useDispatch();
 
-  const onLogInHandler = (e) => {
-    e.preventDefault();
-    dispatch(logIn(email, password));
-  };
+  const onLogInHandler = () => dispatch(logIn(values.email, values.password));
+
+  const { values, handleSubmit, handleChange } = useForm(
+    initialState,
+    onLogInHandler
+  );
 
   return (
-    <AuthForm mode="login" onActionHandler={onLogInHandler}>
+    <AuthForm mode="login" onSubmit={handleSubmit}>
       <TextInput
         inputProps={{
-          value: email,
+          value: values.email,
           type: "email",
           label: "Email",
           autoFocus: true,
           required: true,
-          onChange: (e) => setEmail(e.target.value),
+          onChange: handleChange,
+          inputProps: {
+            name: "email",
+          },
         }}
         Icon={PersonIcon}
       />
       <TextInput
         inputProps={{
-          value: password,
+          value: values.password,
           type: "password",
           label: "Password",
           autoFocus: true,
           required: true,
-          onChange: (e) => setPassword(e.target.value),
+          onChange: handleChange,
+          inputProps: {
+            name: "password",
+          },
         }}
         Icon={VpnKeyIcon}
       />

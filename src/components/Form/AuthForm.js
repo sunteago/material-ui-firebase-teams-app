@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Form({ mode, onActionHandler, children }) {
+export default function Form({ mode, onSubmit, children }) {
   const classes = useStyles();
 
   const { isAuth } = useSelector((state) => state.auth);
@@ -40,7 +40,7 @@ export default function Form({ mode, onActionHandler, children }) {
     <>
       <SectionTitle variant="h5">{operationName}</SectionTitle>
 
-      <form onSubmit={onActionHandler}>
+      <form onSubmit={onSubmit}>
         <Grid container direction="column">
           {children}
           <Button

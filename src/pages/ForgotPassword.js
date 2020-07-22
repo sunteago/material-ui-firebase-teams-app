@@ -1,35 +1,35 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { sendPasswordResetEmail } from "../store/actions";
+import useForm from "../hooks/useForm";
 
 import PersonIcon from "@material-ui/icons/Person";
 import TextInput from "../components/TextInput";
 import AuthForm from "../components/Form/AuthForm";
 
-
 function ForgotPassword(props) {
-  const [email, setEmail] = useState("");
-
   const dispatch = useDispatch();
 
-  const onForgotPasswordHandler = (e) => {
-    e.preventDefault();
-    dispatch(sendPasswordResetEmail(email));
+  const forgotPasswordHandler = (e) => {
+    dispatch(sendPasswordResetEmail(values.email));
   };
+
+  const { values, handleSubmit, handleChange } = useForm(
+    { email: "" },
+    forgotPasswordHandler
+  );
+
   return (
-    <AuthForm
-      mode="recoverPassword"
-      formStates={{ email, setEmail }}
-      onActionHandler={onForgotPasswordHandler}
-    >
+    <AuthForm mode="recoverPassword" onSubmit={handleSubmit}>
       <TextInput
         inputProps={{
-          value: email,
-          type: "password",
-          label: "Password",
-          onChange: (e) => setEmail(e.target.value),
+          value: values.email,
+          type: "email",
+          label: "Email",
+          name: "email",
+          onChange: handleChange,
           required: true,
-          autoFocus: true
+          autoFocus: true,
         }}
         Icon={PersonIcon}
       />
