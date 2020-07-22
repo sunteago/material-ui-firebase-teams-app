@@ -49,7 +49,9 @@ export const topActiveGroupsToArray = (activeGroups) => {
     });
   }
   if (activeGroupsArr.length > 0) {
-    const groups = activeGroupsArr.sort((a, b) => b.lastActivity - a.lastActivity);
+    const groups = activeGroupsArr.sort(
+      (a, b) => b.lastActivity - a.lastActivity
+    );
     return limitGroupsArray(groups, 3);
   }
   return activeGroupsArr;
@@ -70,4 +72,17 @@ export const cleanDashboard = (groups, seenMessages, userId) => {
       }),
     };
   });
+};
+
+export const getMembersArray = (members) => {
+  const membersArr = [];
+  for (const userId in members) {
+    membersArr.push({
+      memberId: userId,
+      name: members[userId].name,
+      role: members[userId].role,
+      avatar: members[userId].avatar
+    })
+  }
+  return membersArr;
 };

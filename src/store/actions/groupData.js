@@ -268,6 +268,7 @@ export const acceptOrDeclineInvitation = (...args) => (dispatch) => {
           [`roles.${user.userId}`]: {
             role: "member",
             name: user.name,
+            avatar: user.avatar
           },
         });
         //set groupId in inGroups property within user document
@@ -374,6 +375,7 @@ export const joinPublicGroupNoInvitation = (...args) => (dispatch) => {
         [`roles.${user.userId}`]: {
           role: "member",
           name: user.name,
+          avatar: user.avatar
         },
         lastUserJoined: user.userId,
       });

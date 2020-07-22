@@ -1,10 +1,21 @@
-import React from 'react'
-import { Paper } from '@material-ui/core'
+import React from "react";
+import { Avatar } from "@material-ui/core";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemText from "@material-ui/core/ListItemText";
 
-export default function GroupMember({role}) {
-    return (
-        <Paper style={{width: '100%'}}>
-            {role}
-        </Paper>
-    )
+export default function GroupMember({ member, classes }) {
+  return (
+    <ListItem>
+      <ListItemAvatar>
+        <Avatar
+          className={classes.memberListItemAvatar}
+          size="small"
+          src={member.avatar}
+          alt={`${member.name}'s avatar`}
+        />
+      </ListItemAvatar>
+      <ListItemText primary={member.name} secondary={member.role} />
+    </ListItem>
+  );
 }

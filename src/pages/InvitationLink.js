@@ -55,7 +55,7 @@ export default function InvitationLink() {
         action,
         invitationLinkId.current,
         invitationLinkData.groupId,
-        { userId: user.uid, name: user.displayName },
+        { userId: user.uid, name: user.displayName, avatar: user.photoURL },
         history
       )
     );

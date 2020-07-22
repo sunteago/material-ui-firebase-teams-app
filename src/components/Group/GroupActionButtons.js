@@ -37,7 +37,7 @@ export default function GroupActionButtons(props) {
           onClick={() =>
             dispatch(
               actions.joinPublicGroupNoInvitation(
-                { userId: user.uid, name: user.displayName },
+                { userId: user.uid, name: user.displayName, avatar: user.photoURL },
                 groupId,
                 userGroups
               )
