@@ -173,6 +173,7 @@ export default function Settings(props) {
             label={settingsTexts[mode].descriptionText}
             rows={4}
             multiline
+            maxLength={50}
             variant="outlined"
             fullWidth={true}
             required

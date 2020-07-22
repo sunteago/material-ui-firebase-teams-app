@@ -24,10 +24,11 @@ export default function Dashboard() {
 
   const user = useSelector((state) => state.auth.user);
   const { isFullLoading } = useSelector((state) => state.UI);
-  const { lastNews } = useSelector((state) => state.userData);
+  const { lastNews, seenMessages } = useSelector((state) => state.userData);
   const { topActivePublicGroups, groupsInLocal } = useSelector(
     (state) => state.groupData
   );
+
   const dispatch = useDispatch();
 
   const onClickSendConfirmationLink = (e) => {
@@ -65,6 +66,7 @@ export default function Dashboard() {
             handleClearComment={handleClearComment}
             groups={userGroupsContent}
             userId={user.uid}
+            seenMessages={seenMessages}
           />
         </Grid>
 

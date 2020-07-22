@@ -109,7 +109,6 @@ export const sendPasswordResetEmail = (email) => (dispatch) => {
           },
         },
       });
-      console.log("sent email");
     })
     .catch(function (error) {
       dispatch({
@@ -122,6 +121,5 @@ export const sendPasswordResetEmail = (email) => (dispatch) => {
           },
         },
       });
-      console.log("error");
     });
 };

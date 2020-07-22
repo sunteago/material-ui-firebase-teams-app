@@ -6,11 +6,11 @@ import { useTheme } from "@material-ui/core/styles";
 import GroupItem from "../Group/GroupItem";
 
 export default function RecentActivityItem(props) {
-  const { activityItem, handleClearComment, userId } = props;
+  const { activityItem, handleClearComment } = props;
 
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
-
+  
   return (
     <>
       <Grid container>
@@ -25,17 +25,15 @@ export default function RecentActivityItem(props) {
                 : { width: "100%", marginLeft: "2.5rem" }
             }
           >
-            {activityItem.messages
-              .filter((message) => message.userId !== userId)
-              .map((message) => (
-                <SmallTextBox
-                  key={message.timestamp}
-                  title={message.title}
-                  content={message.content}
-                  author={message.author}
-                  handleClear={() => handleClearComment(message.timestamp)}
-                />
-              ))}
+            {activityItem.messages.map((message) => (
+              <SmallTextBox
+                key={message.timestamp}
+                title={message.title}
+                content={message.content}
+                author={message.author}
+                handleClear={() => handleClearComment(message.timestamp)}
+              />
+            ))}
           </List>
         </Grid>
       </Grid>

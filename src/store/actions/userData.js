@@ -22,7 +22,7 @@ export const fetchUserData = (userId) => (dispatch) => {
       });
       if (dashboardData.inGroups.length !== 0) {
         dispatch(
-          fetchGroupsData(dashboardData.inGroups, dashboardData.seenMessages)
+          fetchGroupsData(dashboardData.inGroups)
         );
       } else {
         dispatch({ type: actionTypes.FINISH_FETCHING_INITIAL_DATA });

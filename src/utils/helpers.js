@@ -43,11 +43,31 @@ export const topActiveGroupsToArray = (activeGroups) => {
       name: activeGroups[key].name,
       description: activeGroups[key].description,
       lastActivity: activeGroups[key].lastActivity.toMillis(),
-      image: activeGroups[key].image
-    })
+      image: activeGroups[key].image,
+    });
   }
   if (activeGroupsArr.length > 0) {
-    return activeGroupsArr.sort((a,b) => b.lastActivity - a.lastActivity).slice(0,2);
-  } 
+    return activeGroupsArr
+      .sort((a, b) => b.lastActivity - a.lastActivity)
+      .slice(0, 2);
+  }
   return activeGroupsArr;
-}
+};
+
+//filters groups with messages written by user and seen messages
+export const cleanDashboard = (groups, seenMessages, userId) => {
+  console.log(seenMessages)
+  return groups.map((group) => {
+    return {
+      ...group,
+      messages: group.messages.filter((message) => {
+        return !(
+          message.userId === userId ||
+          seenMessages.some(
+            (tsmp) => tsmp.seconds === message.timestamp.seconds
+          )
+        );
+      }),
+    };
+  });
+};

@@ -28,15 +28,10 @@ export const fetchGroupsData = (groupsArr, seenMessages) => (dispatch) => {
           groups.push(group);
         }
       });
-
       dispatch({
         type: actionTypes.FETCH_GROUP_DATA_SUCCESS,
         payload: groups,
       });
-
-      if (seenMessages) {
-        dispatch(clearActivityCommentLocal(seenMessages));
-      }
     })
     .catch((err) => {
       console.log(err);
@@ -61,17 +56,8 @@ export const fetchSingleGroup = (groupId) => (dispatch) => {
     });
 };
 
-export const clearActivityCommentLocal = (commTimestamp) => {
-  const payload = !commTimestamp.length ? [commTimestamp] : commTimestamp;
-  return {
-    type: actionTypes.CLEAR_DASHBOARD_DATA_LOCAL,
-    payload,
-  };
-};
-
 export const clearActivityCommentDB = (commTimestamp, userId) => (dispatch) => {
   dispatch({ type: actionTypes.CLEAR_DASHBOARD_DATA_START });
-  dispatch(clearActivityCommentLocal(commTimestamp));
 
   const userRef = db.collection("users").doc(userId);
   userRef
@@ -79,7 +65,10 @@ export const clearActivityCommentDB = (commTimestamp, userId) => (dispatch) => {
       seenMessages: firebase.firestore.FieldValue.arrayUnion(commTimestamp),
     })
     .then(() => {
-      dispatch({ type: actionTypes.CLEAR_DASHBOARD_DATA_SUCCESS });
+      dispatch({
+        type: actionTypes.CLEAR_DASHBOARD_DATA_SUCCESS,
+        payload: commTimestamp,
+      });
     })
     .catch((err) => {
       dispatch({ type: actionTypes.CLEAR_DASHBOARD_DATA_FAILED });
@@ -183,7 +172,7 @@ export const toggleTaskItem = (groupId, updatedTask, oldTask) => (dispatch) => {
             severity: "error",
             action: alertTypes.TOGGLE_TASK_FAILED,
             isOpen: true,
-          }
+          },
         },
       });
     });

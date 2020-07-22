@@ -18,6 +18,12 @@ export default function userDataReducer(state = initialState, action) {
         memberSince: action.payload.memberSince,
         isUserVisible: action.payload.isVisible,
         notifications: action.payload.notifications,
+        seenMessages: action.payload.seenMessages,
+      };
+    case actionTypes.CLEAR_DASHBOARD_DATA_SUCCESS:
+      return {
+        ...state,
+        seenMessages: state.seenMessages.concat(action.payload)
       };
     case actionTypes.FETCH_USER_PROFILE_SUCCESS:
       return {

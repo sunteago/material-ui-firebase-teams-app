@@ -8,17 +8,6 @@ const initialState = {
   invitationLinkData: {},
 };
 
-const removeSeenMessages = (action, group) => {
-  const arr = [];
-  group.messages.forEach((msg) => {
-    const seen = action.payload.some((seenMsg) => {
-      return seenMsg.seconds === msg.timestamp.seconds;
-    });
-    if (!seen) arr.push(msg);
-  });
-  return arr;
-};
-
 export default function groupDataReducer(state = initialState, action) {
   switch (action.type) {
     case actionTypes.FETCH_INITIAL_DATA_SUCCESS:
@@ -54,16 +43,6 @@ export default function groupDataReducer(state = initialState, action) {
       return {
         ...state,
         generatedInvitationLink: action.payload,
-      };
-    case actionTypes.CLEAR_DASHBOARD_DATA_LOCAL:
-      return {
-        ...state,
-        groupsInLocal: state.groupsInLocal.map((group) => {
-          return {
-            ...group,
-            messages: removeSeenMessages(action, group),
-          };
-        }),
       };
     case actionTypes.DELETE_TASK_ITEM_SUCCESS:
       return {
