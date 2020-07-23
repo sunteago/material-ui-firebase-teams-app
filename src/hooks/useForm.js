@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 
-
 export default function useForm(initialState, confirmHandler, validate) {
   const [values, setValues] = useState(initialState);
   const [errors, setErrors] = useState({});
@@ -31,7 +30,11 @@ export default function useForm(initialState, confirmHandler, validate) {
 
     setErrors((prevState) => ({
       ...prevState,
-      [e.target.name]: onChangeValidation(e.target.name, e.target.value, values),
+      [e.target.name]: onChangeValidation(
+        e.target.name,
+        e.target.value,
+        values
+      ),
     }));
   };
 

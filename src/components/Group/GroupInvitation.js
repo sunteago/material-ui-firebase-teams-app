@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
+import useForm from "../../hooks/useForm";
+import formValidation from "../../utils/formValidation";
 
 import debounce from "just-debounce-it";
 import { genGroupInvitationLink, openSnackBar } from "../../store/actions";
@@ -33,11 +35,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function GroupInvitation(props) {
-  const { generatedLink, dispatch, activeGroup } = props;
-  
+  const { generatedLink, dispatch, activeGroup, userEmail } = props;
+
   const classes = useStyles();
 
-  const [inviteEmail, setInviteEmail] = useState("");
   const [inviteMessage, setInviteMessage] = useState("");
 
   const inviteLinkRef = useRef(null);
@@ -51,17 +52,20 @@ export default function GroupInvitation(props) {
   const { groupId, name } = activeGroup;
 
   const debouncedPersonalInvite = debounce(() => {
-    dispatch(genGroupInvitationLink(groupId, name, inviteMessage, inviteEmail));
+    dispatch(genGroupInvitationLink(groupId, name, inviteMessage, values.email));
   }, 500);
 
   const debouncedInvite = debounce(() => {
     dispatch(genGroupInvitationLink(groupId, name, inviteMessage));
   }, 500);
 
-  const personalInviteHandler = (e) => {
-    e.preventDefault();
-    debouncedPersonalInvite();
-  };
+  const personalInviteHandler = () => debouncedPersonalInvite();
+
+  const { values, errors, handleChange, handleSubmit } = useForm(
+    { inviteEmail: "", userEmail },
+    personalInviteHandler,
+    formValidation
+  );
 
   const onCopyURLHandler = () => {
     inviteLinkRef.current.focus();
@@ -109,7 +113,7 @@ export default function GroupInvitation(props) {
         <strong>Personal Invite:</strong> you specify who are you inviting.
       </Typography>
       <Box className={classes.wayContainer}>
-        <form style={{ margin: ".5rem" }} onSubmit={personalInviteHandler}>
+        <form style={{ margin: ".5rem" }} onSubmit={handleSubmit} noValidate>
           <Grid
             container
             alignItems="baseline"
@@ -119,10 +123,13 @@ export default function GroupInvitation(props) {
             <Grid item xs={12} sm={7}>
               <TextInput
                 inputProps={{
-                  value: inviteEmail,
-                  onChange: (e) => setInviteEmail(e.target.value),
+                  value: values.inviteEmail,
+                  name: "inviteEmail",
+                  onChange: handleChange,
+                  helperText: errors.inviteEmail,
+                  error: !!errors.inviteEmail,
                   type: "email",
-                  label: "Email",
+                  label: "User's email",
                   fullWidth: true,
                   required: true,
                 }}

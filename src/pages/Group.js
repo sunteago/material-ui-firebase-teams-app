@@ -114,6 +114,7 @@ export default function Group() {
             generatedLink={generatedInvitationLink}
             dispatch={dispatch}
             activeGroup={activeGroup}
+            userEmail={user.email}
           />
         </Modal>
 
