@@ -40,7 +40,7 @@ export default function Form({ mode, onSubmit, children }) {
     <>
       <SectionTitle variant="h5">{operationName}</SectionTitle>
 
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} noValidate>
         <Grid container direction="column">
           {children}
           <Button

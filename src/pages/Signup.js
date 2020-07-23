@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { standardSignup } from "../store/actions";
 import useForm from "../hooks/useForm";
+import formValidation from "../utils/formValidation";
 
 import AuthForm from "../components/Form/AuthForm";
 import FaceIcon from "@material-ui/icons/Face";
@@ -9,6 +10,12 @@ import TextInput from "../components/TextInput";
 import PersonIcon from "@material-ui/icons/Person";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
+const initialState = {
+  email: "",
+  displayName: "",
+  password: "",
+  confirmPassword: "",
+};
 
 export default function SignUp() {
   const dispatch = useDispatch();
@@ -18,16 +25,22 @@ export default function SignUp() {
     dispatch(standardSignup(email.toLowerCase(), password, displayName));
   };
 
-  const { values, handleSubmit, handleChange } = useForm(onSignUpHandler);
+  const { values, errors, handleSubmit, handleChange } = useForm(
+    initialState,
+    onSignUpHandler,
+    formValidation
+  );
 
   return (
     <AuthForm mode="signup" onSubmit={handleSubmit}>
       <TextInput
         inputProps={{
-          value: values.email || '',
+          value: values.email,
           type: "email",
           label: "Email",
           name: "email",
+          error: !!errors.email,
+          helperText: errors.email,
           autoFocus: true,
           required: true,
           onChange: handleChange,
@@ -36,10 +49,12 @@ export default function SignUp() {
       />
       <TextInput
         inputProps={{
-          value: values.displayName || '',
+          value: values.displayName,
           type: "name",
           label: "Name",
           name: "displayName",
+          error: !!errors.displayName,
+          helperText: errors.displayName,
           required: true,
           onChange: handleChange,
         }}
@@ -50,10 +65,12 @@ export default function SignUp() {
 
       <TextInput
         inputProps={{
-          value: values.password || '',
+          value: values.password,
           type: "password",
           label: "Password",
           name: "password",
+          error: !!errors.password,
+          helperText: errors.password,
           required: true,
           onChange: handleChange,
         }}
@@ -61,10 +78,12 @@ export default function SignUp() {
       />
       <TextInput
         inputProps={{
-          value: values.confirmPassword || '',
+          value: values.confirmPassword,
           type: "password",
-          label: "Password",
+          label: "Confirm Password",
           name: "confirmPassword",
+          error: !!errors.confirmPassword,
+          helperText: errors.confirmPassword,
           required: true,
           onChange: handleChange,
         }}
