@@ -1,3 +1,13 @@
+import {getFirstLetterUppercase} from "./helpers";
+
+const lengthValidation = (value, field, minLength) => {
+  const fieldName = getFirstLetterUppercase(field);
+  if (value.trim().length < minLength) {
+    return `${fieldName} should be at least ${minLength} characters long`;
+  }
+  return "";
+};
+
 const emailValidation = (email) => {
   if (!email.trim()) {
     return "Email address is required";
@@ -23,15 +33,6 @@ const cPasswordValidation = (password, confirmPassword) => {
   return "";
 };
 
-const displayNameValidation = (name) => {
-  if (name.length < 5) {
-    return "Name should be at least 5 characters long";
-  } else if (name.length > 15) {
-    return "Name should be less than 15 characters long";
-  }
-  return "";
-};
-
 const inviteEmailValidation = (email, userEmail) => {
   const emailErrors = emailValidation(email);
   if (emailErrors) return emailErrors;
@@ -53,6 +54,8 @@ export default {
       inviteEmail,
       userEmail,
       description,
+      title,
+      content
     } = values;
 
     if (email !== undefined) {
@@ -71,8 +74,8 @@ export default {
     }
 
     if (displayName !== undefined) {
-      const nameErrors = displayNameValidation(displayName);
-      if (nameErrors) errors.name = nameErrors;
+      const nameErrors = lengthValidation(displayName, 'name', 5);
+      if (nameErrors) errors.displayName = nameErrors;
     }
 
     if (inviteEmail !== undefined) {
@@ -80,11 +83,22 @@ export default {
       if (inviteEmailErrors) errors.inviteEmail = inviteEmailErrors;
     }
 
-    // if (description !== undefined) {
-    //   const descriptionErrors = descriptionValidation(description);
-    //   if (descriptionErrors) errors.description = descriptionErrors;
-    // }
+    if (description !== undefined) {
+      const descriptionErrors = lengthValidation(description, 'description', 10);
+      if (descriptionErrors) errors.description = descriptionErrors;
+    }
 
+    if (title !== undefined) {
+      const titleErrors = lengthValidation(title, 'title', 5);
+      if (titleErrors) errors.title = titleErrors;
+    }
+
+    if (content !== undefined) {
+      const contentErrors = lengthValidation(content, 'content', 10);
+      if (contentErrors) errors.content = contentErrors;
+    }
+
+    console.log(errors);
     return errors;
   },
   onChangeValidation: (name, value, values) => {
@@ -96,9 +110,15 @@ export default {
       case "confirmPassword":
         return cPasswordValidation(value, values.password);
       case "displayName":
-        return displayNameValidation(value);
+        return lengthValidation(value, 'name', 5);
       case "inviteEmail":
         return inviteEmailValidation(value, values.userEmail);
+      case "description":
+        return lengthValidation(value, name, 10);
+      case "title":
+        return lengthValidation(value, name, 5);
+      case "content":
+        return lengthValidation(value, name, 5);
       default:
         return "";
     }

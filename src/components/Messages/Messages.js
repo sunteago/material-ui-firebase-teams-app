@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import * as actions from "../../store/actions";
+import { postGroupMessage, manageMessageObserver } from "../../store/actions";
+import useForm from "../../hooks/useForm";
+import formValidation from "../../utils/formValidation";
 
 import Pagination from "./Pagination";
 import MessageItem from "./MessageItem";
@@ -35,44 +37,52 @@ const useStyles = makeStyles((theme) => ({
 
 const msgPerPage = 3;
 
+const initialState = {
+  title: "",
+  content: "",
+};
+
 export default function Messages(props) {
   const { groupId, messages, user, isMember, dispatch } = props;
   const classes = useStyles();
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+
   const [page, setPage] = useState(1);
 
   useEffect(() => {
     const run = {};
-    dispatch(actions.manageMessageObserver(groupId, "start", run));
+    dispatch(manageMessageObserver(groupId, "start", run));
     return () => {
-      dispatch(actions.manageMessageObserver(groupId, "stop"));
+      dispatch(manageMessageObserver(groupId, "stop"));
       run.unsubscribe();
     };
   }, [dispatch, groupId]);
 
-  const clean = () => {
-    setTitle("");
-    setContent("");
-  };
 
   const onClickSendMessage = () => {
-    dispatch(
-      actions.postGroupMessage(groupId, { title, content, user }, clean)
-    );
+    const { title, content } = values;
+    dispatch(postGroupMessage(groupId, { title, content, user }, cleanForm));
   };
 
-  const handlePageChange = (event, value) => setPage(value);
+  const { values, errors, handleChange, handleSubmit, cleanForm } = useForm(
+    initialState,
+    onClickSendMessage,
+    formValidation
+  );
 
+  const handlePageChange = (event, value) => setPage(value);
 
   const fromMsgNum = (page - 1) * msgPerPage;
   const toMsgNum = page * msgPerPage;
 
-  const sortedMsgs = messages.sort((a,b) => b.timestamp.seconds - a.timestamp.seconds);
+  const sortedMsgs = messages.sort(
+    (a, b) => b.timestamp.seconds - a.timestamp.seconds
+  );
 
   const currPageMsgs = sortedMsgs.slice(fromMsgNum, toMsgNum);
 
-  const sortedCurrPageMsgs = currPageMsgs.sort((a,b) => a.timestamp.seconds - b.timestamp.seconds);
+  const sortedCurrPageMsgs = currPageMsgs.sort(
+    (a, b) => a.timestamp.seconds - b.timestamp.seconds
+  );
 
   return (
     <Grid container item xs={12} md={8} direction="column">
@@ -95,14 +105,13 @@ export default function Messages(props) {
       />
       {isMember && (
         <MessageWritingBox
-          title={title}
-          setTitle={setTitle}
-          content={content}
-          setContent={setContent}
           avatar={user.photoURL}
           username={user.displayName || user.email}
           classes={classes}
-          sendHandler={onClickSendMessage}
+          onSubmit={handleSubmit}
+          handleChange={handleChange}
+          values={values}
+          errors={errors}
         />
       )}
     </Grid>

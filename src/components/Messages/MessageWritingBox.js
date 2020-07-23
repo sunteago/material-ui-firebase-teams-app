@@ -1,19 +1,20 @@
 import React from "react";
+
 import { IconButton, Grid, Avatar } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import TextInput from "../TextInput";
 
 export default function MessageWritingBox(props) {
   const {
-    title,
-    setTitle,
-    content,
-    setContent,
+    handleChange,
+    values,
+    errors,
     avatar,
     username,
     classes,
-    sendHandler,
+    onSubmit,
   } = props;
+
   return (
     <Grid
       className={classes.writingBoxContainer}
@@ -32,8 +33,11 @@ export default function MessageWritingBox(props) {
         <Grid item xs={12}>
           <TextInput
             inputProps={{
-              value: title,
-              onChange: (e) => setTitle(e.target.value),
+              value: values.title,
+              onChange: handleChange,
+              helperText: errors.title,
+              error: !!errors.title,
+              name: "title",
               type: "text",
               label: "Title",
               variant: "outlined",
@@ -48,8 +52,11 @@ export default function MessageWritingBox(props) {
         <Grid item xs={12}>
           <TextInput
             inputProps={{
-              value: content,
-              onChange: (e) => setContent(e.target.value),  
+              value: values.content,
+              onChange: handleChange,
+              helperText: errors.content,
+              error: !!errors.content,
+              name: "content",
               type: "text",
               label: "Content",
               rows: 2,
@@ -65,7 +72,7 @@ export default function MessageWritingBox(props) {
         </Grid>
       </Grid>
       <Grid item xs={2}>
-        <IconButton onClick={sendHandler} color="primary">
+        <IconButton onClick={onSubmit} color="primary">
           <SendIcon fontSize="large" />
         </IconButton>
       </Grid>

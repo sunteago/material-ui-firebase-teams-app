@@ -38,5 +38,7 @@ export default function useForm(initialState, confirmHandler, validate) {
     }));
   };
 
-  return { values, errors, handleSubmit, handleChange };
+  const cleanForm = () => setValues(initialState);
+
+  return { values, errors, handleSubmit, handleChange, cleanForm };
 }

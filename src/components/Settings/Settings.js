@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import useForm from "../../hooks/useForm";
+import formValidation from "../../utils/formValidation";
 
 import { Grid, Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
@@ -55,25 +57,28 @@ export default function Settings(props) {
   const [imageURL, setImageURL] = useState(imageUrl || "");
   const [isPublic, setIsPublic] = useState(isVisible || false);
   const [usersAllowedToInvite, setUsersAllowedToInvite] = useState(false);
-  const [description, setDescription] = useState(descriptText);
-  const [name, setName] = useState(existingName || "");
 
   const classes = useStyles();
-
   const confirmActionHandler = () => {
     if (currentAction === "confirm") {
-       const data = {
-         isPublic,
-         usersAllowedToInvite,
-         description,
-         name,
-         imageURL,
-       };
-       confirmHandler(data, setIsModalOpen);
+      const data = {
+        isPublic,
+        usersAllowedToInvite,
+        description: values.description,
+        name: values.displayName,
+        imageURL,
+      };
+      confirmHandler(data, setIsModalOpen);
     } else {
       deleteHandler();
     }
   };
+
+  const { values, errors, handleChange, handleSubmit } = useForm(
+    {description: descriptText || "", displayName: existingName || ""},
+    () => onActionHandler("confirm"),
+    formValidation
+  );
 
   const onActionHandler = (action) => {
     setCurrentAction(action);
@@ -81,8 +86,9 @@ export default function Settings(props) {
   };
 
   const ConfirmIcon = settingsTexts[mode].ConfirmIcon;
-  
-  const isAlertShowing = (isPublic && currentAction === "confirm") || currentAction === "delete";
+
+  const isAlertShowing =
+    (isPublic && currentAction === "confirm") || currentAction === "delete";
 
   return (
     <>
@@ -102,11 +108,14 @@ export default function Settings(props) {
               action={settingsTexts[mode].alertMsg[currentAction]}
             />
           )}
-          <Typography>{settingsTexts[mode].modalConfirmText[currentAction]}</Typography>
+          <Typography>
+            {settingsTexts[mode].modalConfirmText[currentAction]}
+          </Typography>
         </Modal>
       )}
 
       <Grid
+        component='form'
         container
         spacing={4}
         justify="center"
@@ -157,31 +166,40 @@ export default function Settings(props) {
         <Grid item xs={12} sm={8}>
           <TextInput
             inputProps={{
-              value: name,
-              onChange: e => setName(e.target.value),
-              type: 'text',
+              value: values.displayName,
+              onChange: handleChange,
+              name: 'displayName',
+              helperText: errors.displayName,
+              error: !!errors.displayName,
+              type: "text",
               label: settingsTexts[mode].nameText,
               required: true,
               fullWidth: true,
-              variant: 'outlined'
+              variant: "outlined",
+              inputProps: {
+                maxLength: 15
+              }
             }}
           />
         </Grid>
         <Grid item xs={12} sm={8}>
           <TextInput
             inputProps={{
-              value: description,
-              onChange: e => setDescription(e.target.value),
-              type: 'text',
+              value: values.description,
+              onChange: handleChange,
+              name: 'description',
+              helperText: errors.description,
+              error: !!errors.description,
+              type: "text",
               label: settingsTexts[mode].descriptionText,
               rows: 4,
-              variant: 'outlined',
+              variant: "outlined",
               multiline: true,
               required: true,
               fullWidth: true,
               inputProps: {
-                maxLength: 50
-              }
+                maxLength: 50,
+              },
             }}
           />
         </Grid>
@@ -203,10 +221,11 @@ export default function Settings(props) {
             <Grid item xs={12} sm={6}>
               <Button
                 color="secondary"
+                type="button"
                 variant="contained"
                 size="large"
                 className={classes.button}
-                onClick={() => onActionHandler('delete')}
+                onClick={() => onActionHandler("delete")}
               >
                 Delete Group
               </Button>
@@ -215,11 +234,12 @@ export default function Settings(props) {
           <Grid item xs={12} sm={6}>
             <Button
               variant="contained"
+              type='submit'
               color="primary"
               size="large"
               className={classes.button}
               startIcon={<ConfirmIcon />}
-              onClick={() => onActionHandler('confirm')}
+              onClick={handleSubmit}
             >
               {settingsTexts[mode].confirmText}
             </Button>

@@ -86,3 +86,7 @@ export const getMembersArray = (members) => {
   }
   return membersArr;
 };
+
+export const getFirstLetterUppercase = (string) => {
+  return string[0].toUpperCase() + string.slice(1);
+};

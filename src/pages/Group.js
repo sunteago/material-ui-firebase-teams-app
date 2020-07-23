@@ -70,16 +70,12 @@ export default function Group() {
 
   useEffect(() => {
     if (!isFullLoading) {
-      const groupInLocal = groupsInLocal.find(
-        (group) => groupId === group.groupId
-      );
+      const groupInLocal = groupsInLocal.find((grp) => groupId === grp.groupId);
       if (!groupInLocal && shouldFetch.current) {
         dispatch(actions.fetchSingleGroup(groupId));
         shouldFetch.current = false;
       }
-      if (groupInLocal) {
-        setActiveGroup(groupInLocal);
-      }
+      if (groupInLocal) setActiveGroup(groupInLocal);
     }
   }, [dispatch, groupId, groupsInLocal, isFullLoading]);
 
@@ -118,7 +114,7 @@ export default function Group() {
           />
         </Modal>
 
-        <GroupHeader 
+        <GroupHeader
           activeGroup={activeGroup}
           isMember={isMember}
           isCreator={isCreator}
