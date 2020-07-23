@@ -95,7 +95,11 @@ export const getSnackAlertMsgFromAction = (action) => {
     case alertTypes.DELETE_TASK_SUCCESS:
       return "Task successfully deleted";
     case alertTypes.LEAVE_GROUP_SUCCESS:
-      return "Successfully left from the group";
+      return "You successfully left from the group";
+    case alertTypes.STANDARD_SIGN_UP_SUCCESS:
+      return "You successfully signed up";
+    case alertTypes.STANDARD_SIGN_UP_FAILED:
+      return "Sign up failed, perhaps you are already registered with that email";
     default:
       return "Something went wrong";
   }

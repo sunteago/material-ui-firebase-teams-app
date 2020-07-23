@@ -24,7 +24,13 @@ export const standardSignup = (email, password, displayName) => (dispatch) => {
       ]);
     })
     .then((data) => {
-      dispatch({ type: actionTypes.STANDARD_SIGN_UP_SUCCESS });
+      dispatch({ type: actionTypes.STANDARD_SIGN_UP_SUCCESS, payload: {
+        snackData: {
+          severity: "success",
+          action: alertTypes.STANDARD_SIGN_UP_SUCCESS,
+          isOpen: true,
+        },
+      }, });
       dispatch(sendEmailVerification(user));
     })
     //after creating userData in DB suscribe to auth changes
@@ -32,7 +38,13 @@ export const standardSignup = (email, password, displayName) => (dispatch) => {
     .catch((err) => {
       dispatch({
         type: actionTypes.STANDARD_SIGN_UP_FAILED,
-        payload: err,
+        payload: {
+          snackData: {
+            severity: "error",
+            action: alertTypes.STANDARD_SIGN_UP_FAILED,
+            isOpen: true,
+          },
+        },
       });
     });
 };

@@ -21,6 +21,8 @@ export default function (state = initialState, action) {
     case actionTypes.SEND_PASSWORD_RESET_EMAIL_FAILED:
     case actionTypes.DELETE_TASK_ITEM_SUCCESS:
     case actionTypes.LEAVE_GROUP_SUCCESS:
+    case actionTypes.STANDARD_SIGN_UP_SUCCESS:
+    case actionTypes.STANDARD_SIGN_UP_FAILED:
       return {
         ...state,
         loading: false,
@@ -29,10 +31,8 @@ export default function (state = initialState, action) {
     case actionTypes.AUTH_CHECK_FAILED:
     case actionTypes.LOG_IN_FAILED:
     case actionTypes.SIGN_OUT_FAILED:
-    case actionTypes.STANDARD_SIGN_UP_FAILED:
     case actionTypes.SEND_VERIFICATION_EMAIL_SUCCESS:
     case actionTypes.SEND_VERIFICATION_EMAIL_FAILED:
-    case actionTypes.STANDARD_SIGN_UP_SUCCESS:
     case actionTypes.LOG_IN_SUCCESS:
     case actionTypes.SIGN_OUT_SUCCESS:
     case actionTypes.FETCH_GROUP_DATA_SUCCESS:
