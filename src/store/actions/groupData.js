@@ -394,7 +394,7 @@ export const joinPublicGroupNoInvitation = (...args) => (dispatch) => {
     });
 };
 
-export const createGroupInvitationLink = (...args) => (dispatch) => {
+export const genGroupInvitationLink = (...args) => (dispatch) => {
   dispatch({ type: actionTypes.CREATE_GROUP_INVITATION_LINK_START });
 
   const [groupId, groupName, message, invitedUserEmail] = args;

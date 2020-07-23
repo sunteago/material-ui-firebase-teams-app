@@ -21,7 +21,7 @@ export {
   fetchSingleGroup,
   fetchGroupInvitationLinkData,
   acceptOrDeclineInvitation,
-  createGroupInvitationLink,
+  genGroupInvitationLink,
   createNewGroup,
   joinPublicGroupNoInvitation,
   addTaskItem,
@@ -35,5 +35,5 @@ export {
 
 export {
   closeSnackbar,
-  imperativeOpenSnackbar
+  openSnackBar
 } from "./UI";

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 import debounce from "just-debounce-it";
-import * as actions from "../../store/actions";
+import { genGroupInvitationLink, openSnackBar } from "../../store/actions";
 import * as alertTypes from "../../constants/alertTypes";
 import ShareIcon from "@material-ui/icons/Share";
 import { shareContent } from "../../utils/helpers";
@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function GroupInvitation(props) {
   const { generatedLink, dispatch, activeGroup } = props;
+  
   const classes = useStyles();
 
   const [inviteEmail, setInviteEmail] = useState("");
@@ -47,25 +48,14 @@ export default function GroupInvitation(props) {
     }
   }, [generatedLink]);
 
+  const { groupId, name } = activeGroup;
+
   const debouncedPersonalInvite = debounce(() => {
-    dispatch(
-      actions.createGroupInvitationLink(
-        activeGroup.groupId,
-        activeGroup.name,
-        inviteMessage,
-        inviteEmail
-      )
-    );
+    dispatch(genGroupInvitationLink(groupId, name, inviteMessage, inviteEmail));
   }, 500);
 
   const debouncedInvite = debounce(() => {
-    dispatch(
-      actions.createGroupInvitationLink(
-        activeGroup.groupId,
-        activeGroup.name,
-        inviteMessage
-      )
-    );
+    dispatch(genGroupInvitationLink(groupId, name, inviteMessage));
   }, 500);
 
   const personalInviteHandler = (e) => {
@@ -78,7 +68,7 @@ export default function GroupInvitation(props) {
     inviteLinkRef.current.select();
     document.execCommand("copy");
     dispatch(
-      actions.imperativeOpenSnackbar({
+      openSnackBar({
         severity: "success",
         action: alertTypes.COPY_LINK_SUCCESS,
       })
@@ -86,12 +76,8 @@ export default function GroupInvitation(props) {
   };
 
   const onClickGenerateHandler = (e) => {
-    if (!generatedLink) {
-      debouncedInvite();
-    } else {
-      const shareTitle = `Join ${activeGroup.name}`;
-      shareContent(shareTitle, generatedLink, onCopyURLHandler);
-    }
+    if (!generatedLink) debouncedInvite();
+    else shareContent(`Join ${name}`, generatedLink, onCopyURLHandler);
   };
 
   return (

@@ -4,21 +4,21 @@ import { useState, useEffect } from "react";
 export default function useForm(initialState, confirmHandler, validate) {
   const [values, setValues] = useState(initialState);
   const [errors, setErrors] = useState({});
-  const [isSubmiting, setIsSubmiting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { onChangeValidation, onSubmitValidation } = validate;
 
   useEffect(() => {
-    if (!Object.entries(errors).length > 0 && isSubmiting) {
+    if (!Object.entries(errors).length > 0 && isSubmitting) {
       confirmHandler();
-      setIsSubmiting(false);
+      setIsSubmitting(false);
     }
-  }, [errors, isSubmiting, confirmHandler]);
+  }, [errors, isSubmitting, confirmHandler]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors(onSubmitValidation(values));
-    setIsSubmiting(true);
+    setIsSubmitting(true);
   };
 
   const handleChange = (e) => {

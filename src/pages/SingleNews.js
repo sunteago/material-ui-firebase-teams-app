@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import * as alertTypes from "../constants/alertTypes";
-import { imperativeOpenSnackbar } from "../store/actions";
+import { openSnackBar } from "../store/actions";
 import {
   makeStyles,
   IconButton,
@@ -56,7 +56,7 @@ export default function SingleNews(props) {
     newsLinkRef.current.select();
     document.execCommand("copy");
     dispatch(
-      imperativeOpenSnackbar({
+      openSnackBar({
         severity: "success",
         action: alertTypes.COPY_NEWS_LINK,
       })
