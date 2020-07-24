@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation, useHistory, Redirect } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import { makeStyles, Typography, Button, Box, Grid } from "@material-ui/core";
 import * as actions from "../store/actions";
@@ -77,58 +78,68 @@ export default function InvitationLink() {
     const isUserAlreadyInGroup = userGroups.includes(groupId);
 
     return (
-      <Box>
-        <Typography variant="h4" component="h1">
-          Invitation to join {groupName}
-        </Typography>
-        {!isUserAlreadyInGroup ? (
-          <>
-            <Typography className={classes.text}>
-              You have been invited to join <strong>{groupName}</strong>
-            </Typography>
-            <Typography className={classes.text}>{message}</Typography>
-            <Grid
-              container
-              justify="center"
-              className={classes.buttonsContainer}
-            >
-              <Grid item xs={12} sm={6}>
-                <Button
-                  onClick={() => onAcceptOrDeclineHandler(false)}
-                  variant="outlined"
-                  color="secondary"
-                >
-                  Decline
-                </Button>
+      <>
+        <Helmet>
+          <title> Invitation to join {groupName} | TeamsApp</title>
+        </Helmet>
+        <Box>
+          <Typography variant="h4" component="h1">
+            Invitation to join {groupName}
+          </Typography>
+          {!isUserAlreadyInGroup ? (
+            <>
+              <Typography className={classes.text}>
+                You have been invited to join <strong>{groupName}</strong>
+              </Typography>
+              <Typography className={classes.text}>{message}</Typography>
+              <Grid
+                container
+                justify="center"
+                className={classes.buttonsContainer}
+              >
+                <Grid item xs={12} sm={6}>
+                  <Button
+                    onClick={() => onAcceptOrDeclineHandler(false)}
+                    variant="outlined"
+                    color="secondary"
+                  >
+                    Decline
+                  </Button>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Button
+                    onClick={() => onAcceptOrDeclineHandler(true)}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Accept
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <Button
-                  onClick={() => onAcceptOrDeclineHandler(true)}
-                  variant="contained"
-                  color="primary"
-                >
-                  Accept
-                </Button>
-              </Grid>
-            </Grid>
-          </>
-        ) : (
-          <AlertMessage
-            alertStyles={classes.alertMessage}
-            severity="error"
-            action={alertTypes.INVITATION_LINK_ALREADY_IN_GROUP}
-            handler={(e) => redirectToGroupPageHandler(e, groupId)}
-          />
-        )}
-      </Box>
+            </>
+          ) : (
+            <AlertMessage
+              alertStyles={classes.alertMessage}
+              severity="error"
+              action={alertTypes.INVITATION_LINK_ALREADY_IN_GROUP}
+              handler={(e) => redirectToGroupPageHandler(e, groupId)}
+            />
+          )}
+        </Box>
+      </>
     );
   } else {
     return Object.keys(groupPageError).length ? (
-      <AlertMessage
-        alertStyles={classes.alertMessage}
-        severity="error"
-        action={alertTypes.INVITATION_LINK_PROBLEM}
-      />
+      <>
+        <Helmet>
+          <title>Invalid invitation | TeamsApp</title>
+        </Helmet>
+        <AlertMessage
+          alertStyles={classes.alertMessage}
+          severity="error"
+          action={alertTypes.INVITATION_LINK_PROBLEM}
+        />
+      </>
     ) : null;
   }
 }

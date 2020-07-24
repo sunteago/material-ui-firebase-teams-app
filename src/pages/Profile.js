@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Helmet } from "react-helmet";
 
 import UserProfile from "../components/UserInfo/UserProfile";
 import Settings from "../components/Settings/Settings";
@@ -33,21 +34,31 @@ export default function Profile() {
 
   return Object.keys(activeUser).length ? (
     isActiveUserCurrentUser && isEditing ? (
-      <Settings
-        mode="profile"
-        confirmHandler={onConfirmSaveSettings}
-        isVisible={activeUser.isVisible}
-        descriptText={activeUser.status}
-        existingName={activeUser.name}
-        imageUrl={activeUser.avatar}
-        setIsEditing={setIsEditing}
-      />
+      <>
+        <Helmet>
+          <title>Profile Settings | TeamsApp</title>
+        </Helmet>
+        <Settings
+          mode="profile"
+          confirmHandler={onConfirmSaveSettings}
+          isVisible={activeUser.isVisible}
+          descriptText={activeUser.status}
+          existingName={activeUser.name}
+          imageUrl={activeUser.avatar}
+          setIsEditing={setIsEditing}
+        />
+      </>
     ) : (
-      <UserProfile
-        user={activeUser}
-        isCurrentUser={isActiveUserCurrentUser}
-        setIsEditing={setIsEditing}
-      />
+      <>
+        <Helmet>
+          <title>{activeUser.name}'s profile | TeamsApp</title>
+        </Helmet>
+        <UserProfile
+          user={activeUser}
+          isCurrentUser={isActiveUserCurrentUser}
+          setIsEditing={setIsEditing}
+        />
+      </>
     )
   ) : null;
 }

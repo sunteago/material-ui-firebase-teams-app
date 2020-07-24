@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../store/actions";
 import { useParams, useHistory } from "react-router-dom";
+import {Helmet} from 'react-helmet';
 
 import GroupHeader from "../components/Group/GroupHeader";
 import GroupInvitation from "../components/Group/GroupInvitation";
@@ -100,6 +101,10 @@ export default function Group() {
 
     return (
       <>
+        <Helmet>
+          <title>{activeGroup.name} | TeamsApp</title>
+        </Helmet>
+
         <Modal
           open={isModalOpen}
           setOpen={setIsModalOpen}

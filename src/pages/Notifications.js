@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Helmet } from "react-helmet";
 
 import * as actions from "../store/actions";
 import RecentNotifications from "../components/Notifications/RecentNotifications";
@@ -27,6 +28,10 @@ export default function Notifications() {
 
   return (
     <>
+      <Helmet>
+        <title>Notifications | TeamsApp</title>
+      </Helmet>
+
       <SectionTitle>Last Notifications</SectionTitle>
       <Divider style={{ width: "100%", margin: "2rem" }} />
       <Container >

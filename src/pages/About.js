@@ -1,5 +1,6 @@
 import React from "react";
 
+import { Helmet } from "react-helmet";
 import appFeatures from "../utils/appFeatures.json";
 import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
 import { Typography } from "@material-ui/core";
@@ -53,6 +54,10 @@ export default function About() {
 
   return (
     <>
+      <Helmet>
+        <title>About this App | TeamsApp</title>
+      </Helmet>
+
       <SectionTitle className={classes.title}>About TeamsApp</SectionTitle>
       <Typography>
         This app was created & designed by Santiago Vallejo. The main idea is an

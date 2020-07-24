@@ -1,9 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Typography, makeStyles, Paper } from "@material-ui/core";
-import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
-import { hideExcessText, getHowManyDaysAgo } from "../utils/helpers";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
+
+import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
+import { Typography, makeStyles, Paper } from "@material-ui/core";
+import { hideExcessText, getHowManyDaysAgo } from "../utils/helpers";
 
 const useStyles = makeStyles((theme) => ({
   newsTitle: {
@@ -25,6 +27,10 @@ export default function News() {
 
   return (
     <>
+      <Helmet>
+        <title>Last News | TeamsApp</title>
+      </Helmet>
+
       <SectionTitle className={classes.newsTitle}>Last News</SectionTitle>
       {lastNews.map((newsItem) => (
         <Link

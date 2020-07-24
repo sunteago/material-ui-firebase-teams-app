@@ -2,6 +2,8 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../store/actions";
+
+import { Helmet } from "react-helmet";
 import Settings from "../components/Settings/Settings";
 
 export default function CreateGroup() {
@@ -16,10 +18,24 @@ export default function CreateGroup() {
       isPublic: settingsData.isPublic,
       usersAllowedToInvite: settingsData.usersAllowedToInvite,
       description: settingsData.description,
-      imageURL: settingsData.imageURL
-    }
-    dispatch(actions.createNewGroup(groupData, {userId: user.uid, name: user.displayName}, history));
+      imageURL: settingsData.imageURL,
+    };
+    dispatch(
+      actions.createNewGroup(
+        groupData,
+        { userId: user.uid, name: user.displayName },
+        history
+      )
+    );
   };
 
-  return <Settings mode="createGroup" confirmHandler={onConfirmCreateGroup} />;
+  return (
+    <>
+      <Helmet>
+        <title>Create new Group | TeamsApp</title>
+      </Helmet>
+
+      <Settings mode="createGroup" confirmHandler={onConfirmCreateGroup} />
+    </>
+  );
 }

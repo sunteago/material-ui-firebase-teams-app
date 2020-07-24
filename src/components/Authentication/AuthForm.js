@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
+import { Helmet } from "react-helmet";
 import SectionTitle from "../Layout/Dashboard/SectionTitle";
 import FormFooterLinks from "./FormFooterLinks";
 import Grid from "@material-ui/core/Grid";
@@ -38,6 +39,10 @@ export default function Form({ mode, onSubmit, children }) {
     <Redirect to="/dashboard" />
   ) : (
     <>
+      <Helmet>
+        <title>{operationName} | TeamsApp</title>
+      </Helmet>
+      
       <SectionTitle variant="h5">{operationName}</SectionTitle>
 
       <form onSubmit={onSubmit} noValidate>

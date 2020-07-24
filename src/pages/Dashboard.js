@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../store/actions";
+import {Helmet} from 'react-helmet';
 
 import * as alertTypes from "../constants/alertTypes";
 import UserInfo from "../components/UserInfo/UserInfo";
@@ -48,6 +49,10 @@ export default function Dashboard() {
     <CircularLoading type="full" />
   ) : (
     <>
+      <Helmet>
+        <title>Dashboard | TeamsApp</title>
+      </Helmet>
+
       <SectionTitle variant="h3">Dashboard</SectionTitle>
       {!user.emailVerified ? (
         <AlertMessage
