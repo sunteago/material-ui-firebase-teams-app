@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   loginBtn: {
     marginTop: theme.spacing(3),
   },
-  root: {
+  footerLinks: {
     display: "flex",
     flexDirection: "column",
     textAlign: "center",
@@ -30,7 +30,7 @@ export default function Form({ mode, onSubmit, children }) {
   const { isAuth } = useSelector((state) => state.auth);
 
   let operationName;
-  if (mode === "login" || mode === "provider") operationName = "Log in";
+  if (mode === "login" || mode === "provider") operationName = "Sign in";
   else if (mode === "signup") operationName = "Sign up";
   else operationName = "Recover Password";
 

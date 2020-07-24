@@ -4,7 +4,7 @@ import { Typography } from "@material-ui/core";
 
 const authLinks = [
   { name: "provider", to: "/auth/provider", text: "Sign in with O-Auth" },
-  { name: "login", to: "/auth/login", text: "Sign in with email and password" },
+  { name: "login", to: "/auth/login", text: "Sign in manually" },
   { name: "signup", to: "/auth/signup", text: "Create a new account" },
   { name: "forgot", to: "/auth/forgotpassword", text: "Forgot Password?" },
 ];
@@ -12,7 +12,7 @@ const authLinks = [
 export default function FormFooterLinks({ classes, mode }) {
   const linksShown = authLinks.filter((link) => link.name !== mode);
   return (
-    <Typography className={classes.root}>
+    <Typography className={classes.footerLinks}>
       {linksShown.map((link) => (
         <Link key={link.name} to={link.to} className={classes.link}>
           {link.text}
