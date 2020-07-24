@@ -1,4 +1,4 @@
-import {getFirstLetterUppercase} from "./helpers";
+import { getFirstLetterUppercase } from "./helpers";
 
 const lengthValidation = (value, field, minLength) => {
   const fieldName = getFirstLetterUppercase(field);
@@ -55,7 +55,8 @@ export default {
       userEmail,
       description,
       title,
-      content
+      content,
+      newTask,
     } = values;
 
     if (email !== undefined) {
@@ -74,7 +75,7 @@ export default {
     }
 
     if (displayName !== undefined) {
-      const nameErrors = lengthValidation(displayName, 'name', 5);
+      const nameErrors = lengthValidation(displayName, "name", 5);
       if (nameErrors) errors.displayName = nameErrors;
     }
 
@@ -84,18 +85,27 @@ export default {
     }
 
     if (description !== undefined) {
-      const descriptionErrors = lengthValidation(description, 'description', 10);
+      const descriptionErrors = lengthValidation(
+        description,
+        "description",
+        10
+      );
       if (descriptionErrors) errors.description = descriptionErrors;
     }
 
     if (title !== undefined) {
-      const titleErrors = lengthValidation(title, 'title', 5);
+      const titleErrors = lengthValidation(title, "title", 5);
       if (titleErrors) errors.title = titleErrors;
     }
 
     if (content !== undefined) {
-      const contentErrors = lengthValidation(content, 'content', 10);
+      const contentErrors = lengthValidation(content, "content", 10);
       if (contentErrors) errors.content = contentErrors;
+    }
+
+    if (newTask !== undefined) {
+      const newTaskErrors = lengthValidation(newTask, "task", 10);
+      if (newTaskErrors) errors.newTask = newTaskErrors;
     }
 
     return errors;
@@ -109,7 +119,7 @@ export default {
       case "confirmPassword":
         return cPasswordValidation(value, values.password);
       case "displayName":
-        return lengthValidation(value, 'name', 5);
+        return lengthValidation(value, "name", 5);
       case "inviteEmail":
         return inviteEmailValidation(value, values.userEmail);
       case "description":
@@ -118,6 +128,8 @@ export default {
         return lengthValidation(value, name, 5);
       case "content":
         return lengthValidation(value, name, 5);
+      case "newTask":
+        return lengthValidation(value, "task", 10);
       default:
         return "";
     }

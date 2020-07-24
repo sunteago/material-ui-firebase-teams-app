@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import useForm from "../../hooks/useForm";
+import formValidation from "../../utils/formValidation";
 
 import TextInput from "../TextInput";
 import * as actions from "../../store/actions";
@@ -65,18 +67,21 @@ export default function TodoList(props) {
     (listItem) => listItem.done === false
   );
 
-  const [newTask, setNewTask] = useState("");
+
+  const onAddTaskHandler = (e) => {
+    dispatch(actions.addTaskItem(group, values.newTask));
+  };
+
+  const { values, errors, handleSubmit, handleChange } = useForm(
+    { newTask: "" },
+    onAddTaskHandler,
+    formValidation
+  );
 
   const onTaskClickHandler = (task) => {
     const oldTask = { ...task };
     const updatedTask = { ...task, done: !task.done };
     dispatch(actions.toggleTaskItem(group, updatedTask, oldTask));
-  };
-
-  const onAddTaskHandler = (e) => {
-    e.preventDefault();
-    setNewTask("");
-    dispatch(actions.addTaskItem(group, newTask));
   };
 
   const onDeleteTaskHandler = (task) => (e) => {
@@ -115,13 +120,17 @@ export default function TodoList(props) {
         <Grid item xs={12} container justify="center">
           <form
             className={classes.addItemContainer}
-            onSubmit={onAddTaskHandler}
+            onSubmit={handleSubmit}
+            noValidate
           >
             <TextInput
               inputProps={{
                 label: "Add a new Task",
-                value: newTask,
-                onChange: (e) => setNewTask(e.target.value),
+                value: values.newTask,
+                name: 'newTask',
+                helperText: errors.newTask,
+                error: !!errors.newTask,
+                onChange: handleChange,
                 required: true,
                 inputProps: {
                   maxLength: 30,
