@@ -21,9 +21,7 @@ export const fetchUserData = (userId) => (dispatch) => {
         payload: dashboardData,
       });
       if (dashboardData.inGroups.length !== 0) {
-        dispatch(
-          fetchGroupsData(dashboardData.inGroups)
-        );
+        dispatch(fetchGroupsData(dashboardData.inGroups));
       } else {
         dispatch({ type: actionTypes.FINISH_FETCHING_INITIAL_DATA });
       }
@@ -52,7 +50,7 @@ export const fetchNewsData = () => (dispatch) => {
     });
 };
 
-export const fetchUserProfile = (currentUser, userId) => (dispatch) => {
+export const fetchUserProfile = (userId) => (dispatch) => {
   dispatch({ type: actionTypes.FETCH_USER_PROFILE_START });
 
   const userRef = db.collection("users").doc(userId);
@@ -64,7 +62,7 @@ export const fetchUserProfile = (currentUser, userId) => (dispatch) => {
       }
       dispatch({
         type: actionTypes.FETCH_USER_PROFILE_SUCCESS,
-        payload: doc.data(),
+        payload: {...doc.data(), userId},
       });
     })
     .catch((err) => {

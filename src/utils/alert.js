@@ -39,6 +39,17 @@ export const getAlertMsgFromAction = (action, handler) => {
           member or maybe you are experiencing network issues
         </>
       );
+    case alertTypes.FETCH_USER_PROFILE_FAILED:
+      return (
+        <>
+          <AlertTitle>Error</AlertTitle>
+          This user couldn't be found, maybe it does not exist. Please check the
+          URL. To go back to dashboard click{" "}
+          <Link href="#" onClick={handler}>
+            here
+          </Link>
+        </>
+      );
     case alertTypes.INVITATION_LINK_PROBLEM:
       return (
         <>

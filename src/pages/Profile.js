@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useParams, useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
+import { fetchUserProfile, submitProfileChanges } from "../store/actions";
+import * as alertTypes from "../constants/alertTypes";
+import CircularLoading from "../components/Layout/CircularLoading";
+import AlertMessage from "../components/Layout/AlertMessage";
 import UserProfile from "../components/UserInfo/UserProfile";
 import Settings from "../components/Settings/Settings";
-import * as actions from "../store/actions";
-import { useParams } from "react-router-dom";
 
 export default function Profile() {
   const { userId } = useParams();
+  const history = useHistory();
 
   const [isEditing, setIsEditing] = useState(false);
 
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.user);
   const activeUser = useSelector((state) => state.userData.activeUser);
+  const loading = useSelector((state) => state.UI.loading);
 
   useEffect(() => {
-    dispatch(actions.fetchUserProfile(currentUser, userId));
+    dispatch(fetchUserProfile(userId));
   }, [dispatch, userId, currentUser]);
 
   const onConfirmSaveSettings = (settingsData, setIsModalOpen) => {
@@ -25,15 +30,19 @@ export default function Profile() {
       setIsModalOpen(false);
       setIsEditing(false);
     };
-    dispatch(
-      actions.submitProfileChanges(currentUser.uid, settingsData, finishAction)
-    );
+    dispatch(submitProfileChanges(currentUser.uid, settingsData, finishAction));
+  };
+
+  const onClickRedirectHandler = (e) => {
+    e.preventDefault();
+    history.push("/dashboard");
   };
 
   const isActiveUserCurrentUser = userId === currentUser.uid;
 
-  return Object.keys(activeUser).length ? (
-    isActiveUserCurrentUser && isEditing ? (
+  //si hay un activeUser y activeUser es el param de la url
+  if (Object.keys(activeUser).length && activeUser.userId === userId) {
+    return isActiveUserCurrentUser && isEditing ? (
       <>
         <Helmet>
           <title>Profile Settings | TeamsApp</title>
@@ -59,6 +68,16 @@ export default function Profile() {
           setIsEditing={setIsEditing}
         />
       </>
-    )
-  ) : null;
+    );
+  } else if (loading) {
+    return <CircularLoading />;
+  } else {
+    return (
+      <AlertMessage
+        severity="error"
+        action={alertTypes.FETCH_USER_PROFILE_FAILED}
+        handler={onClickRedirectHandler}
+      />
+    );
+  }
 }
