@@ -105,6 +105,11 @@ export const startAuthStateChecker = () => (dispatch) => {
   });
 };
 
+export const signInWithProvider = () => dispatch => {
+  dispatch({type: actionTypes.SIGN_IN_PROVIDER_SUCCESS})
+  dispatch(startAuthStateChecker());
+}
+
 export const sendPasswordResetEmail = (email) => (dispatch) => {
   dispatch({ type: actionTypes.SEND_PASSWORD_RESET_EMAIL_START });
   app

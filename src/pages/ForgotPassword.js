@@ -6,11 +6,11 @@ import formValidation from "../utils/formValidation";
 
 import PersonIcon from "@material-ui/icons/Person";
 import TextInput from "../components/TextInput";
-import AuthForm from "../components/Form/AuthForm";
+import AuthForm from "../components/Authentication/AuthForm";
 
 const initialState = { email: "" };
 
-function ForgotPassword(props) {
+export default function ForgotPassword(props) {
   const dispatch = useDispatch();
 
   const forgotPasswordHandler = () => {
@@ -24,7 +24,7 @@ function ForgotPassword(props) {
   );
 
   return (
-    <AuthForm mode="recoverPassword" onSubmit={handleSubmit}>
+    <AuthForm mode="forgot" onSubmit={handleSubmit}>
       <TextInput
         inputProps={{
           value: values.email || "",
@@ -42,5 +42,3 @@ function ForgotPassword(props) {
     </AuthForm>
   );
 }
-
-export default ForgotPassword;

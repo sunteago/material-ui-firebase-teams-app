@@ -30,7 +30,7 @@ export default function Form({ mode, onSubmit, children }) {
   const { isAuth } = useSelector((state) => state.auth);
 
   let operationName;
-  if (mode === "login") operationName = "Log in";
+  if (mode === "login" || mode === "provider") operationName = "Log in";
   else if (mode === "signup") operationName = "Sign up";
   else operationName = "Recover Password";
 
@@ -43,18 +43,20 @@ export default function Form({ mode, onSubmit, children }) {
       <form onSubmit={onSubmit} noValidate>
         <Grid container direction="column">
           {children}
-          <Button
-            type="submit"
-            className={classes.loginBtn}
-            variant="contained"
-            color="primary"
-            required
-          >
-            {operationName}
-          </Button>
+          {onSubmit && (
+            <Button
+              type="submit"
+              className={classes.loginBtn}
+              variant="contained"
+              color="primary"
+              required
+            >
+              {operationName}
+            </Button>
+          )}
         </Grid>
       </form>
-      
+
       <FormFooterLinks classes={classes} mode={mode} />
     </>
   );

@@ -98,7 +98,6 @@ export default {
       if (contentErrors) errors.content = contentErrors;
     }
 
-    console.log(errors);
     return errors;
   },
   onChangeValidation: (name, value, values) => {

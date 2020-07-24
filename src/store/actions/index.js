@@ -4,7 +4,8 @@ export {
   signOut,
   sendEmailVerification,
   startAuthStateChecker,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
+  signInWithProvider
 } from "./auth";
 
 export {
@@ -12,7 +13,7 @@ export {
   fetchNewsData,
   fetchUserProfile,
   submitProfileChanges,
-  clearNotification
+  clearNotification,
 } from "./userData";
 
 export {
