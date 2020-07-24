@@ -36,8 +36,8 @@ export default function Login() {
     };
   }, [isOAuthReady, onStartOAuth]);
 
-  uiConfig.callbacks.signInSuccessWithAuthResult = () => {
-    dispatch(signInWithProvider());
+  uiConfig.callbacks.signInSuccessWithAuthResult = (result) => {
+    dispatch(signInWithProvider(result));
     return false;
   };
 

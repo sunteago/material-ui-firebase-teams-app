@@ -1,5 +1,5 @@
 export default class User {
-  constructor(email, serverTimestamp, displayName) {
+  constructor(email, serverTimestamp, displayName, photoURL) {
     this.email = email;
     this.memberSince = serverTimestamp;
     this.inGroups = [];
@@ -13,5 +13,6 @@ export default class User {
       content: 'Welcome to the Teams App. We recommend you to start creating a group',
       timestamp: new Date(),
     }];
+    this.avatar = photoURL;
   }
 }

@@ -24,13 +24,16 @@ export const standardSignup = (email, password, displayName) => (dispatch) => {
       ]);
     })
     .then((data) => {
-      dispatch({ type: actionTypes.STANDARD_SIGN_UP_SUCCESS, payload: {
-        snackData: {
-          severity: "success",
-          action: alertTypes.STANDARD_SIGN_UP_SUCCESS,
-          isOpen: true,
+      dispatch({
+        type: actionTypes.STANDARD_SIGN_UP_SUCCESS,
+        payload: {
+          snackData: {
+            severity: "success",
+            action: alertTypes.STANDARD_SIGN_UP_SUCCESS,
+            isOpen: true,
+          },
         },
-      }, });
+      });
       dispatch(sendEmailVerification(user));
     })
     //after creating userData in DB suscribe to auth changes
@@ -47,6 +50,33 @@ export const standardSignup = (email, password, displayName) => (dispatch) => {
         },
       });
     });
+};
+
+export const startSignInWithProvider = () => {
+  return { type: actionTypes.SIGN_IN_PROVIDER_START };
+};
+
+export const signInWithProvider = (result) => (dispatch) => {
+  const user = result.user;
+  const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+  const userCollectionRef = db.collection('users');
+  const userRef = db.collection('users').doc(user.uid);
+  const userModel = new User(user.email, timestamp, user.displayName, user.photoURL);
+
+  db.runTransaction(transaction => {
+    return transaction.get(userRef).then(doc => {
+      if (!doc.exists) {
+        return userCollectionRef.doc(user.uid).set({ ...userModel })
+      }
+    })
+    .then(() => {
+      dispatch(startAuthStateChecker());
+    })
+    .catch(err => {
+      dispatch({ type: actionTypes.SIGN_IN_PROVIDER_FAILED });
+      console.log(err);
+    })
+  })
 };
 
 export const logIn = (email, password) => (dispatch) => {
@@ -104,15 +134,6 @@ export const startAuthStateChecker = () => (dispatch) => {
     }
   });
 };
-
-export const startSignInWithProvider = () => {
-  return {type: actionTypes.SIGN_IN_PROVIDER_START};
-}
-
-export const signInWithProvider = () => dispatch => {
-  dispatch({type: actionTypes.SIGN_IN_PROVIDER_SUCCESS})
-  dispatch(startAuthStateChecker());
-}
 
 export const sendPasswordResetEmail = (email) => (dispatch) => {
   dispatch({ type: actionTypes.SEND_PASSWORD_RESET_EMAIL_START });
