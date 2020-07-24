@@ -5,7 +5,8 @@ export {
   sendEmailVerification,
   startAuthStateChecker,
   sendPasswordResetEmail,
-  signInWithProvider
+  startSignInWithProvider,
+  signInWithProvider,
 } from "./auth";
 
 export {
@@ -31,10 +32,7 @@ export {
   editGroupData,
   deleteGroup,
   manageMessageObserver,
-  leaveGroup
+  leaveGroup,
 } from "./groupData";
 
-export {
-  closeSnackbar,
-  openSnackBar
-} from "./UI";
+export { closeSnackbar, openSnackBar } from "./UI";

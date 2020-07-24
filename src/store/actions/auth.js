@@ -105,6 +105,10 @@ export const startAuthStateChecker = () => (dispatch) => {
   });
 };
 
+export const startSignInWithProvider = () => {
+  return {type: actionTypes.SIGN_IN_PROVIDER_START};
+}
+
 export const signInWithProvider = () => dispatch => {
   dispatch({type: actionTypes.SIGN_IN_PROVIDER_SUCCESS})
   dispatch(startAuthStateChecker());

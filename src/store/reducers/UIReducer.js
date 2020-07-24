@@ -65,6 +65,7 @@ export default function (state = initialState, action) {
     case actionTypes.CREATE_NEW_GROUP_FAILED:
     case actionTypes.CREATE_NEW_GROUP_SUCCESS:
     case actionTypes.LEAVE_GROUP_FAILED:
+    case actionTypes.SIGN_IN_PROVIDER_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -99,6 +100,7 @@ export default function (state = initialState, action) {
     case actionTypes.CREATE_NEW_GROUP_START:
     case actionTypes.SEND_PASSWORD_RESET_EMAIL_START:
     case actionTypes.LEAVE_GROUP_START:
+    case actionTypes.SIGN_IN_PROVIDER_START:
       return {
         ...state,
         loading: true,
