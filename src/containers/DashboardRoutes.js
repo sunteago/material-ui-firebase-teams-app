@@ -2,20 +2,20 @@ import React, { Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
 
 import CircularLoading from "../components/Layout/CircularLoading";
-import PageContainer from "../components/Layout/PageContainer";
 import Dashboard from "../pages/Dashboard";
+import PageContainer from "../components/Layout/PageContainer";
 import Group from "../pages/Group";
 import Notifications from "../pages/Notifications";
+import CreateGroup from "../pages/CreateGroup";
+import Profile from "../pages/Profile";
 
-const News = React.lazy(() => import("../pages/News"));
 const SingleNews = React.lazy(() => import("../pages/SingleNews"));
 const InvitationLink = React.lazy(() => import("../pages/InvitationLink"));
-const CreateGroup = React.lazy(() => import("../pages/CreateGroup"));
-const Profile = React.lazy(() => import("../pages/Profile"));
+const News = React.lazy(() => import("../pages/News"));
 const About = React.lazy(() => import("../pages/About"));
 
+console.log("code splitting");
 export default function DashboardRoutes() {
-
   return (
     <PageContainer>
       <Switch>
@@ -26,27 +26,23 @@ export default function DashboardRoutes() {
           <Notifications />
         </Route>
         <Route exact path="/news">
-          <Suspense fallback={<CircularLoading type='board'/>} >
+          <Suspense fallback={<CircularLoading type="board" />}>
             <News />
           </Suspense>
         </Route>
         <Route exact path="/profile/:userId">
-          <Suspense fallback={<CircularLoading type='board'/>} >
-            <Profile />
-          </Suspense>
+          <Profile />
         </Route>
         <Route exact path="/news/:newsId">
-          <Suspense fallback={<CircularLoading type='board'/>} >
+          <Suspense fallback={<CircularLoading type="board" />}>
             <SingleNews />
           </Suspense>
         </Route>
         <Route exact path="/groups/create">
-          <Suspense fallback={<CircularLoading type='board'/>} >
-            <CreateGroup />
-          </Suspense>
+          <CreateGroup />
         </Route>
         <Route exact path="/groups/:groupId/invite">
-          <Suspense fallback={<CircularLoading type='board'/>} >
+          <Suspense fallback={<CircularLoading type="board" />}>
             <InvitationLink />
           </Suspense>
         </Route>
@@ -54,7 +50,7 @@ export default function DashboardRoutes() {
           <Group />
         </Route>
         <Route exact path="/about">
-          <Suspense fallback={<CircularLoading type='board'/>} >
+          <Suspense fallback={<CircularLoading type="board" />}>
             <About />
           </Suspense>
         </Route>
