@@ -1,5 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
+import { hideExcessText } from "../../../utils/helpers";
 import { makeStyles } from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
@@ -13,8 +15,6 @@ import {
   Box,
 } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
-import { Link } from "react-router-dom";
-import { hideExcessText } from "../../../utils/helpers";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,11 +36,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SmallTextBox(props) {
-  const { title, content, author, handleClear, linkTo, type } = props;
+  const { title, content, author, userId, handleClear, linkTo, type } = props;
 
   const classes = useStyles();
 
-  const textStyle = linkTo && {textAlign: "center"};
+  const textStyle = linkTo && { textAlign: "center" };
 
   let primaryText = title;
   if (linkTo)
@@ -71,19 +71,21 @@ export default function SmallTextBox(props) {
     <>
       <ListItem alignItems="flex-start">
         {author && (
-          <ListItemAvatar>
-            <Avatar
-              className={classes.small}
-              alt={`${author.name}'s avatar`}
-              src={author.avatar}
-            />
-          </ListItemAvatar>
+          <Link to={`/profile/${userId}`}>
+            <ListItemAvatar>
+              <Avatar
+                className={classes.small}
+                alt={`${author.name}'s avatar`}
+                src={author.avatar}
+              />
+            </ListItemAvatar>
+          </Link>
         )}
 
         <Box style={textStyle} className={classes.textBoxContainer}>
           <ListItemText primary={primaryText} secondary={secondaryText} />
-          {type === 'newsItem'  && (
-            <Link style={{textDecoration: 'none' }} to={linkTo}>
+          {type === "newsItem" && (
+            <Link style={{ textDecoration: "none" }} to={linkTo}>
               <Button color="primary" style={{ padding: ".5rem 0" }}>
                 Read More
               </Button>
@@ -91,7 +93,7 @@ export default function SmallTextBox(props) {
           )}
         </Box>
 
-        {type !== 'newsItem' && (
+        {type !== "newsItem" && (
           <IconButton
             style={{ alignSelf: "center" }}
             aria-label="clear comment"
@@ -101,7 +103,7 @@ export default function SmallTextBox(props) {
           </IconButton>
         )}
       </ListItem>
-      {type === 'newsItem' && <Divider variant="inset" component="li" />}
+      {type === "newsItem" && <Divider variant="inset" component="li" />}
     </>
   );
 }

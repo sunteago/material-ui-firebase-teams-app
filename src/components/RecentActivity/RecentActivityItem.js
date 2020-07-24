@@ -10,7 +10,7 @@ export default function RecentActivityItem(props) {
 
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
-  
+
   return (
     <>
       <Grid container>
@@ -31,6 +31,7 @@ export default function RecentActivityItem(props) {
                 title={message.title}
                 content={message.content}
                 author={message.author}
+                userId={message.userId}
                 handleClear={() => handleClearComment(message.timestamp)}
               />
             ))}
