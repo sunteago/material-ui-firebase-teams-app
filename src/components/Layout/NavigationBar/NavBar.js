@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-
+import logo from "../../../assets/logo.png";
 import DrawerMenu from "./DrawerMenu";
 import AccountMenu from "./AccountMenu";
 import NotificationsButton from "./NotificationsButton";
@@ -18,6 +18,17 @@ import MenuIcon from "@material-ui/icons/Menu";
 const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
+  },
+  brand: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  logo: {
+    height: '32px',
+    marginRight: theme.spacing(1)
+  }, 
+  grow: {
+    flexGrow: 1
   },
   title: {
     flexGrow: 1,
@@ -36,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
   linearLoading: {
     position: "fixed",
-    width: '100%',
+    width: "100%",
     zIndex: 10000,
   },
 }));
@@ -68,9 +79,12 @@ function NavBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Teams App
-          </Typography>
+          <div className={classes.brand}>
+            <img className={classes.logo} src={logo} alt="TeamsApp's logo" />
+            <Typography variant="h6" className={classes.title}>
+              TeamsApp
+            </Typography>
+          </div>
           <div className={classes.grow} />
 
           {isAuth ? (
@@ -89,7 +103,7 @@ function NavBar() {
           ) : (
             <Button color="inherit">
               <Link to="/auth/login" className={classes.loginBtn}>
-                Authenticate
+                Sign in
               </Link>
             </Button>
           )}
