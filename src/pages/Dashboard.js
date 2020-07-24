@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../store/actions";
-import {Helmet} from 'react-helmet';
+import { Helmet } from "react-helmet";
 
 import * as alertTypes from "../constants/alertTypes";
 import UserInfo from "../components/UserInfo/UserInfo";
@@ -41,9 +41,12 @@ export default function Dashboard() {
     dispatch(actions.clearActivityCommentDB(commentTimestamp, user.uid));
   };
 
-  const userGroupsContent = groupsInLocal.filter(group => (
-    'isCurrentUserAMember' in group
-  ))
+  const userGroupsContent = groupsInLocal.filter(
+    (group) => "isCurrentUserAMember" in group
+  );
+
+  const isNotAuthByProvider =
+    user.providerData && user.providerData[0].providerId === "password";
 
   return isFullLoading ? (
     <CircularLoading type="full" />
@@ -54,7 +57,7 @@ export default function Dashboard() {
       </Helmet>
 
       <SectionTitle variant="h3">Dashboard</SectionTitle>
-      {!user.emailVerified ? (
+      {isNotAuthByProvider && !user.emailVerified ? (
         <AlertMessage
           alertStyles={classes.alertMsg}
           severity="error"
