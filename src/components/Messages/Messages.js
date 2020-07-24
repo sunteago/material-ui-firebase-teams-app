@@ -5,18 +5,22 @@ import formValidation from "../../utils/formValidation";
 
 import Pagination from "./Pagination";
 import MessageItem from "./MessageItem";
-import { makeStyles, Grid } from "@material-ui/core";
+import { makeStyles, Grid, Typography } from "@material-ui/core";
 import MessageWritingBox from "./MessageWritingBox";
 import { getHowManyDaysAgo } from "../../utils/helpers";
 
 const useStyles = makeStyles((theme) => ({
   writingBoxContainer: {
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(2),
   },
   messageContainer: {
     padding: theme.spacing(2),
     borderRadius: "15px",
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(1),
+  },
+  noMsgYet: {
+    textAlign: 'center',
+    margin: theme.spacing(2)
   },
   avatar: {
     width: theme.spacing(7),
@@ -57,7 +61,6 @@ export default function Messages(props) {
     };
   }, [dispatch, groupId]);
 
-
   const onClickSendMessage = () => {
     const { title, content } = values;
     dispatch(postGroupMessage(groupId, { title, content, user }, cleanForm));
@@ -86,23 +89,29 @@ export default function Messages(props) {
 
   return (
     <Grid container item xs={12} md={8} direction="column">
-      {sortedCurrPageMsgs.map((msg) => (
-        <MessageItem
-          key={msg.timestamp}
-          title={msg.title}
-          content={msg.content}
-          author={msg.author}
-          classes={classes}
-          userId={msg.userId}
-          timestamp={getHowManyDaysAgo(msg.timestamp)}
-        />
-      ))}
-      <Pagination
-        classes={classes}
-        page={page}
-        onChange={handlePageChange}
-        numOfPages={Math.ceil(messages.length / msgPerPage)}
-      />
+      {sortedCurrPageMsgs.length > 0 ? (
+        <>
+          {sortedCurrPageMsgs.map((msg) => (
+            <MessageItem
+              key={msg.timestamp}
+              title={msg.title}
+              content={msg.content}
+              author={msg.author}
+              classes={classes}
+              userId={msg.userId}
+              timestamp={getHowManyDaysAgo(msg.timestamp)}
+            />
+          ))}
+          <Pagination
+            classes={classes}
+            page={page}
+            onChange={handlePageChange}
+            numOfPages={Math.ceil(messages.length / msgPerPage)}
+          />
+        </>
+      ) : (
+        <Typography className={classes.noMsgYet}>No messages in this group yet!</Typography>
+      )}
       {isMember && (
         <MessageWritingBox
           avatar={user.photoURL}

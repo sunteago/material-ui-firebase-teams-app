@@ -39,6 +39,7 @@ export const standardSignup = (email, password, displayName) => (dispatch) => {
     //after creating userData in DB suscribe to auth changes
     .then(() => dispatch(startAuthStateChecker()))
     .catch((err) => {
+      console.log(err);
       dispatch({
         type: actionTypes.STANDARD_SIGN_UP_FAILED,
         payload: {

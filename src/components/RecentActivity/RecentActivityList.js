@@ -1,10 +1,11 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
+
 import List from "@material-ui/core/List";
 import RecentActivityItem from "./RecentActivityItem";
 import SectionTitle from "../Layout/Dashboard/SectionTitle";
 import { cleanDashboard } from "../../utils/helpers";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { Typography, useMediaQuery } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,15 +15,22 @@ const useStyles = makeStyles((theme) => ({
   inline: {
     display: "inline",
   },
-  noRecentActivityMsg: {
-    margin: theme.spacing(5)
+  noRecentSm: {
+    margin: theme.spacing(2),
+    textAlign: 'center'
   },
+  noRecentBig: {
+    margin: theme.spacing(5),
+    textAlign: 'left'
+  }
 }));
 
 export default function RecentActivity(props) {
   const { handleClearComment, groups, title, seenMessages, userId } = props;
 
   const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("md"));
 
   const activityItems = cleanDashboard(groups, seenMessages, userId);
 
@@ -46,7 +54,7 @@ export default function RecentActivity(props) {
             );
           })
         ) : (
-          <Typography className={classes.noRecentActivityMsg} variant="body1">
+          <Typography className={classes[matches ? 'noRecentBig' : 'noRecentSm']} variant="body1">
             There is no recent activity in your groups yet!
           </Typography>
         )}

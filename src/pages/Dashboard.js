@@ -64,7 +64,7 @@ export default function Dashboard() {
       ) : null}
       <UserInfo user={user} />
 
-      <Grid container spacing={3}>
+      <Grid container spacing={2}>
         <Grid item xs={12} md={9}>
           <RecentActivity
             title="Recent Activity"
