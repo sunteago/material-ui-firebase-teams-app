@@ -19,11 +19,11 @@ if (process.env.NODE_ENV === "development") {
 } else {
   store = createStore(reducers, applyMiddleware(ReduxThunk));
 }
-//material ui is having conflicts with strict mode
 
+//material ui and helmet are having conflicts with strict mode
 ReactDOM.render(
   <Provider store={store}>
-    {/*<React.StrictMode>*/}
+    {/* <React.StrictMode> */}
       <CssBaseline>
         <App />
       </CssBaseline>

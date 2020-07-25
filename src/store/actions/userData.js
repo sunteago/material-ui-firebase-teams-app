@@ -27,7 +27,6 @@ export const fetchUserData = (userId) => (dispatch) => {
       }
     })
     .catch((err) => {
-      console.log(err);
       dispatch({ type: actionTypes.FETCH_INITIAL_DATA_FAILED, payload: err });
     });
 };
@@ -45,7 +44,6 @@ export const fetchNewsData = () => (dispatch) => {
       dispatch({ type: actionTypes.FETCH_NEWS_SUCCESS, payload: newsArr });
     })
     .catch((err) => {
-      console.log(err);
       dispatch({ type: actionTypes.FETCH_NEWS_FAILED, payload: err });
     });
 };
@@ -66,7 +64,6 @@ export const fetchUserProfile = (userId) => (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log(err);
       dispatch({ type: actionTypes.FETCH_USER_PROFILE_FAILED, payload: err });
     });
 };
@@ -97,7 +94,6 @@ export const submitProfileChanges = (...args) => (dispatch) => {
       finishAction();
     })
     .catch((err) => {
-      console.log(err);
       dispatch({
         type: actionTypes.SUBMIT_PROFILE_CHANGES_FAILED,
         payload: err,
@@ -121,7 +117,6 @@ export const clearNotification = (userId, notif) => (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log(err);
       dispatch({ type: actionTypes.CLEAR_NOTIFICATION_FAILED });
     });
 };

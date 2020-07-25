@@ -73,11 +73,16 @@ export default function Profile() {
     return <CircularLoading />;
   } else {
     return (
-      <AlertMessage
-        severity="error"
-        action={alertTypes.FETCH_USER_PROFILE_FAILED}
-        handler={onClickRedirectHandler}
-      />
+      <>
+        <Helmet>
+          <title>Error | TeamsApp</title>
+        </Helmet>
+        <AlertMessage
+          severity="error"
+          action={alertTypes.FETCH_USER_PROFILE_FAILED}
+          handler={onClickRedirectHandler}
+        />
+      </>
     );
   }
 }

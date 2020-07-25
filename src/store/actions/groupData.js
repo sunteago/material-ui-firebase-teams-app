@@ -34,7 +34,6 @@ export const fetchGroupsData = (groupsArr, seenMessages) => (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log(err);
       dispatch({ type: actionTypes.FETCH_GROUP_DATA_FAILED });
     });
 };
@@ -83,7 +82,7 @@ export const updateGroupLastActivity = (groupId) => (dispatch) => {
       [`topActivePublicGroups.${groupId}.lastActivity`]: timestamp,
     })
     .then(() => dispatch({ type: actionTypes.UPDATE_GROUP_LAST_ACTIVITY }))
-    .catch(console.log);
+    .catch(() => {});
 };
 
 export const addTaskItem = (groupData, newTask) => (dispatch) => {
@@ -389,7 +388,6 @@ export const joinPublicGroupNoInvitation = (...args) => (dispatch) => {
       dispatch(fetchGroupsData([...inGroups, groupId]));
     })
     .catch((err) => {
-      console.log(err);
       dispatch({ type: actionTypes.JOIN_PUBLIC_GROUP_NO_INVITATION_FAILED });
     });
 };

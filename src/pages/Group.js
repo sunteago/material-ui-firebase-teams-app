@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../store/actions";
 import { useParams, useHistory } from "react-router-dom";
-import {Helmet} from 'react-helmet';
+import { Helmet } from "react-helmet";
 
 import GroupHeader from "../components/Group/GroupHeader";
 import GroupInvitation from "../components/Group/GroupInvitation";
@@ -159,11 +159,16 @@ export default function Group() {
     );
   } else {
     return Object.keys(groupPageError).length ? (
-      <AlertMessage
-        alertStyles={classes.alertMessage}
-        severity="error"
-        action={alertTypes.FETCH_SINGLE_GROUP_FAILED}
-      />
+      <>
+        <Helmet>
+          <title>Error | TeamsApp</title>
+        </Helmet>
+        <AlertMessage
+          alertStyles={classes.alertMessage}
+          severity="error"
+          action={alertTypes.FETCH_SINGLE_GROUP_FAILED}
+        />
+      </>
     ) : null;
   }
 }
