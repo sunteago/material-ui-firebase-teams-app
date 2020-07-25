@@ -5,7 +5,6 @@ import { Provider } from "react-redux";
 import ReduxThunk from "redux-thunk";
 
 import './index.css';
-import 'fontsource-roboto';
 import reducers from "./store/reducers";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import App from "./containers/App";
