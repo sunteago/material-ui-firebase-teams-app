@@ -1,12 +1,13 @@
 import React from "react";
+
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import { Paper, Tabs, Tab } from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";
 import ListIcon from "@material-ui/icons/List";
 import MessageIcon from "@material-ui/icons/Message";
 import GroupIcon from "@material-ui/icons/Group";
+
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CenteredTabs({ tab, handleTabChange, isCreator }) {
+export default function NavigationTabs({ tab, handleTabChange, isCreator }) {
   const classes = useStyles();
 
   return (
@@ -58,3 +59,9 @@ export default function CenteredTabs({ tab, handleTabChange, isCreator }) {
     </Paper>
   );
 }
+
+NavigationTabs.propTypes = {
+  tab: PropTypes.number.isRequired,
+  handleTabChange: PropTypes.func.isRequired,
+  isCreator: PropTypes.bool.isRequired,
+};

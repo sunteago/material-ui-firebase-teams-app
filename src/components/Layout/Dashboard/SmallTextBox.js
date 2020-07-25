@@ -3,18 +3,20 @@ import { Link } from "react-router-dom";
 
 import { hideExcessText } from "../../../utils/helpers";
 import { makeStyles } from "@material-ui/core/styles";
-import ListItem from "@material-ui/core/ListItem";
-import Divider from "@material-ui/core/Divider";
-import ListItemText from "@material-ui/core/ListItemText";
+import ClearIcon from "@material-ui/icons/Clear";
 import {
   Avatar,
   ListItemAvatar,
   IconButton,
   Typography,
+  ListItem,
+  ListItemText,
+  Divider,
   Button,
   Box,
 } from "@material-ui/core";
-import ClearIcon from "@material-ui/icons/Clear";
+
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -107,3 +109,16 @@ export default function SmallTextBox(props) {
     </>
   );
 }
+
+SmallTextBox.propTypes = {
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  author: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    avatar: PropTypes.string,
+  }),
+  userId: PropTypes.string,
+  handleClear: PropTypes.func,
+  linkTo: PropTypes.string,
+  type: PropTypes.string,
+};

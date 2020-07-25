@@ -70,7 +70,7 @@ export default function Profile() {
       </>
     );
   } else if (loading) {
-    return <CircularLoading />;
+    return <CircularLoading type="board" />;
   } else {
     return (
       <>

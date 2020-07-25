@@ -3,12 +3,14 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import appFeatures from "../utils/appFeatures.json";
 import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
-import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListSubheader from "@material-ui/core/ListSubheader";
+import {
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  ListSubheader,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   title: {

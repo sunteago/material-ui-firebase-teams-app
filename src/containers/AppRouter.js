@@ -1,14 +1,16 @@
 import React, { Suspense } from "react";
 import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 
-import AuthRoutes from "./AuthRoutes";
 import CircularLoading from "../components/Layout/CircularLoading";
+import AuthRoutes from "./AuthRoutes";
+
+import PropTypes from 'prop-types';
 
 const DashboardRoutes = React.lazy(() => import("./DashboardRoutes"));
 
-function AppRouter({ isAuth }) {
+export default function AppRouter({ isAuth }) {
   const location = useLocation();
-
+  
   let redirectPath;
 
   if (isAuth) {
@@ -36,4 +38,6 @@ function AppRouter({ isAuth }) {
   );
 }
 
-export default AppRouter;
+AppRouter.propTypes = {
+  isAuth: PropTypes.bool.isRequired
+};

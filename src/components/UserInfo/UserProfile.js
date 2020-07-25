@@ -32,7 +32,7 @@ export default function UserProfile({ user, isCurrentUser, setIsEditing }) {
     <Grid container spacing={3} justify="center">
       <Grid className={classes.gridItem} item xs={12} sm={8}>
         <SectionTitle style={{ textAlign: "center" }}>
-          {name ? `${name}'s ` : "User's "}Profile
+          {`${name || 'User'}'s Profile`}
         </SectionTitle>
       </Grid>
       <Grid className={classes.gridItem} item xs={12} sm={8}>

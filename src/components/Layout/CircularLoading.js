@@ -2,6 +2,8 @@ import React from "react";
 import { CircularProgress, Container } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
+import PropTypes from "prop-types";
+
 const useStyles = makeStyles((theme) => ({
   fullSize: {
     display: "flex",
@@ -33,4 +35,8 @@ export default function CircularLoading(props) {
       <CircularProgress size={size} {...props} />
     </Container>
   );
+}
+
+CircularLoading.propTypes = {
+  type: PropTypes.string.isRequired
 }

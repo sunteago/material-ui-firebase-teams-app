@@ -1,16 +1,19 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 
-import MuiAlert from "@material-ui/lab/Alert";
-import { Snackbar } from "@material-ui/core";
-import { getSnackAlertMsgFromAction } from "../../utils/alert";
 import { closeSnackbar } from "../../store/actions";
+import { getSnackAlertMsgFromAction } from "../../utils/alert";
+
+import { Snackbar } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
+
+import PropTypes from "prop-types";
 
 const Alert = (props) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 };
 
-export default function SnackAlert({ action, severity, setOpen, open }) {
+export default function SnackAlert({ action, severity, open }) {
   const dispatch = useDispatch();
   const onCloseHandler = () => dispatch(closeSnackbar());
   return (
@@ -21,3 +24,9 @@ export default function SnackAlert({ action, severity, setOpen, open }) {
     </Snackbar>
   );
 }
+
+SnackAlert.propTypes = {
+  action: PropTypes.string.isRequired,
+  severity: PropTypes.string.isRequired,
+  open: PropTypes.bool.isRequired,
+};

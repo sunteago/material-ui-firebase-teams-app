@@ -2,17 +2,17 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, IconButton } from "@material-ui/core";
-import Container from "@material-ui/core/Container";
-import { Paper } from "@material-ui/core";
+import { Grid, IconButton, Container, Paper } from "@material-ui/core";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
   navigationButtons: {
     display: "flex",
     justifyContent: "space-between",
     width: "100%",
-    zIndex: 1001
+    zIndex: 1001,
   },
   paper: {
     width: "auto",
@@ -30,8 +30,8 @@ const useStyles = makeStyles((theme) => ({
     padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(
       3
     )}px`,
-    position: 'relative',
-    minHeight: '20vh'
+    position: "relative",
+    minHeight: "20vh",
   },
   container: {
     display: "flex",
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PageContainer({ children, paperStyles }) {
+export default function PageContainer({ children, paperStyles }) {
   const classes = useStyles();
   const history = useHistory();
 
@@ -59,4 +59,10 @@ function PageContainer({ children, paperStyles }) {
   );
 }
 
-export default PageContainer;
+PageContainer.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.element.isRequired,
+    PropTypes.array.isRequired,
+  ]),
+  paperStyles: PropTypes.string,
+};

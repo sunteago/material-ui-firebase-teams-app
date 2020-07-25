@@ -1,10 +1,13 @@
 import React from "react";
+
 import {
   topActiveGroupsToArray,
   limitGroupsArray,
 } from "../../../utils/helpers";
 import TopNewsList from "../../News/NewsList";
 import GroupList from "../../Group/GroupList";
+
+import PropTypes from "prop-types";
 
 export default function RightPanel({ lastNews, topActiveGroups, myGroups }) {
   const topActiveGroupsArr = topActiveGroupsToArray(topActiveGroups);
@@ -17,4 +20,10 @@ export default function RightPanel({ lastNews, topActiveGroups, myGroups }) {
       )}
     </>
   );
+}
+
+RightPanel.propTypes = {
+  lastNews: PropTypes.array.isRequired,
+  topActiveGroups: PropTypes.object.isRequired,
+  myGroups: PropTypes.arrayOf(PropTypes.object).isRequired
 }

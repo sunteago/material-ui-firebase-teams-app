@@ -1,6 +1,5 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-
 import { Link } from "react-router-dom";
 import * as actions from "../../../store/actions";
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -8,6 +7,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import IconButton from "@material-ui/core/IconButton";
 import { Avatar } from "@material-ui/core";
+
+import PropTypes from "prop-types";
 
 export default function AccountMenu({ name, userId, avatar, classes }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -35,7 +36,11 @@ export default function AccountMenu({ name, userId, avatar, classes }) {
         color="inherit"
       >
         {avatar ? (
-          <Avatar className={classes.avatar} src={avatar} alt={`${name}'s Avatar`} />
+          <Avatar
+            className={classes.avatar}
+            src={avatar}
+            alt={`${name}'s Avatar`}
+          />
         ) : (
           <AccountCircle />
         )}
@@ -63,3 +68,9 @@ export default function AccountMenu({ name, userId, avatar, classes }) {
     </>
   );
 }
+
+AccountMenu.propTypes = {
+  name: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired,
+  avatar: PropTypes.string.isRequired,
+};

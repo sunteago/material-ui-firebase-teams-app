@@ -2,6 +2,8 @@ import React from "react";
 import { TextField, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 
+import PropTypes from 'prop-types';
+
 const useStyles = makeStyles((theme) => ({
   textInputField: {
     flexWrap: "nowrap",
@@ -11,7 +13,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TextInput(props) {
   const { Icon, inputProps } = props;
-  
   const classes = useStyles();
 
   return (
@@ -29,4 +30,16 @@ export default function TextInput(props) {
       <TextField {...inputProps} />
     </Grid>
   );
+}
+
+TextInput.propTypes = { 
+  Icon: PropTypes.elementType,
+  inputProps: PropTypes.shape({
+    error: PropTypes.bool.isRequired,
+    onChange: PropTypes.func.isRequired,
+    label: PropTypes.string.isRequired,
+    required: PropTypes.bool.isRequired,
+    value: PropTypes.string.isRequired,
+    helperText: PropTypes.string,
+  })
 }

@@ -1,7 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { Badge, IconButton } from "@material-ui/core";
-import { Link } from "react-router-dom";
+
+import PropTypes from 'prop-types';
 
 export default function NotificationsButton({ notificationsNum, classes }) {
   return (
@@ -18,3 +21,7 @@ export default function NotificationsButton({ notificationsNum, classes }) {
     </Link>
   );
 }
+
+NotificationsButton.propTypes = {
+  notificationsNum: PropTypes.number.isRequired
+};

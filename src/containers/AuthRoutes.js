@@ -1,9 +1,11 @@
 import React, { Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
+
 import FormContainer from "../components/Layout/FormContainer";
 import CircularLoading from "../components/Layout/CircularLoading";
 
 import LoginProvider from "../pages/LoginProvider";
+
 const Login = React.lazy(() => import("../pages/Login"));
 const ForgotPassword = React.lazy(() => import("../pages/ForgotPassword"));
 const Signup = React.lazy(() => import("../pages/Signup"));

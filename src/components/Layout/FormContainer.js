@@ -3,6 +3,8 @@ import Container from '@material-ui/core/Container';
 import {makeStyles} from '@material-ui/core/styles'
 import { Paper } from '@material-ui/core';
 
+import PropTypes from "prop-types";
+
 const useStyles = makeStyles(theme => ({
     paper: {
         width: 'auto',
@@ -29,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-function FormContainer({children}) {
+export default function FormContainer({children}) {
     const classes = useStyles();
     return ( 
         <Container maxWidth='lg' className={classes.container}>
@@ -40,4 +42,6 @@ function FormContainer({children}) {
      );
 }
  
-export default FormContainer;
+FormContainer.propTypes = {
+  children: PropTypes.element.isRequired
+}

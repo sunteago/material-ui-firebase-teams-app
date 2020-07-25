@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+
 import logo from "../../../assets/logo.png";
 import DrawerMenu from "./DrawerMenu";
 import AccountMenu from "./AccountMenu";
 import NotificationsButton from "./NotificationsButton";
 import Loading from "../Loading";
 
-import { makeStyles } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   AppBar,
   Toolbar,
@@ -21,11 +22,11 @@ const useStyles = makeStyles((theme) => ({
   brand: {
     display: "flex",
     alignItems: "center",
-    all: 'unset',
-    color: '#fff',
-    cursor: 'pointer',
+    all: "unset",
+    color: "#fff",
+    cursor: "pointer",
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: "center",
   },
   logo: {
     height: "32px",
@@ -53,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NavBar() {
+export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
   const classes = useStyles();
 
@@ -116,5 +117,3 @@ function NavBar() {
     </>
   );
 }
-
-export default NavBar;

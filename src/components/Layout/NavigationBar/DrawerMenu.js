@@ -1,14 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { makeStyles, useTheme } from "@material-ui/core";
-import Drawer from "@material-ui/core/Drawer";
-import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import IconButton from "@material-ui/core/IconButton";
 
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -17,6 +9,20 @@ import AddIcon from "@material-ui/icons/Add";
 import InfoIcon from "@material-ui/icons/Info";
 import SettingsIcon from "@material-ui/icons/Settings";
 import DashboardIcon from "@material-ui/icons/Dashboard";
+
+import {
+  makeStyles,
+  useTheme,
+  Drawer,
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  IconButton,
+} from "@material-ui/core";
+
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -36,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DrawerMenu = ({ isOpen, handleDrawerClose, handleDrawerOpen }) => {
+export default function DrawerMenu({ isOpen, handleDrawerClose }) {
   const classes = useStyles();
   const theme = useTheme();
   const user = useSelector((state) => state.auth.user);
@@ -88,12 +94,12 @@ const DrawerMenu = ({ isOpen, handleDrawerClose, handleDrawerOpen }) => {
             </Link>
 
             <Link to={`/profile/${user.uid}`} style={{ all: "unset" }}>
-            <ListItem button onClick={handleDrawerClose}>
-              <ListItemIcon>
-                <SettingsIcon />
-              </ListItemIcon>
-              <ListItemText primary="Profile Settings" />
-            </ListItem>
+              <ListItem button onClick={handleDrawerClose}>
+                <ListItemIcon>
+                  <SettingsIcon />
+                </ListItemIcon>
+                <ListItemText primary="Profile Settings" />
+              </ListItem>
             </Link>
           </>
         )}
@@ -117,10 +123,12 @@ const DrawerMenu = ({ isOpen, handleDrawerClose, handleDrawerOpen }) => {
             <ListItemText primary="About this app" />
           </ListItem>
         </Link>
-
       </List>
     </Drawer>
   );
-};
+}
 
-export default DrawerMenu;
+DrawerMenu.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  handleDrawerClose: PropTypes.func.isRequired,
+};

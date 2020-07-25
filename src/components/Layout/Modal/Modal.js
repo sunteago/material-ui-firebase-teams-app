@@ -11,6 +11,8 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 
+import PropTypes from 'prop-types';
+
 const styles = (theme) => ({
   root: {
     margin: 0,
@@ -55,7 +57,7 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function CustomizedDialogs(props) {
+export default function Modal(props) {
   const {
     open,
     setOpen,
@@ -69,7 +71,6 @@ export default function CustomizedDialogs(props) {
   const handleClose = () => setOpen(false);
 
   const debouncedConfirm = debounce(confirmActionHandler, 400);
-
   return (
     <div>
       <Dialog
@@ -96,4 +97,17 @@ export default function CustomizedDialogs(props) {
       </Dialog>
     </div>
   );
+}
+
+Modal.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.element.isRequired,
+    PropTypes.array.isRequired
+  ]),
+  open: PropTypes.bool.isRequired,
+  setOpen: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  confirm: PropTypes.string,
+  confirmActionHandler: PropTypes.func,
+  decline: PropTypes.string,
 }
