@@ -19,8 +19,8 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1),
   },
   noMsgYet: {
-    textAlign: 'center',
-    margin: theme.spacing(2)
+    textAlign: "center",
+    margin: theme.spacing(2),
   },
   avatarBig: {
     width: theme.spacing(7),
@@ -28,8 +28,8 @@ const useStyles = makeStyles((theme) => ({
   },
   avatarSm: {
     width: theme.spacing(4),
-    height: theme.spacing(4)
-  }, 
+    height: theme.spacing(4),
+  },
   sendBtnContainer: {
     width: theme.spacing(7),
     height: theme.spacing(7),
@@ -52,7 +52,7 @@ const initialState = {
 
 function Messages(props) {
   const { groupId, messages, user, isMember, dispatch } = props;
-  
+
   const classes = useStyles();
 
   const [page, setPage] = useState(1);
@@ -71,11 +71,8 @@ function Messages(props) {
     dispatch(postGroupMessage(groupId, { title, content, user }, cleanForm));
   };
 
-  const { values, errors, handleChange, handleSubmit, cleanForm } = useForm(
-    initialState,
-    onClickSendMessage,
-    formValidation
-  );
+  const form = useForm(initialState, onClickSendMessage, formValidation);
+  const { values, errors, handleChange, handleSubmit, cleanForm } = form;
 
   const handlePageChange = (event, value) => setPage(value);
 
@@ -115,7 +112,9 @@ function Messages(props) {
           />
         </>
       ) : (
-        <Typography className={classes.noMsgYet}>No messages in this group yet!</Typography>
+        <Typography className={classes.noMsgYet}>
+          No messages in this group yet!
+        </Typography>
       )}
       {isMember && (
         <MessageWritingBox

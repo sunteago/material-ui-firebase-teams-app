@@ -75,7 +75,7 @@ export default function Settings(props) {
   };
 
   const { values, errors, handleChange, handleSubmit } = useForm(
-    {description: descriptText || "", displayName: existingName || ""},
+    { description: descriptText || "", displayName: existingName || "" },
     () => onActionHandler("confirm"),
     formValidation
   );
@@ -115,7 +115,7 @@ export default function Settings(props) {
       )}
 
       <Grid
-        component='form'
+        component="form"
         container
         spacing={4}
         justify="center"
@@ -168,7 +168,7 @@ export default function Settings(props) {
             inputProps={{
               value: values.displayName,
               onChange: handleChange,
-              name: 'displayName',
+              name: "displayName",
               helperText: errors.displayName,
               error: !!errors.displayName,
               type: "text",
@@ -177,8 +177,8 @@ export default function Settings(props) {
               fullWidth: true,
               variant: "outlined",
               inputProps: {
-                maxLength: 15
-              }
+                maxLength: 15,
+              },
             }}
           />
         </Grid>
@@ -187,7 +187,7 @@ export default function Settings(props) {
             inputProps={{
               value: values.description,
               onChange: handleChange,
-              name: 'description',
+              name: "description",
               helperText: errors.description,
               error: !!errors.description,
               type: "text",
@@ -234,7 +234,7 @@ export default function Settings(props) {
           <Grid item xs={12} sm={6}>
             <Button
               variant="contained"
-              type='submit'
+              type="submit"
               color="primary"
               size="large"
               className={classes.button}

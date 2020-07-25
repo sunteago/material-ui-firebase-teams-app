@@ -19,11 +19,8 @@ export default function Login() {
 
   const onLogInHandler = () => dispatch(logIn(values.email, values.password));
 
-  const { values, errors, handleSubmit, handleChange } = useForm(
-    initialState,
-    onLogInHandler,
-    formValidation
-  );
+  const form = useForm(initialState, onLogInHandler, formValidation);
+  const { values, errors, handleSubmit, handleChange } = form;
 
   return (
     <>

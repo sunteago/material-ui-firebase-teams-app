@@ -52,7 +52,9 @@ export default function GroupInvitation(props) {
   const { groupId, name } = activeGroup;
 
   const debouncedPersonalInvite = debounce(() => {
-    dispatch(genGroupInvitationLink(groupId, name, inviteMessage, values.email));
+    dispatch(
+      genGroupInvitationLink(groupId, name, inviteMessage, values.email)
+    );
   }, 500);
 
   const debouncedInvite = debounce(() => {
@@ -61,11 +63,9 @@ export default function GroupInvitation(props) {
 
   const personalInviteHandler = () => debouncedPersonalInvite();
 
-  const { values, errors, handleChange, handleSubmit } = useForm(
-    { inviteEmail: "", userEmail },
-    personalInviteHandler,
-    formValidation
-  );
+  const initialState = { inviteEmail: "", userEmail };
+  const form = useForm(initialState, personalInviteHandler, formValidation);
+  const { values, errors, handleChange, handleSubmit } = form;
 
   const onCopyURLHandler = () => {
     inviteLinkRef.current.focus();

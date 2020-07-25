@@ -17,11 +17,8 @@ export default function ForgotPassword(props) {
     dispatch(sendPasswordResetEmail(values.email));
   };
 
-  const { values, errors, handleSubmit, handleChange } = useForm(
-    initialState,
-    forgotPasswordHandler,
-    formValidation
-  );
+  const form = useForm(initialState, forgotPasswordHandler, formValidation);
+  const { values, errors, handleSubmit, handleChange } = form;
 
   return (
     <AuthForm mode="forgot" onSubmit={handleSubmit}>

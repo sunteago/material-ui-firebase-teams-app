@@ -71,11 +71,8 @@ export default function TodoList(props) {
     dispatch(actions.addTaskItem(group, values.newTask));
   };
 
-  const { values, errors, handleSubmit, handleChange } = useForm(
-    { newTask: "" },
-    onAddTaskHandler,
-    formValidation
-  );
+  const form = useForm({ newTask: "" }, onAddTaskHandler, formValidation);
+  const { values, errors, handleSubmit, handleChange } = form;
 
   const onTaskClickHandler = (task) => {
     const oldTask = { ...task };
@@ -126,7 +123,7 @@ export default function TodoList(props) {
               inputProps={{
                 label: "Add a new Task",
                 value: values.newTask,
-                name: 'newTask',
+                name: "newTask",
                 helperText: errors.newTask,
                 error: !!errors.newTask,
                 onChange: handleChange,
