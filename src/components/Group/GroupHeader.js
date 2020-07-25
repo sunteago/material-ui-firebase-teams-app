@@ -60,6 +60,7 @@ function GroupHeader(props) {
 export default React.memo(GroupHeader, (prevProps, nextProps) => {
   if (
     prevProps.isMember === nextProps.isMember &&
+    prevProps.isPublic === nextProps.isPublic &&
     prevProps.activeGroup.image === nextProps.activeGroup.image &&
     prevProps.activeGroup.name === nextProps.activeGroup.name
   ) {

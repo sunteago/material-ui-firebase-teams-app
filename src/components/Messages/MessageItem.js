@@ -13,13 +13,17 @@ export default function MessageItem(props) {
 
   return (
     <Paper className={classes.messageContainer} elevation={4} square>
-      <Grid container spacing={1} justify={matches ? 'flex-start' : 'space-around'}>
+      <Grid
+        container
+        spacing={1}
+        justify={matches ? "flex-start" : "space-around"}
+      >
         <Grid item xs={2} container justify="center" alignItems="center">
           <Link to={`/profile/${userId}`}>
             <Avatar
               src={author.avatar}
               alt={`${author.name}'s avatar`}
-              className={classes[matches ? 'avatarBig': 'avatarSm']}
+              className={classes[matches ? "avatarBig" : "avatarSm"]}
             />
           </Link>
         </Grid>

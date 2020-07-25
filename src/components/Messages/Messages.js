@@ -17,6 +17,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     borderRadius: "15px",
     marginBottom: theme.spacing(1),
+    display: 'flex',
+    alignItems: 'center'
   },
   noMsgYet: {
     textAlign: "center",
