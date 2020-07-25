@@ -126,7 +126,7 @@ export default function SingleNews(props) {
           <Typography className={classes.newsBody} variant="body1">
             {currentNews.content}
           </Typography>
-          <IconButton onClick={onClickShareHandler}>
+          <IconButton onClick={onClickShareHandler} style={{alignSelf: 'flex-end'}}>
             <ShareIcon />
           </IconButton>
         </Box>

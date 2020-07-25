@@ -22,10 +22,14 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     margin: theme.spacing(2)
   },
-  avatar: {
+  avatarBig: {
     width: theme.spacing(7),
     height: theme.spacing(7),
   },
+  avatarSm: {
+    width: theme.spacing(4),
+    height: theme.spacing(4)
+  }, 
   sendBtnContainer: {
     width: theme.spacing(7),
     height: theme.spacing(7),
@@ -115,7 +119,7 @@ export default function Messages(props) {
       {isMember && (
         <MessageWritingBox
           avatar={user.photoURL}
-          username={user.displayName || user.email}
+          username={user.displayName}
           classes={classes}
           onSubmit={handleSubmit}
           handleChange={handleChange}

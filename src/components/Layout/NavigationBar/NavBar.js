@@ -7,28 +7,29 @@ import AccountMenu from "./AccountMenu";
 import NotificationsButton from "./NotificationsButton";
 import Loading from "../Loading";
 
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import { makeStyles } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import MenuIcon from "@material-ui/icons/Menu";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Button,
+  Typography,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
   brand: {
-    display: 'flex',
-    alignItems: 'center'
+    display: "flex",
+    alignItems: "center",
+    all: 'unset',
+    color: '#fff',
+    cursor: 'pointer',
+    flex: 1,
+    justifyContent: 'center'
   },
   logo: {
-    height: '32px',
-    marginRight: theme.spacing(1)
-  }, 
-  grow: {
-    flexGrow: 1
+    height: "32px",
+    marginRight: theme.spacing(1),
   },
   title: {
     flexGrow: 1,
@@ -71,7 +72,6 @@ function NavBar() {
       <AppBar className={classes.grow}>
         <Toolbar className={classes.grow}>
           <IconButton
-            className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
             edge="start"
@@ -79,13 +79,12 @@ function NavBar() {
           >
             <MenuIcon />
           </IconButton>
-          <div className={classes.brand}>
+          <Link to="/dashboard" className={classes.brand}>
             <img className={classes.logo} src={logo} alt="TeamsApp's logo" />
             <Typography variant="h6" className={classes.title}>
               TeamsApp
             </Typography>
-          </div>
-          <div className={classes.grow} />
+          </Link>
 
           {isAuth ? (
             <>
