@@ -13,6 +13,7 @@
 
 # misc
 .DS_Store
+.env
 .env.local
 .env.development.local
 .env.test.local
@@ -24,7 +25,6 @@ yarn-error.log*
 
 #firebase config
 .firebaserc
-config/
 proposal
 .firebase/
 .firebase/hosting.YnVpbGQ.cache

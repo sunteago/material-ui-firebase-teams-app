@@ -14,7 +14,6 @@ const InvitationLink = React.lazy(() => import("../pages/InvitationLink"));
 const News = React.lazy(() => import("../pages/News"));
 const About = React.lazy(() => import("../pages/About"));
 
-console.log("code splitting");
 export default function DashboardRoutes() {
   return (
     <PageContainer>
