@@ -3,7 +3,7 @@ import { Button } from "@material-ui/core";
 import * as actions from "../../store/actions";
 import debounce from "just-debounce-it";
 
-export default function GroupActionButtons(props) {
+function GroupActionButtons(props) {
   const {
     classes,
     isMember,
@@ -17,12 +17,14 @@ export default function GroupActionButtons(props) {
   } = props;
 
   const debouncedJoinHandler = debounce(() => {
+    const userData = {
+      userId: user.uid,
+      name: user.displayName,
+      avatar: user.photoURL,
+    };
+
     dispatch(
-      actions.joinPublicGroupNoInvitation(
-        { userId: user.uid, name: user.displayName, avatar: user.photoURL },
-        groupId,
-        userGroups
-      )
+      actions.joinPublicGroupNoInvitation(userData, groupId, userGroups)
     );
   }, 400);
 
@@ -68,3 +70,10 @@ export default function GroupActionButtons(props) {
     </>
   );
 }
+
+export default React.memo(GroupActionButtons, (prevProps, nextProps) => {
+  if (prevProps.isMember === nextProps.isMember && prevProps) {
+    return true;
+  }
+  return false;
+});

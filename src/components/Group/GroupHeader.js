@@ -7,8 +7,9 @@ import AdminIcon from "@material-ui/icons/SupervisorAccount";
 import PersonIcon from "@material-ui/icons/Person";
 import { Chip, Grid, Avatar } from "@material-ui/core";
 
-export default function GroupHeader(props) {
+function GroupHeader(props) {
   const { isMember, isCreator, activeGroup, classes } = props;
+
   return (
     <>
       <Grid
@@ -55,3 +56,14 @@ export default function GroupHeader(props) {
     </>
   );
 }
+
+export default React.memo(GroupHeader, (prevProps, nextProps) => {
+  if (
+    prevProps.isMember === nextProps.isMember &&
+    prevProps.activeGroup.image === nextProps.activeGroup.image &&
+    prevProps.activeGroup.name === nextProps.activeGroup.name
+  ) {
+    return true;
+  }
+  return false;
+});

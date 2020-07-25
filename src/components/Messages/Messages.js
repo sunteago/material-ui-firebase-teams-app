@@ -50,8 +50,9 @@ const initialState = {
   content: "",
 };
 
-export default function Messages(props) {
+function Messages(props) {
   const { groupId, messages, user, isMember, dispatch } = props;
+  
   const classes = useStyles();
 
   const [page, setPage] = useState(1);
@@ -130,3 +131,8 @@ export default function Messages(props) {
     </Grid>
   );
 }
+
+export default React.memo(Messages, (prevProps, nextProps) => {
+  if (prevProps.messages.length === nextProps.messages.length) return true;
+  return false;
+});

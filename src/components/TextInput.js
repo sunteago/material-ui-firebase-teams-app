@@ -35,11 +35,12 @@ export default function TextInput(props) {
 TextInput.propTypes = { 
   Icon: PropTypes.elementType,
   inputProps: PropTypes.shape({
-    error: PropTypes.bool.isRequired,
-    onChange: PropTypes.func.isRequired,
-    label: PropTypes.string.isRequired,
-    required: PropTypes.bool.isRequired,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
+    placeholder: PropTypes.string,
+    label: PropTypes.string,
+    required: PropTypes.bool,
+    onChange: PropTypes.func,
+    error: PropTypes.bool,
     helperText: PropTypes.string,
   })
 }

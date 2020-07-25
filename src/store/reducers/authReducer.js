@@ -2,7 +2,7 @@ import * as actionTypes from "../../constants/types";
 
 const initialState = {
   token: "",
-  isAuth: null,
+  isAuth: false,
   isAccountVerified: false,
   newState: false,
   error: "",

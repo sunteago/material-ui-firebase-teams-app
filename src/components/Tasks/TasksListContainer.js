@@ -67,7 +67,6 @@ export default function TodoList(props) {
     (listItem) => listItem.done === false
   );
 
-
   const onAddTaskHandler = (e) => {
     dispatch(actions.addTaskItem(group, values.newTask));
   };
