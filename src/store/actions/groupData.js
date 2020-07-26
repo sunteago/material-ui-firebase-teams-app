@@ -85,7 +85,7 @@ export const updateGroupLastActivity = (groupId) => (dispatch) => {
     .catch(() => {});
 };
 
-export const addTaskItem = (groupData, newTask) => (dispatch) => {
+export const addTaskItem = (groupData, newTask, clearForm) => (dispatch) => {
   dispatch({ type: actionTypes.ADD_TASK_ITEM_START });
   const groupRef = db.collection("groups").doc(groupData.groupId);
 
@@ -102,6 +102,7 @@ export const addTaskItem = (groupData, newTask) => (dispatch) => {
           newTask: task,
         },
       });
+      clearForm();
       if (groupData.isPublic) {
         dispatch(updateGroupLastActivity(groupData.groupId));
       }

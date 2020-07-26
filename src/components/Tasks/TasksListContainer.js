@@ -70,11 +70,11 @@ export default function TaskListContainer(props) {
   );
 
   const onAddTaskHandler = (e) => {
-    dispatch(actions.addTaskItem(group, values.newTask));
+    dispatch(actions.addTaskItem(group, values.newTask, cleanForm));
   };
 
   const form = useForm({ newTask: "" }, onAddTaskHandler, formValidation);
-  const { values, errors, handleSubmit, handleChange } = form;
+  const { values, errors, handleSubmit, handleChange, cleanForm } = form;
 
   const onTaskClickHandler = (task) => {
     const oldTask = { ...task };

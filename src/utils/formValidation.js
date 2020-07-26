@@ -85,12 +85,8 @@ export default {
     }
 
     if (description !== undefined) {
-      const descriptionErrors = lengthValidation(
-        description,
-        "description",
-        10
-      );
-      if (descriptionErrors) errors.description = descriptionErrors;
+      const descErrors = lengthValidation(description, "description", 10);
+      if (descErrors) errors.description = descErrors;
     }
 
     if (title !== undefined) {
@@ -127,7 +123,7 @@ export default {
       case "title":
         return lengthValidation(value, name, 5);
       case "content":
-        return lengthValidation(value, name, 5);
+        return lengthValidation(value, name, 10);
       case "newTask":
         return lengthValidation(value, "task", 10);
       default:
