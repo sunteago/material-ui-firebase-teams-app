@@ -14,6 +14,8 @@ import {
   Typography,
 } from "@material-ui/core";
 
+import PropTypes from 'prop-types';
+
 function Navbar(props) {
   const {
     classes,
@@ -65,6 +67,15 @@ function Navbar(props) {
       </Toolbar>
     </AppBar>
   );
+}
+
+Navbar.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string),
+    handleDrawerOpen: PropTypes.func.isRequired,
+    profile: PropTypes.object,
+    notifications: PropTypes.array,
+    isAuth: PropTypes.bool,
+    userId: PropTypes.string,
 }
 
 export default React.memo(Navbar, (prevProps, nextProps) => {

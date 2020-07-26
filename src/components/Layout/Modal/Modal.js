@@ -57,7 +57,7 @@ const DialogActions = withStyles((theme) => ({
   },
 }))(MuiDialogActions);
 
-export default function Modal(props) {
+function Modal(props) {
   const {
     open,
     setOpen,
@@ -69,16 +69,16 @@ export default function Modal(props) {
   } = props;
 
   const handleClose = () => setOpen(false);
-
+  
   const debouncedConfirm = debounce(confirmActionHandler, 400);
   return (
     <div>
       <Dialog
         onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
+        aria-labelledby={title}
         open={open}
       >
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+        <DialogTitle id={title} onClose={handleClose}>
           {title}
         </DialogTitle>
         <DialogContent dividers>{children}</DialogContent>
@@ -111,3 +111,7 @@ Modal.propTypes = {
   confirmActionHandler: PropTypes.func,
   decline: PropTypes.string,
 }
+
+export default React.memo(Modal, (prevProps, nextProps) => {
+  return prevProps.open === nextProps.open;
+})

@@ -72,5 +72,6 @@ export default function AccountMenu({ name, userId, avatar, classes }) {
 AccountMenu.propTypes = {
   name: PropTypes.string.isRequired,
   userId: PropTypes.string.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string),
   avatar: PropTypes.string,
 };

@@ -57,9 +57,8 @@ export default function Group() {
   const [activeGroup, setActiveGroup] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { groupsInLocal, userGroups, generatedInvitationLink } = useSelector(
-    (state) => state.groupData
-  );
+  const groupData = useSelector((state) => state.groupData);
+  const { groupsInLocal, userGroups, generatedInvitationLink } = groupData;
   const { isFullLoading, groupPageError } = useSelector((state) => state.UI);
   const user = useSelector((state) => state.auth.user);
 

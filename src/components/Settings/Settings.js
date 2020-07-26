@@ -95,7 +95,6 @@ export default function Settings(props) {
 
   return (
     <>
-      {isModalOpen && (
         <Modal
           open={isModalOpen}
           setOpen={setIsModalOpen}
@@ -115,7 +114,6 @@ export default function Settings(props) {
             {settingsTexts[mode].modalConfirmText[currentAction]}
           </Typography>
         </Modal>
-      )}
 
       <Grid
         component="form"

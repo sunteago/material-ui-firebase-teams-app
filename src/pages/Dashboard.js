@@ -26,9 +26,8 @@ export default function Dashboard() {
   const user = useSelector((state) => state.auth.user);
   const { isFullLoading } = useSelector((state) => state.UI);
   const { lastNews, seenMessages } = useSelector((state) => state.userData);
-  const { topActivePublicGroups, groupsInLocal } = useSelector(
-    (state) => state.groupData
-  );
+  const groupData = useSelector((state) => state.groupData);
+  const { topActivePublicGroups, groupsInLocal } = groupData;
 
   const dispatch = useDispatch();
 
