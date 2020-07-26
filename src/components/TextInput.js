@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TextInput(props) {
+function TextInput(props) {
   const { Icon, inputProps } = props;
   const classes = useStyles();
 
@@ -44,3 +44,7 @@ TextInput.propTypes = {
     helperText: PropTypes.string,
   })
 }
+
+export default React.memo(TextInput, (prevProps, nextProps) => {
+  return prevProps.inputProps.value === nextProps.inputProps.value;
+})

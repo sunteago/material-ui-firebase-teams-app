@@ -74,5 +74,8 @@ export default function AuthForm({ mode, onSubmit, children }) {
 AuthForm.propTypes = {
   mode: PropTypes.string.isRequired,
   onSubmit: PropTypes.func,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.element.isRequired,
+    PropTypes.array.isRequired,
+  ]),
 };
