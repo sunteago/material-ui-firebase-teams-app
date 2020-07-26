@@ -1,14 +1,16 @@
 import React from "react";
 import useForm from "../../hooks/useForm";
 import formValidation from "../../utils/formValidation";
+import * as actions from "../../store/actions";
 
 import TextInput from "../TextInput";
-import * as actions from "../../store/actions";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import TaskList from "./TaskList";
+
+import { makeStyles } from "@material-ui/core/styles";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
-import { IconButton } from "@material-ui/core";
+import { IconButton, Grid } from "@material-ui/core";
+
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TodoList(props) {
+export default function TaskListContainer(props) {
   const { todoList, isMember, group, dispatch } = props;
 
   const classes = useStyles();
@@ -143,3 +145,10 @@ export default function TodoList(props) {
     </Grid>
   );
 }
+
+TaskListContainer.propTypes = {
+  todoList: PropTypes.array.isRequired,
+  isMember: PropTypes.bool,
+  group: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
+};

@@ -1,11 +1,14 @@
 import React from "react";
 
 import SectionTitle from "../Layout/Dashboard/SectionTitle";
+
 import PublicIcon from "@material-ui/icons/Public";
 import LockIcon from "@material-ui/icons/Lock";
 import AdminIcon from "@material-ui/icons/SupervisorAccount";
 import PersonIcon from "@material-ui/icons/Person";
 import { Chip, Grid, Avatar } from "@material-ui/core";
+
+import PropTypes from "prop-types";
 
 function GroupHeader(props) {
   const { isMember, isCreator, activeGroup, classes } = props;
@@ -56,6 +59,13 @@ function GroupHeader(props) {
     </>
   );
 }
+
+GroupHeader.propTypes = {
+  isMember: PropTypes.bool,
+  isCreator: PropTypes.bool,
+  activeGroup: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string),
+};
 
 export default React.memo(GroupHeader, (prevProps, nextProps) => {
   if (

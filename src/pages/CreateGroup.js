@@ -35,7 +35,11 @@ export default function CreateGroup() {
         <title>Create new Group | TeamsApp</title>
       </Helmet>
 
-      <Settings mode="createGroup" confirmHandler={onConfirmCreateGroup} />
+      <Settings
+        mode="createGroup"
+        isVisible={true}
+        confirmHandler={onConfirmCreateGroup}
+      />
     </>
   );
 }

@@ -1,11 +1,13 @@
 import React from "react";
 
-import List from "@material-ui/core/List";
 import RecentActivityItem from "./RecentActivityItem";
 import SectionTitle from "../Layout/Dashboard/SectionTitle";
+
 import { cleanDashboard } from "../../utils/helpers";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { Typography, useMediaQuery } from "@material-ui/core";
+import { List, Typography, useMediaQuery } from "@material-ui/core";
+
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,12 +19,12 @@ const useStyles = makeStyles((theme) => ({
   },
   noRecentSm: {
     margin: theme.spacing(2),
-    textAlign: 'center'
+    textAlign: "center",
   },
   noRecentBig: {
     margin: theme.spacing(5),
-    textAlign: 'left'
-  }
+    textAlign: "left",
+  },
 }));
 
 export default function RecentActivity(props) {
@@ -54,7 +56,10 @@ export default function RecentActivity(props) {
             );
           })
         ) : (
-          <Typography className={classes[matches ? 'noRecentBig' : 'noRecentSm']} variant="body1">
+          <Typography
+            className={classes[matches ? "noRecentBig" : "noRecentSm"]}
+            variant="body1"
+          >
             There is no recent activity in your groups yet!
           </Typography>
         )}
@@ -62,3 +67,11 @@ export default function RecentActivity(props) {
     </>
   );
 }
+
+RecentActivity.propTypes = {
+  handleClearComment: PropTypes.func.isRequired,
+  groups: PropTypes.array.isRequired,
+  title: PropTypes.string.isRequired,
+  seenMessages: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.number)),
+  userId: PropTypes.string.isRequired,
+};

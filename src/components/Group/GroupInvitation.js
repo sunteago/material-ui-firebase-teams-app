@@ -17,6 +17,8 @@ import {
   Divider,
 } from "@material-ui/core";
 
+import PropTypes from "prop-types";
+
 const useStyles = makeStyles((theme) => ({
   messageContainer: {
     margin: theme.spacing(3),
@@ -180,3 +182,10 @@ export default function GroupInvitation(props) {
     </>
   );
 }
+
+GroupInvitation.propTypes = {
+  generatedLink: PropTypes.string,
+  dispatch: PropTypes.func.isRequired,
+  activeGroup: PropTypes.object.isRequired,
+  userEmail: PropTypes.string.isRequired,
+};

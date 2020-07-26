@@ -10,7 +10,7 @@ import AuthForm from "../components/Authentication/AuthForm";
 
 const initialState = { email: "" };
 
-export default function ForgotPassword(props) {
+export default function ForgotPassword() {
   const dispatch = useDispatch();
 
   const forgotPasswordHandler = () => {

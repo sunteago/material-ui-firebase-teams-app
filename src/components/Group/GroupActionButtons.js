@@ -1,7 +1,10 @@
 import React from "react";
-import { Button } from "@material-ui/core";
 import * as actions from "../../store/actions";
+
+import { Button } from "@material-ui/core";
 import debounce from "just-debounce-it";
+
+import PropTypes from "prop-types";
 
 function GroupActionButtons(props) {
   const {
@@ -70,6 +73,18 @@ function GroupActionButtons(props) {
     </>
   );
 }
+
+GroupActionButtons.propTypes = {
+  isUserAbleToInvite: PropTypes.bool.isRequired,
+  setIsModalOpen: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  groupId: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  isMember: PropTypes.bool,
+  userGroups: PropTypes.arrayOf(PropTypes.string),
+  classes: PropTypes.objectOf(PropTypes.string),
+};
 
 export default React.memo(GroupActionButtons, (prevProps, nextProps) => {
   if (prevProps.isMember === nextProps.isMember && prevProps) {

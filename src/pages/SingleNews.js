@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SingleNews(props) {
+export default function SingleNews() {
   const classes = useStyles();
   const { newsId } = useParams();
   const lastNews = useSelector((state) => state.userData.lastNews);

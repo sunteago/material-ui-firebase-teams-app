@@ -6,6 +6,8 @@ import List from "@material-ui/core/List";
 import Paper from "@material-ui/core/Paper";
 import { Card, CardHeader, Divider } from "@material-ui/core";
 
+import PropTypes from "prop-types";
+
 export default function TaskList(props) {
   const {
     items,
@@ -37,4 +39,13 @@ export default function TaskList(props) {
       </Paper>
     </Card>
   );
+}
+
+TaskList.propTypes = {
+  items: PropTypes.array.isRequired,
+  listTitle: PropTypes.string.isRequired,
+  onClickHandler: PropTypes.func.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string),
+  onDeleteTaskHandler: PropTypes.func,
+  isInReadyList: PropTypes.bool,
 }

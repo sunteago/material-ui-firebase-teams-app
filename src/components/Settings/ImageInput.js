@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { Avatar, CircularProgress, Container } from "@material-ui/core";
 import { storage, firebase } from "../../config/firebaseConfig";
 
+import PropTypes from "prop-types";
+
 export default function ImageInput({ classes, imageURL, setImageURL }) {
   const [progress, setProgress] = useState(null);
 
@@ -67,3 +69,9 @@ export default function ImageInput({ classes, imageURL, setImageURL }) {
     </Container>
   );
 }
+
+ImageInput.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string),
+  imageURL: PropTypes.string.isRequired,
+  setImageURL: PropTypes.func.isRequired,
+};

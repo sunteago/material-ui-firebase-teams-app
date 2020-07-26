@@ -9,6 +9,8 @@ import { makeStyles, Grid, Typography } from "@material-ui/core";
 import MessageWritingBox from "./MessageWritingBox";
 import { getHowManyDaysAgo } from "../../utils/helpers";
 
+import PropTypes from "prop-types";
+
 const useStyles = makeStyles((theme) => ({
   writingBoxContainer: {
     marginTop: theme.spacing(2),
@@ -17,8 +19,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     borderRadius: "15px",
     marginBottom: theme.spacing(1),
-    display: 'flex',
-    alignItems: 'center'
+    display: "flex",
+    alignItems: "center",
   },
   noMsgYet: {
     textAlign: "center",
@@ -132,6 +134,14 @@ function Messages(props) {
     </Grid>
   );
 }
+
+Messages.propTypes = {
+  groupId: PropTypes.string.isRequired,
+  messages: PropTypes.array.isRequired,
+  user: PropTypes.object.isRequired,
+  isMember: PropTypes.bool,
+  dispatch: PropTypes.func.isRequired,
+};
 
 export default React.memo(Messages, (prevProps, nextProps) => {
   if (prevProps.messages.length === nextProps.messages.length) return true;

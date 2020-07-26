@@ -2,14 +2,17 @@ import React, { useState } from "react";
 import useForm from "../../hooks/useForm";
 import formValidation from "../../utils/formValidation";
 
-import { Grid, Button, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core";
 import ConfigurationItem from "./ConfigurationItem";
 import settingsTexts from "../../utils/settingsTexts";
 import TextInput from "../TextInput";
 import AlertMessage from "../Layout/AlertMessage";
 import ImageInput from "./ImageInput";
 import Modal from "../Layout/Modal/Modal";
+
+import { Grid, Button, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
+
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   settingsContainer: {
@@ -248,4 +251,15 @@ export default function Settings(props) {
       </Grid>
     </>
   );
+}
+
+Settings.propTypes = {
+  isVisible: PropTypes.bool.isRequired,
+  mode: PropTypes.string.isRequired,
+  confirmHandler: PropTypes.func.isRequired,
+  descriptText: PropTypes.string,
+  deleteHandler: PropTypes.func,
+  existingName: PropTypes.string,
+  imageUrl: PropTypes.string,
+  setIsEditing: PropTypes.func,
 }

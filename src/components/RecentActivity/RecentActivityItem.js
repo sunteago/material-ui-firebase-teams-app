@@ -1,9 +1,12 @@
 import React from "react";
-import Divider from "@material-ui/core/Divider";
+
 import SmallTextBox from "../Layout/Dashboard/SmallTextBox";
-import { List, Grid, useMediaQuery } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
 import GroupItem from "../Group/GroupItem";
+
+import { Divider, List, Grid, useMediaQuery } from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
+
+import PropTypes from "prop-types";
 
 export default function RecentActivityItem(props) {
   const { activityItem, handleClearComment } = props;
@@ -41,4 +44,14 @@ export default function RecentActivityItem(props) {
       <Divider />
     </>
   );
+}
+
+RecentActivityItem.propTypes = {
+  activityItem: PropTypes.shape({
+    description: PropTypes.string,
+    groupId: PropTypes.string.isRequired,
+    image: PropTypes.string,
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+  handleClearComment: PropTypes.func.isRequired
 }

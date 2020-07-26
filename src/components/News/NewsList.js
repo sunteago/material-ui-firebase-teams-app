@@ -4,6 +4,8 @@ import List from "@material-ui/core/List";
 import SmallTextBox from "../Layout/Dashboard/SmallTextBox";
 import SectionTitle from "../Layout/Dashboard/SectionTitle";
 
+import PropTypes from "prop-types";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -34,4 +36,14 @@ export default function NewsList({ title, news }) {
       </List>
     </>
   );
+}
+
+NewsList.propTypes = {
+  title: PropTypes.string.isRequired,
+  news: PropTypes.arrayOf(PropTypes.shape({
+    content: PropTypes.string.isRequired,
+    newsId: PropTypes.string.isRequired,
+    published: PropTypes.object.isRequired,
+    title: PropTypes.string.isRequired
+  }))
 }

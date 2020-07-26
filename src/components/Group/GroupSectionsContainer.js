@@ -5,6 +5,8 @@ import Messages from "../Messages/Messages";
 import Members from "../Group/GroupMembers";
 import Settings from "../Settings/Settings";
 
+import PropTypes from "prop-types";
+
 export default function GroupSectionsContainer(props) {
   const {
     dispatch,
@@ -14,7 +16,7 @@ export default function GroupSectionsContainer(props) {
     user,
     onDeleteGroup,
     onConfirmSaveGroup,
-    tab
+    tab,
   } = props;
 
   return (
@@ -51,3 +53,14 @@ export default function GroupSectionsContainer(props) {
     </>
   );
 }
+
+GroupSectionsContainer.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  activeGroup: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  onDeleteGroup: PropTypes.func.isRequired,
+  onConfirmSaveGroup: PropTypes.func.isRequired,
+  tab: PropTypes.number.isRequired,
+  isMember: PropTypes.bool,
+  isCreator: PropTypes.bool,
+};

@@ -5,6 +5,8 @@ import { useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { Paper, Typography, Grid, Avatar } from "@material-ui/core";
 
+import PropTypes from "prop-types";
+
 export default function MessageItem(props) {
   const { title, content, author, userId, timestamp, classes } = props;
 
@@ -40,3 +42,15 @@ export default function MessageItem(props) {
     </Paper>
   );
 }
+
+MessageItem.propTypes = {
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  author: PropTypes.shape({
+    avatar: PropTypes.string,
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+  userId: PropTypes.string.isRequired,
+  timestamp: PropTypes.string.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string),
+};
