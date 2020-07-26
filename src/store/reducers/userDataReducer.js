@@ -1,7 +1,11 @@
 import * as actionTypes from "../../constants/types";
 
 const initialState = {
-  userStatus: "",
+  profile: {
+    status: "",
+    avatar: "",
+    displayName: "",
+  },
   memberSince: new Date(),
   isUserVisible: null,
   lastNews: [],
@@ -14,7 +18,11 @@ export default function userDataReducer(state = initialState, action) {
     case actionTypes.FETCH_INITIAL_DATA_SUCCESS:
       return {
         ...state,
-        userStatus: action.payload.status,
+        profile: {
+          status: action.payload.status,
+          avatar: action.payload.avatar,
+          displayName: action.payload.name,
+        },
         memberSince: action.payload.memberSince,
         isUserVisible: action.payload.isVisible,
         notifications: action.payload.notifications,
@@ -23,7 +31,7 @@ export default function userDataReducer(state = initialState, action) {
     case actionTypes.CLEAR_DASHBOARD_DATA_SUCCESS:
       return {
         ...state,
-        seenMessages: state.seenMessages.concat(action.payload)
+        seenMessages: state.seenMessages.concat(action.payload),
       };
     case actionTypes.FETCH_USER_PROFILE_SUCCESS:
       return {
@@ -43,6 +51,12 @@ export default function userDataReducer(state = initialState, action) {
           name: action.payload.name,
           status: action.payload.description,
           avatar: action.payload.imageURL,
+        },
+        profile: {
+          ...state.profile,
+          avatar: action.payload.imageURL,
+          status: action.payload.description,
+          displayName: action.payload.name,
         },
       };
     case actionTypes.CLEAR_NOTIFICATION_SUCCESS:

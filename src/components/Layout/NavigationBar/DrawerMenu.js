@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -42,12 +41,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DrawerMenu({ isOpen, handleDrawerClose }) {
+function DrawerMenu({ user, isOpen, isAuth, handleDrawerClose }) {
   const classes = useStyles();
   const theme = useTheme();
-  const user = useSelector((state) => state.auth.user);
-
-  const isLoggedIn = !!Object.keys(user).length;
 
   return (
     <Drawer
@@ -71,7 +67,7 @@ export default function DrawerMenu({ isOpen, handleDrawerClose }) {
 
       <Divider />
       <List component="nav" aria-label="main menu options">
-        {isLoggedIn && (
+        {isAuth && (
           <>
             <Link to="/groups/create" style={{ all: "unset" }}>
               <ListItem button onClick={handleDrawerClose}>
@@ -131,4 +127,10 @@ export default function DrawerMenu({ isOpen, handleDrawerClose }) {
 DrawerMenu.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   handleDrawerClose: PropTypes.func.isRequired,
+  isAuth: PropTypes.bool,
+  user: PropTypes.object
 };
+
+export default React.memo(DrawerMenu, (prevProps, nextProps) => {
+  return prevProps.isOpen === nextProps.isOpen;
+});

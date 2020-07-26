@@ -5,7 +5,7 @@ import * as actions from "../store/actions";
 
 import AppRouter from "./AppRouter";
 import SnackAlert from "../components/Layout/SnackAlert";
-import NavBar from "../components/Layout/NavigationBar/NavBar";
+import NavBar from "../components/Layout/NavigationBar/NavBarContainer";
 import Footer from "../components/Layout/Footer/Footer";
 import CircularLoading from "../components/Layout/CircularLoading";
 
