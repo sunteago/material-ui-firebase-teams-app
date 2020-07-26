@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { openSnackBar } from "../store/actions";
 
 import * as alertTypes from "../constants/alertTypes";
-import { openSnackBar } from "../store/actions";
+import CircularLoading from "../components/Layout/CircularLoading";
+
 import {
   makeStyles,
   IconButton,
@@ -13,11 +15,14 @@ import {
   TextField,
   Grid,
   Button,
+  Typography,
 } from "@material-ui/core";
-import Modal from "../components/Layout/Modal/Modal";
-import { Typography } from "@material-ui/core";
-import { getHowManyDaysAgo, shareContent } from "../utils/helpers";
 import ShareIcon from "@material-ui/icons/Share";
+
+import ErrorBoundary from "../components/Layout/ErrorBoundary";
+import { getHowManyDaysAgo, shareContent } from "../utils/helpers";
+import Modal from "../components/Layout/Modal/Modal";
+
 import { useRef } from "react";
 
 const useStyles = makeStyles((theme) => ({
@@ -69,8 +74,8 @@ export default function SingleNews() {
   };
   const onClickShareHandler = () => setIsModalOpen(true);
 
-  return (
-    <>
+  return !!currentNews ? (
+    <ErrorBoundary>
       <Helmet>
         <title>{currentNews.title} | TeamsApp</title>
       </Helmet>
@@ -126,11 +131,14 @@ export default function SingleNews() {
           <Typography className={classes.newsBody} variant="body1">
             {currentNews.content}
           </Typography>
-          <IconButton onClick={onClickShareHandler} style={{alignSelf: 'flex-end'}}>
+          <IconButton
+            onClick={onClickShareHandler}
+            style={{ alignSelf: "flex-end" }}
+          >
             <ShareIcon />
           </IconButton>
         </Box>
       )}
-    </>
-  );
+    </ErrorBoundary>
+  ) : <CircularLoading type="board" />;
 }

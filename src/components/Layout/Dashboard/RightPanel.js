@@ -7,20 +7,27 @@ import {
 import TopNewsList from "../../News/NewsList";
 import GroupList from "../../Group/GroupList";
 
+import ErrorBoundary from "../../Layout/ErrorBoundary";
 import PropTypes from "prop-types";
 
 function RightPanel({ lastNews, topActiveGroups, myGroups }) {
   const topActiveGroupsArr = topActiveGroupsToArray(topActiveGroups);
   return (
     <>
-      <TopNewsList title="Last News" news={lastNews} />
-      <GroupList
-        title="Top Groups"
-        groups={limitGroupsArray(topActiveGroupsArr, 3)}
-      />
-      {!!myGroups.length && (
-        <GroupList title="My Groups" groups={limitGroupsArray(myGroups, 3)} />
-      )}
+      <ErrorBoundary>
+        <TopNewsList title="Last News" news={lastNews.slice(0, 2)} />
+      </ErrorBoundary>
+      <ErrorBoundary>
+        <GroupList
+          title="Top Groups"
+          groups={limitGroupsArray(topActiveGroupsArr, 3)}
+        />
+      </ErrorBoundary>
+      <ErrorBoundary>
+        {!!myGroups.length && (
+          <GroupList title="My Groups" groups={limitGroupsArray(myGroups, 3)} />
+        )}
+      </ErrorBoundary>
     </>
   );
 }

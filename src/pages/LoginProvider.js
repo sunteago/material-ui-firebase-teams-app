@@ -44,7 +44,6 @@ export default function Login() {
   uiConfig.callbacks.uiShown = () => setIsOAuthReady(true);
 
   return (
-    <>
       <AuthForm mode="provider">
         <StyledFirebaseAuth
           className={classes.oAuthContainer}
@@ -52,6 +51,5 @@ export default function Login() {
           firebaseAuth={firebase.auth()}
         />
       </AuthForm>
-    </>
   );
 }

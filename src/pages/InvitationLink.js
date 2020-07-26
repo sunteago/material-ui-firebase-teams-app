@@ -8,6 +8,8 @@ import * as actions from "../store/actions";
 import AlertMessage from "../components/Layout/AlertMessage";
 import * as alertTypes from "../constants/alertTypes";
 
+import ErrorBoundary from "../components/Layout/ErrorBoundary";
+
 const useStyles = makeStyles((theme) => ({
   boxContainer: {
     margin: theme.spacing(3),
@@ -78,7 +80,7 @@ export default function InvitationLink() {
     const isUserAlreadyInGroup = userGroups.includes(groupId);
 
     return (
-      <>
+      <ErrorBoundary>
         <Helmet>
           <title> Invitation to join {groupName} | TeamsApp</title>
         </Helmet>
@@ -126,7 +128,7 @@ export default function InvitationLink() {
             />
           )}
         </Box>
-      </>
+      </ErrorBoundary>
     );
   } else {
     return Object.keys(groupPageError).length ? (

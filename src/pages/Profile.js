@@ -10,6 +10,8 @@ import AlertMessage from "../components/Layout/AlertMessage";
 import UserProfile from "../components/UserInfo/UserProfile";
 import Settings from "../components/Settings/Settings";
 
+import ErrorBoundary from "../components/Layout/ErrorBoundary";
+
 export default function Profile() {
   const { userId } = useParams();
   const history = useHistory();
@@ -40,10 +42,10 @@ export default function Profile() {
 
   const isActiveUserCurrentUser = userId === currentUser.uid;
 
-  //si hay un activeUser y activeUser es el param de la url
+  //if there is an activeUser and activeUser is url's param
   if (Object.keys(activeUser).length && activeUser.userId === userId) {
     return isActiveUserCurrentUser && isEditing ? (
-      <>
+      <ErrorBoundary>
         <Helmet>
           <title>Profile Settings | TeamsApp</title>
         </Helmet>
@@ -56,9 +58,9 @@ export default function Profile() {
           imageUrl={activeUser.avatar}
           setIsEditing={setIsEditing}
         />
-      </>
+      </ErrorBoundary>
     ) : (
-      <>
+      <ErrorBoundary>
         <Helmet>
           <title>{activeUser.name}'s profile | TeamsApp</title>
         </Helmet>
@@ -67,13 +69,13 @@ export default function Profile() {
           isCurrentUser={isActiveUserCurrentUser}
           setIsEditing={setIsEditing}
         />
-      </>
+      </ErrorBoundary>
     );
   } else if (loading) {
     return <CircularLoading type="board" />;
   } else {
     return (
-      <>
+      <ErrorBoundary>
         <Helmet>
           <title>Error | TeamsApp</title>
         </Helmet>
@@ -82,7 +84,7 @@ export default function Profile() {
           action={alertTypes.FETCH_USER_PROFILE_FAILED}
           handler={onClickRedirectHandler}
         />
-      </>
+      </ErrorBoundary>
     );
   }
 }

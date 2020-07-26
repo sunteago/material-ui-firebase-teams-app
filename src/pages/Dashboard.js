@@ -13,6 +13,7 @@ import CircularLoading from "../components/Layout/CircularLoading";
 import AlertMessage from "../components/Layout/AlertMessage";
 import Grid from "@material-ui/core/Grid";
 import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
+import ErrorBoundary from "../components/Layout/ErrorBoundary";
 
 const useStyles = makeStyles((theme) => ({
   alertMsg: {
@@ -67,15 +68,17 @@ export default function Dashboard() {
       <UserInfo user={user} />
 
       <Grid container spacing={2}>
-        <Grid item xs={12} md={9}>
-          <RecentActivity
-            title="Recent Activity"
-            handleClearComment={handleClearComment}
-            groups={userGroupsContent}
-            userId={user.uid}
-            seenMessages={seenMessages}
-          />
-        </Grid>
+        <ErrorBoundary>
+          <Grid item xs={12} md={9}>
+            <RecentActivity
+              title="Recent Activity"
+              handleClearComment={handleClearComment}
+              groups={userGroupsContent}
+              userId={user.uid}
+              seenMessages={seenMessages}
+            />
+          </Grid>
+        </ErrorBoundary>
 
         <Grid item xs={12} md={3}>
           <RightPanel

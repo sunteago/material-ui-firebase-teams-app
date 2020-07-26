@@ -9,6 +9,9 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 
+import ErrorBoundary from "../Layout/ErrorBoundary";
+import PropTypes from "prop-types";
+
 const useStyles = makeStyles((theme) => ({
   loginBtn: {
     marginTop: theme.spacing(3),
@@ -25,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Form({ mode, onSubmit, children }) {
+export default function AuthForm({ mode, onSubmit, children }) {
   const classes = useStyles();
 
   const { isAuth } = useSelector((state) => state.auth);
@@ -42,27 +45,34 @@ export default function Form({ mode, onSubmit, children }) {
       <Helmet>
         <title>{operationName} | TeamsApp</title>
       </Helmet>
-      
-      <SectionTitle variant="h5">{operationName}</SectionTitle>
 
-      <form onSubmit={onSubmit} noValidate>
-        <Grid container direction="column">
-          {children}
-          {onSubmit && (
-            <Button
-              type="submit"
-              className={classes.loginBtn}
-              variant="contained"
-              color="primary"
-              required
-            >
-              {operationName}
-            </Button>
-          )}
-        </Grid>
-      </form>
+      <SectionTitle variant="h5">{operationName}</SectionTitle>
+      <ErrorBoundary>
+        <form onSubmit={onSubmit} noValidate>
+          <Grid container direction="column">
+            {children}
+            {onSubmit && (
+              <Button
+                type="submit"
+                className={classes.loginBtn}
+                variant="contained"
+                color="primary"
+                required
+              >
+                {operationName}
+              </Button>
+            )}
+          </Grid>
+        </form>
+      </ErrorBoundary>
 
       <FormFooterLinks classes={classes} mode={mode} />
     </>
   );
 }
+
+AuthForm.propTypes = {
+  mode: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func,
+  children: PropTypes.element.isRequired,
+};

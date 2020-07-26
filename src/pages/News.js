@@ -1,11 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import SectionTitle from "../components/Layout/Dashboard/SectionTitle";
-import { Typography, makeStyles, Paper } from "@material-ui/core";
-import { hideExcessText, getHowManyDaysAgo } from "../utils/helpers";
+import NewsItem from "../components/News/NewsItem";
+
+import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   newsTitle: {
@@ -33,31 +33,7 @@ export default function News() {
 
       <SectionTitle className={classes.newsTitle}>Last News</SectionTitle>
       {lastNews.map((newsItem) => (
-        <Link
-          key={newsItem.newsId}
-          className={classes.boxLink}
-          to={`/news/${newsItem.newsId}`}
-        >
-          <Paper
-            elevation={10}
-            className={classes.newsItemContainer}
-            key={newsItem.published}
-          >
-            <SectionTitle variant="h4">{newsItem.title}</SectionTitle>
-            <Typography variant="subtitle1">{newsItem.shortContent}</Typography>
-            <Typography variant="body1">
-              {hideExcessText(newsItem.content, 200)}
-            </Typography>
-            <Typography
-              variant="overline"
-              display="block"
-              gutterBottom
-              style={{ textAlign: "right" }}
-            >
-              {getHowManyDaysAgo(newsItem.published)}
-            </Typography>
-          </Paper>
-        </Link>
+        <NewsItem key={newsItem.newsId} newsItem={newsItem} classes={classes} />
       ))}
     </>
   );

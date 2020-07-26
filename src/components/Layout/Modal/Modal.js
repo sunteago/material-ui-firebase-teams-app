@@ -11,7 +11,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const styles = (theme) => ({
   root: {
@@ -69,15 +69,11 @@ function Modal(props) {
   } = props;
 
   const handleClose = () => setOpen(false);
-  
+
   const debouncedConfirm = debounce(confirmActionHandler, 400);
   return (
     <div>
-      <Dialog
-        onClose={handleClose}
-        aria-labelledby={title}
-        open={open}
-      >
+      <Dialog onClose={handleClose} aria-labelledby={title} open={open}>
         <DialogTitle id={title} onClose={handleClose}>
           {title}
         </DialogTitle>
@@ -102,7 +98,7 @@ function Modal(props) {
 Modal.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.element.isRequired,
-    PropTypes.array.isRequired
+    PropTypes.array.isRequired,
   ]),
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
@@ -110,8 +106,11 @@ Modal.propTypes = {
   confirm: PropTypes.string,
   confirmActionHandler: PropTypes.func,
   decline: PropTypes.string,
-}
+};
 
 export default React.memo(Modal, (prevProps, nextProps) => {
-  return prevProps.open === nextProps.open;
-})
+  return (
+    prevProps.open === nextProps.open &&
+    prevProps.children === nextProps.children
+  );
+});

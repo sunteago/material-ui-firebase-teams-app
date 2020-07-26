@@ -44,7 +44,7 @@ export default function GroupInvitation(props) {
   const [inviteMessage, setInviteMessage] = useState("");
 
   const inviteLinkRef = useRef(null);
-
+  
   useEffect(() => {
     if (inviteLinkRef.current !== null && generatedLink) {
       inviteLinkRef.current.value = generatedLink;
@@ -55,7 +55,7 @@ export default function GroupInvitation(props) {
 
   const debouncedPersonalInvite = debounce(() => {
     dispatch(
-      genGroupInvitationLink(groupId, name, inviteMessage, values.email)
+      genGroupInvitationLink(groupId, name, inviteMessage, values.inviteEmail)
     );
   }, 500);
 
@@ -63,10 +63,8 @@ export default function GroupInvitation(props) {
     dispatch(genGroupInvitationLink(groupId, name, inviteMessage));
   }, 500);
 
-  const personalInviteHandler = () => debouncedPersonalInvite();
-
   const initialState = { inviteEmail: "", userEmail };
-  const form = useForm(initialState, personalInviteHandler, formValidation);
+  const form = useForm(initialState, debouncedPersonalInvite, formValidation);
   const { values, errors, handleChange, handleSubmit } = form;
 
   const onCopyURLHandler = () => {

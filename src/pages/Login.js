@@ -23,40 +23,38 @@ export default function Login() {
   const { values, errors, handleSubmit, handleChange } = form;
 
   return (
-    <>
-      <AuthForm mode="login" onSubmit={handleSubmit}>
-        <TextInput
-          inputProps={{
-            value: values.email,
-            type: "email",
-            label: "Email",
-            autoFocus: true,
-            required: true,
-            onChange: handleChange,
-            error: !!errors.email,
-            helperText: errors.email,
-            inputProps: {
-              name: "email",
-            },
-          }}
-          Icon={PersonIcon}
-        />
-        <TextInput
-          inputProps={{
-            value: values.password,
-            type: "password",
-            label: "Password",
-            required: true,
-            onChange: handleChange,
-            error: !!errors.password,
-            helperText: errors.password,
-            inputProps: {
-              name: "password",
-            },
-          }}
-          Icon={VpnKeyIcon}
-        />
-      </AuthForm>
-    </>
+    <AuthForm mode="login" onSubmit={handleSubmit}>
+      <TextInput
+        inputProps={{
+          value: values.email,
+          type: "email",
+          label: "Email",
+          autoFocus: true,
+          required: true,
+          onChange: handleChange,
+          error: !!errors.email,
+          helperText: errors.email,
+          inputProps: {
+            name: "email",
+          },
+        }}
+        Icon={PersonIcon}
+      />
+      <TextInput
+        inputProps={{
+          value: values.password,
+          type: "password",
+          label: "Password",
+          required: true,
+          onChange: handleChange,
+          error: !!errors.password,
+          helperText: errors.password,
+          inputProps: {
+            name: "password",
+          },
+        }}
+        Icon={VpnKeyIcon}
+      />
+    </AuthForm>
   );
 }
