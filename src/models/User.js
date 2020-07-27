@@ -12,6 +12,7 @@ export default class User {
       title: 'Welcome',
       content: 'Welcome to the Teams App. We recommend you to start creating a group',
       timestamp: new Date(),
+      link: '/groups/create'
     }];
     this.avatar = photoURL || null;
   }
